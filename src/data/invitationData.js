@@ -22,11 +22,11 @@ const invitationData = {
   zoomLink: "https://zoom.us/your-meeting-link",
   youtubeLink: "https://youtube.com/your-livestream-link",
   galleryImages: [
-    assetPath('1.jpg'),
-    assetPath('2.jpg'),
-    assetPath('3.jpg'),
-    assetPath('4.jpg'),
-    assetPath('5.jpg')
+    assetPath('nikah.webp'),
+    assetPath('groom.webp'),
+    assetPath('dq2.webp'),
+    assetPath('bride.webp'),
+    assetPath('live.webp')
   ],
   get calendarLink() {
     return generateCalendarLink({

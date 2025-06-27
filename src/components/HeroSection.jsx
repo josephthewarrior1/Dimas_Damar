@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import invitationData from "../data/invitationData";
+import { containerVariants, slideUp } from "./animations";
 
 const HeroSection = () => {
   return (
@@ -15,28 +16,24 @@ const HeroSection = () => {
         color: "white",
         textAlign: "center",
         fontFamily: "'Playfair Display', serif",
-        willChange: "transform" // Optimize for animation
+        willChange: "transform"
       }}
     >
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ staggerChildren: 0.15 }}
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
         style={{ padding: "0 20px" }}
       >
         <motion.p
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.6 }}
+          variants={slideUp}
           style={{ fontSize: "clamp(14px, 3vw, 18px)", letterSpacing: "2px" }}
         >
           We invite you to our Holy Matrimony
         </motion.p>
 
         <motion.h1
-          initial={{ y: 30, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          variants={slideUp}
           style={{ 
             fontSize: "clamp(28px, 7vw, 42px)", 
             margin: "12px 0",
@@ -47,9 +44,7 @@ const HeroSection = () => {
         </motion.h1>
 
         <motion.p
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+          variants={slideUp}
           style={{ fontSize: "clamp(14px, 3vw, 16px)" }}
         >
           SATURDAY, 19 JULY 2025

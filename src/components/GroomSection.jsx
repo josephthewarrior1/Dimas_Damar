@@ -1,45 +1,11 @@
 import { motion } from "framer-motion";
 import { FaInstagram } from "react-icons/fa";
 import invitationData from "../data/invitationData";
-
-// Animation variants (remain unchanged)
-const sectionVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      duration: 0.8,
-      ease: "easeInOut"
-    }
-  }
-};
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.3,
-      delayChildren: 0.2
-    }
-  }
-};
-
-const itemVariants = {
-  hidden: { y: 20, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut"
-    }
-  }
-};
+import { containerVariants, slideUp } from "./animations";
 
 const GroomSection = () => {
   return (
-    <section // CHANGED: from motion.section to regular section
+    <section
       style={{
         position: "relative",
         minHeight: "100vh",
@@ -52,10 +18,11 @@ const GroomSection = () => {
         color: "white",
         padding: "40px 20px",
         textAlign: "left",
-        fontFamily: "'Playfair Display', serif"
+        fontFamily: "'Playfair Display', serif",
+        willChange: "transform"
       }}
     >
-      {/* CHANGED: from motion.div to regular div */}
+      {/* Dark Overlay */}
       <div
         style={{
           position: "absolute",
@@ -65,7 +32,6 @@ const GroomSection = () => {
         }}
       />
 
-      {/* THIS PART REMAINS EXACTLY THE SAME */}
       <motion.div 
         style={{
           position: "relative",
@@ -78,7 +44,7 @@ const GroomSection = () => {
         viewport={{ once: true }}
       >
         <motion.p 
-          variants={itemVariants} 
+          variants={slideUp}
           style={{ 
             fontSize: '0.8rem', 
             marginBottom: '4px', 
@@ -90,7 +56,7 @@ const GroomSection = () => {
         </motion.p>
         
         <motion.h2 
-          variants={itemVariants} 
+          variants={slideUp}
           style={{ 
             fontSize: '1.75rem', 
             margin: '0 0 12px', 
@@ -102,7 +68,7 @@ const GroomSection = () => {
         </motion.h2>
         
         <motion.p 
-          variants={itemVariants} 
+          variants={slideUp}
           style={{ 
             fontSize: '0.8rem', 
             marginBottom: '4px', 
@@ -114,7 +80,7 @@ const GroomSection = () => {
         </motion.p>
         
         <motion.p 
-          variants={itemVariants} 
+          variants={slideUp}
           style={{ 
             marginBottom: '2px', 
             fontSize: '0.95rem' 
@@ -124,7 +90,7 @@ const GroomSection = () => {
         </motion.p>
         
         <motion.p 
-          variants={itemVariants} 
+          variants={slideUp}
           style={{ 
             marginBottom: '12px', 
             fontSize: '0.95rem' 
@@ -134,7 +100,7 @@ const GroomSection = () => {
         </motion.p>
 
         <motion.div 
-          variants={itemVariants}
+          variants={slideUp}
           style={{
             display: 'flex',
             alignItems: 'center',

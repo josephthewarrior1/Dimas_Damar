@@ -2,46 +2,10 @@ import { motion } from "framer-motion";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCoverflow, Pagination } from 'swiper/modules';
 import invitationData from "../data/invitationData";
-
-// Import Swiper styles
+import { containerVariants, slideUp } from "./animations";
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
-
-// Animation variants
-const sectionVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      duration: 0.8,
-      ease: "easeInOut"
-    }
-  }
-};
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.3,
-      delayChildren: 0.2
-    }
-  }
-};
-
-const itemVariants = {
-  hidden: { y: 20, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut"
-    }
-  }
-};
 
 const GallerySection = () => {
   const galleryCaptions = [
@@ -57,7 +21,6 @@ const GallerySection = () => {
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
-      variants={sectionVariants}
       style={{
         position: "relative",
         minHeight: "100vh",
@@ -72,13 +35,10 @@ const GallerySection = () => {
         alignItems: "center",
         justifyContent: "center",
         textAlign: "center",
+        willChange: "transform"
       }}
     >
-      {/* Dark Overlay */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.4 }}
-        transition={{ duration: 1 }}
+      <div
         style={{
           position: "absolute",
           inset: 0,
@@ -100,7 +60,7 @@ const GallerySection = () => {
         viewport={{ once: true }}
       >
         <motion.h2 
-          variants={itemVariants}
+          variants={slideUp}
           style={{
             textAlign: 'center',
             fontSize: '2.5rem',
@@ -115,7 +75,7 @@ const GallerySection = () => {
         </motion.h2>
         
         <motion.p 
-          variants={itemVariants}
+          variants={slideUp}
           style={{
             textAlign: 'center',
             fontSize: '1.1rem',
@@ -130,81 +90,81 @@ const GallerySection = () => {
           A journey of love captured in time
         </motion.p>
 
-        <Swiper
-          effect={'coverflow'}
-          grabCursor={true}
-          centeredSlides={true}
-          slidesPerView={'auto'}
-          coverflowEffect={{
-            rotate: 15,
-            stretch: 0,
-            depth: 200,
-            modifier: 1,
-            slideShadows: true,
-          }}
-          pagination={{
-            clickable: true,
-            dynamicBullets: true
-          }}
-          modules={[EffectCoverflow, Pagination]}
-          className="mySwiper"
-          style={{ 
-            paddingBottom: '60px',
-            paddingTop: '20px'
-          }}
-        >
-          {invitationData.galleryImages.map((image, index) => (
-            <SwiperSlide
-              key={index}
-              style={{
-                width: '280px',
-                height: '420px',
-                borderRadius: '8px',
-                backgroundImage: `url(${image})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                boxShadow: '0 8px 30px rgba(0,0,0,0.3)',
-                overflow: 'hidden',
-                transition: 'transform 0.3s ease'
-              }}
-            >
-              <motion.div
-                initial={{ opacity: 0 }}
-                whileHover={{ opacity: 1 }}
+        <motion.div variants={slideUp}>
+          <Swiper
+            effect={'coverflow'}
+            grabCursor={true}
+            centeredSlides={true}
+            slidesPerView={'auto'}
+            coverflowEffect={{
+              rotate: 15,
+              stretch: 0,
+              depth: 200,
+              modifier: 1,
+              slideShadows: true,
+            }}
+            pagination={{
+              clickable: true,
+              dynamicBullets: true
+            }}
+            modules={[EffectCoverflow, Pagination]}
+            className="mySwiper"
+            style={{ 
+              paddingBottom: '60px',
+              paddingTop: '20px'
+            }}
+          >
+            {invitationData.galleryImages.map((image, index) => (
+              <SwiperSlide
+                key={index}
                 style={{
-                  width: '100%',
-                  height: '100%',
-                  background: 'rgba(0,0,0,0.5)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: 'white',
-                  fontSize: '1.2rem',
-                  fontFamily: "'Playfair Display', serif"
+                  width: '280px',
+                  height: '420px',
+                  borderRadius: '8px',
+                  backgroundImage: `url(${image})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  boxShadow: '0 8px 30px rgba(0,0,0,0.3)',
+                  overflow: 'hidden',
+                  transition: 'transform 0.3s ease'
                 }}
               >
-                {galleryCaptions[index] || "Our Memories"}
-              </motion.div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  whileHover={{ opacity: 1 }}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    background: 'rgba(0,0,0,0.5)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'white',
+                    fontSize: '1.2rem',
+                    fontFamily: "'Playfair Display', serif"
+                  }}
+                >
+                  {galleryCaptions[index] || "Our Memories"}
+                </motion.div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </motion.div>
 
         <motion.div 
-          variants={itemVariants}
+          variants={slideUp}
           style={{
             textAlign: 'center',
             marginTop: '30px'
           }}
         >
-          <motion.p
-            style={{
-              fontSize: '0.9rem',
-              color: 'rgba(255,255,255,0.8)',
-              fontStyle: 'italic'
-            }}
-          >
+          <p style={{
+            fontSize: '0.9rem',
+            color: 'rgba(255,255,255,0.8)',
+            fontStyle: 'italic'
+          }}>
             Swipe to see more of our story
-          </motion.p>
+          </p>
         </motion.div>
       </motion.div>
     </motion.section>

@@ -1,41 +1,7 @@
 import { motion } from "framer-motion";
 import { FaYoutube, FaVideo } from "react-icons/fa";
 import invitationData from "../data/invitationData";
-
-// Animation variants (consider moving to shared file)
-const sectionVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      duration: 0.8,
-      ease: "easeInOut"
-    }
-  }
-};
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.3,
-      delayChildren: 0.2
-    }
-  }
-};
-
-const itemVariants = {
-  hidden: { y: 20, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut"
-    }
-  }
-};
+import { containerVariants, slideUp } from "./animations";
 
 const LiveStreamingSection = () => {
   return (
@@ -43,7 +9,6 @@ const LiveStreamingSection = () => {
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
-      variants={sectionVariants}
       style={{
         position: "relative",
         minHeight: "100vh",
@@ -57,13 +22,10 @@ const LiveStreamingSection = () => {
         alignItems: "center",
         justifyContent: "center",
         textAlign: "center",
+        willChange: "transform"
       }}
     >
-      {/* Dark Overlay */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.5 }}
-        transition={{ duration: 1 }}
+      <div
         style={{
           position: "absolute",
           inset: 0,
@@ -84,7 +46,7 @@ const LiveStreamingSection = () => {
         whileInView="visible"
         viewport={{ once: true }}
       >
-        <motion.div variants={itemVariants}>
+        <motion.div variants={slideUp}>
           <p style={{ 
             fontSize: "1rem", 
             letterSpacing: "2px", 
@@ -110,7 +72,7 @@ const LiveStreamingSection = () => {
             gap: "30px",
             marginTop: "40px"
           }}
-          variants={itemVariants}
+          variants={slideUp}
         >
           {/* Zoom Card */}
           <motion.div
@@ -246,9 +208,9 @@ const LiveStreamingSection = () => {
           </motion.div>
         </motion.div>
 
-        {/* Countdown Timer (Optional) */}
+        {/* Countdown Timer */}
         <motion.div 
-          variants={itemVariants}
+          variants={slideUp}
           style={{
             marginTop: "50px",
             fontSize: "0.9rem",

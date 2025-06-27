@@ -1,40 +1,6 @@
 import { motion } from "framer-motion";
 import invitationData from "../data/invitationData";
-
-// Consider moving these to a shared animation constants file
-const sectionVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      duration: 0.8,
-      ease: "easeInOut"
-    }
-  }
-};
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.3,
-      delayChildren: 0.2
-    }
-  }
-};
-
-const itemVariants = {
-  hidden: { y: 20, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut"
-    }
-  }
-};
+import { containerVariants, slideUp } from "./animations";
 
 const TimeLocationSection = () => {
   return (
@@ -42,7 +8,6 @@ const TimeLocationSection = () => {
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
-      variants={sectionVariants}
       style={{
         position: "relative",
         minHeight: "100vh",
@@ -56,12 +21,10 @@ const TimeLocationSection = () => {
         alignItems: "center",
         justifyContent: "center",
         textAlign: "left",
+        willChange: "transform"
       }}
     >
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.35 }}
-        transition={{ duration: 1 }}
+      <div
         style={{
           position: "absolute",
           inset: 0,
@@ -86,7 +49,7 @@ const TimeLocationSection = () => {
         viewport={{ once: true }}
       >
         {/* Date Section */}
-        <motion.div variants={itemVariants}>
+        <motion.div variants={slideUp}>
           <p style={{ fontSize: "0.8rem", letterSpacing: "2px", opacity: 0.9 }}>
             DAY, DATE, TIME
           </p>
@@ -121,7 +84,7 @@ const TimeLocationSection = () => {
         </motion.div>
 
         {/* Place Section */}
-        <motion.div variants={itemVariants}>
+        <motion.div variants={slideUp}>
           <p style={{ fontSize: "0.8rem", letterSpacing: "2px", opacity: 0.9 }}>
             PLACE
           </p>
