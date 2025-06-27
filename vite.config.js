@@ -1,9 +1,9 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
-export default defineConfig({
-  base: '/wedding_invitation/',  // tambahkan ini sesuai nama repo kamu
+export default defineConfig(({ command }) => ({
   plugins: [react()],
+  base: command === 'serve' ? '/' : '/wedding_invitation/', // 🔥 Ini kunci
   server: {
     port: 3000,
     open: true
@@ -13,4 +13,4 @@ export default defineConfig({
       localsConvention: 'camelCase'
     }
   }
-})
+}));

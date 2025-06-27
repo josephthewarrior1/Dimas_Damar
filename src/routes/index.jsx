@@ -9,7 +9,7 @@ import AudioPlayer from '../components/AudioPlayer';
 
 export default function AppRouter() {
   const [showIntro, setShowIntro] = useState(true);
-  const [isAudioPlaying, setIsAudioPlaying] = useState(true);
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false); // Ubah default menjadi false
 
   const routes = useRoutes([
     {
@@ -22,7 +22,10 @@ export default function AppRouter() {
       children: [
         {
           path: '',
-          element: <IntroScreen {...invitationData} />,
+          element: <IntroScreen 
+            {...invitationData} 
+            onOpenInvitation={() => setIsAudioPlaying(true)} // Tambahkan prop ini
+          />,
         },
       ],
     },

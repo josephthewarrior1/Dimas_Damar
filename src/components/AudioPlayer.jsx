@@ -1,15 +1,13 @@
-// src/components/AudioPlayer.jsx
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
-export default function AudioPlayer({ audioUrl }) {
+export default function AudioPlayer({ audioUrl, isPlaying }) {
   const audioRef = useRef(null);
-  const [userInteracted, setUserInteracted] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
 
-  // Handle interaksi pertama pengguna
   useEffect(() => {
+    if (!audioRef.current) return;
+
     const handleFirstInteraction = () => {
-      setUserInteracted(true);
+      // Setelah interaksi pertama, audio bisa dikontrol
       document.removeEventListener('click', handleFirstInteraction);
       document.removeEventListener('touchstart', handleFirstInteraction);
     };
@@ -23,48 +21,20 @@ export default function AudioPlayer({ audioUrl }) {
     };
   }, []);
 
-  // Handle play/pause
   useEffect(() => {
-    if (!audioRef.current || !userInteracted) return;
-
-    const playAudio = async () => {
-      try {
-        await audioRef.current.play();
-        setIsPlaying(true);
-      } catch (error) {
-        console.error("Playback error:", error);
-        setIsPlaying(false);
-      }
-    };
+    if (!audioRef.current) return;
 
     if (isPlaying) {
-      playAudio();
+      const playPromise = audioRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(error => {
+          console.log("Playback prevented:", error);
+        });
+      }
     } else {
       audioRef.current.pause();
     }
-  }, [isPlaying, userInteracted]);
+  }, [isPlaying]);
 
-  // Auto-play setelah interaksi pertama
-  useEffect(() => {
-    if (userInteracted) {
-      setIsPlaying(true);
-    }
-  }, [userInteracted]);
-
-  return (
-    <div className="audio-player">
-      <button 
-        onClick={() => setIsPlaying(!isPlaying)}
-        aria-label={isPlaying ? "Pause music" : "Play music"}
-      >
-        {isPlaying ? '⏸' : '▶'}
-      </button>
-      <audio
-        ref={audioRef}
-        src={`${import.meta.env.BASE_URL}${audioUrl}`}
-        loop
-        preload="auto"
-      />
-    </div>
-  );
+  return <audio ref={audioRef} src={audioUrl} loop />;
 }

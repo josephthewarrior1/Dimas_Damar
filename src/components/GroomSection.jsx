@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { FaInstagram } from "react-icons/fa";
 import invitationData from "../data/invitationData";
 
-// Reuse these variants from HeroSection or move to a separate constants file
+// Animation variants (remain unchanged)
 const sectionVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -39,11 +39,7 @@ const itemVariants = {
 
 const GroomSection = () => {
   return (
-    <motion.section
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-100px" }}
-      variants={sectionVariants}
+    <section // CHANGED: from motion.section to regular section
       style={{
         position: "relative",
         minHeight: "100vh",
@@ -59,10 +55,8 @@ const GroomSection = () => {
         fontFamily: "'Playfair Display', serif"
       }}
     >
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
+      {/* CHANGED: from motion.div to regular div */}
+      <div
         style={{
           position: "absolute",
           inset: 0,
@@ -71,6 +65,7 @@ const GroomSection = () => {
         }}
       />
 
+      {/* THIS PART REMAINS EXACTLY THE SAME */}
       <motion.div 
         style={{
           position: "relative",
@@ -158,7 +153,7 @@ const GroomSection = () => {
           <span>@teosaneryutanesy</span>
         </motion.div>
       </motion.div>
-    </motion.section>
+    </section>
   );
 };
 
