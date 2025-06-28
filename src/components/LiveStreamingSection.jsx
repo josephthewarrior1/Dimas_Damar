@@ -1,14 +1,9 @@
-import { motion } from "framer-motion";
 import { FaYoutube, FaVideo } from "react-icons/fa";
 import invitationData from "../data/invitationData";
-import { containerVariants, slideUp } from "./animations";
 
 const LiveStreamingSection = () => {
   return (
-    <motion.section
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-100px" }}
+    <section
       style={{
         position: "relative",
         minHeight: "100vh",
@@ -49,19 +44,15 @@ const LiveStreamingSection = () => {
         }}
       />
 
-      <motion.div
+      <div
         style={{
           position: "relative",
           zIndex: 1,
           maxWidth: "800px",
           width: "100%",
         }}
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
       >
-        <motion.div variants={slideUp}>
+        <div>
           <p style={{ 
             fontSize: "1rem", 
             letterSpacing: "2px", 
@@ -77,20 +68,19 @@ const LiveStreamingSection = () => {
           }}>
             Watch our live Holy Matrimony virtually via Zoom app or Youtube
           </h5>
-        </motion.div>
+        </div>
 
         {/* Streaming Cards Container */}
-        <motion.div 
+        <div 
           style={{
             display: "flex",
             flexDirection: "column",
             gap: "30px",
             marginTop: "40px"
           }}
-          variants={slideUp}
         >
           {/* Zoom Card */}
-          <motion.div
+          <div
             style={{
               backgroundColor: "rgba(255,255,255,0.1)",
               backdropFilter: "blur(5px)",
@@ -99,11 +89,6 @@ const LiveStreamingSection = () => {
               textAlign: "center",
               border: "1px solid rgba(255,255,255,0.2)"
             }}
-            whileHover={{ 
-              y: -5, 
-              boxShadow: "0 10px 25px rgba(0,0,0,0.2)" 
-            }}
-            transition={{ duration: 0.3 }}
           >
             <div style={{ marginBottom: "20px" }}>
               <FaVideo style={{ 
@@ -127,7 +112,7 @@ const LiveStreamingSection = () => {
                 Join our intimate virtual gathering via Zoom
               </p>
             </div>
-            <motion.a
+            <a
               href={invitationData.zoomLink}
               target="_blank"
               rel="noopener noreferrer"
@@ -141,14 +126,9 @@ const LiveStreamingSection = () => {
                 color: "white",
                 fontWeight: "500",
               }}
-              whileHover={{ 
-                scale: 1.05, 
-                backgroundColor: "#1a7ae8" 
-              }}
-              whileTap={{ scale: 0.95 }}
             >
               Join Zoom Meeting
-            </motion.a>
+            </a>
             {invitationData.zoomId && (
               <div style={{ 
                 marginTop: "20px", 
@@ -158,10 +138,10 @@ const LiveStreamingSection = () => {
                 <p style={{ margin: "5px 0" }}>Password: {invitationData.zoomPassword}</p>
               </div>
             )}
-          </motion.div>
+          </div>
 
           {/* YouTube Card */}
-          <motion.div
+          <div
             style={{
               backgroundColor: "rgba(255,255,255,0.1)",
               backdropFilter: "blur(5px)",
@@ -170,11 +150,6 @@ const LiveStreamingSection = () => {
               textAlign: "center",
               border: "1px solid rgba(255,255,255,0.2)"
             }}
-            whileHover={{ 
-              y: -5, 
-              boxShadow: "0 10px 25px rgba(0,0,0,0.2)" 
-            }}
-            transition={{ duration: 0.3 }}
           >
             <div style={{ marginBottom: "20px" }}>
               <FaYoutube style={{ 
@@ -198,7 +173,7 @@ const LiveStreamingSection = () => {
                 Watch our live stream on YouTube
               </p>
             </div>
-            <motion.a
+            <a
               href={invitationData.youtubeLink}
               target="_blank"
               rel="noopener noreferrer"
@@ -212,20 +187,14 @@ const LiveStreamingSection = () => {
                 color: "white",
                 fontWeight: "500",
               }}
-              whileHover={{ 
-                scale: 1.05, 
-                backgroundColor: "#cc0000" 
-              }}
-              whileTap={{ scale: 0.95 }}
             >
               Watch on YouTube
-            </motion.a>
-          </motion.div>
-        </motion.div>
+            </a>
+          </div>
+        </div>
 
         {/* Countdown Timer */}
-        <motion.div 
-          variants={slideUp}
+        <div 
           style={{
             marginTop: "50px",
             fontSize: "0.9rem",
@@ -233,9 +202,9 @@ const LiveStreamingSection = () => {
           }}
         >
           <p>Streaming will begin 15 minutes before the ceremony</p>
-        </motion.div>
-      </motion.div>
-    </motion.section>
+        </div>
+      </div>
+    </section>
   );
 };
 

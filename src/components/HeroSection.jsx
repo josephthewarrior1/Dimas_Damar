@@ -1,6 +1,4 @@
-import { motion } from "framer-motion";
 import invitationData from "../data/invitationData";
-import { containerVariants, slideUp } from "./animations";
 
 const HeroSection = ({ guestName }) => {
   return (
@@ -36,14 +34,8 @@ const HeroSection = ({ guestName }) => {
       />
 
       {/* Content */}
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        style={{ padding: "0 20px", width: "100%" }}
-      >
-        <motion.p
-          variants={slideUp}
+      <div style={{ padding: "0 20px", width: "100%" }}>
+        <p
           style={{ 
             fontSize: "clamp(14px, 3vw, 18px)", 
             letterSpacing: "2px",
@@ -51,10 +43,9 @@ const HeroSection = ({ guestName }) => {
           }}
         >
           We invite you to our Holy Matrimony
-        </motion.p>
+        </p>
 
-        <motion.h1
-          variants={slideUp}
+        <h1
           style={{ 
             fontSize: "clamp(28px, 7vw, 42px)", 
             margin: "12px 0",
@@ -63,21 +54,19 @@ const HeroSection = ({ guestName }) => {
           }}
         >
           {invitationData.coupleName}
-        </motion.h1>
+        </h1>
 
-        <motion.p
-          variants={slideUp}
+        <p
           style={{ 
             fontSize: "clamp(14px, 3vw, 16px)",
             marginBottom: "20px"
           }}
         >
           SATURDAY, 19 JULY 2025
-        </motion.p>
+        </p>
 
         {/* Guest Name Section */}
-        <motion.div
-          variants={slideUp}
+        <div
           style={{ 
             marginTop: "30px",
             padding: "15px 20px",
@@ -102,8 +91,8 @@ const HeroSection = ({ guestName }) => {
           }}>
             {guestName}
           </p>
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </section>
   );
 };

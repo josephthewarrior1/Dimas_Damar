@@ -1,13 +1,8 @@
-import { motion } from "framer-motion";
 import invitationData from "../data/invitationData";
-import { containerVariants, slideUp } from "./animations";
 
 const TimeLocationSection = () => {
   return (
-    <motion.section
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-100px" }}
+    <section
       style={{
         position: "relative",
         minHeight: "100vh",
@@ -47,7 +42,7 @@ const TimeLocationSection = () => {
         }}
       />
 
-      <motion.div
+      <div
         style={{
           position: "relative",
           zIndex: 1,
@@ -57,13 +52,9 @@ const TimeLocationSection = () => {
           flexDirection: "column",
           gap: "40px",
         }}
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
       >
         {/* Date Section */}
-        <motion.div variants={slideUp}>
+        <div>
           <p style={{ fontSize: "0.8rem", letterSpacing: "2px", opacity: 0.9 }}>
             DAY, DATE, TIME
           </p>
@@ -73,7 +64,7 @@ const TimeLocationSection = () => {
           <p style={{ fontSize: "1.1rem", marginBottom: "20px" }}>
             10.00 - 12.00 WIB
           </p>
-          <motion.a
+          <a
             href={invitationData.calendarLink}
             target="_blank"
             rel="noopener noreferrer"
@@ -87,18 +78,13 @@ const TimeLocationSection = () => {
               color: "white",
               transition: "all 0.3s ease",
             }}
-            whileHover={{ 
-              backgroundColor: "rgba(255,255,255,0.2)",
-              scale: 1.05
-            }}
-            whileTap={{ scale: 0.95 }}
           >
             Add to Calendar
-          </motion.a>
-        </motion.div>
+          </a>
+        </div>
 
         {/* Place Section */}
-        <motion.div variants={slideUp}>
+        <div>
           <p style={{ fontSize: "0.8rem", letterSpacing: "2px", opacity: 0.9 }}>
             PLACE
           </p>
@@ -122,7 +108,7 @@ const TimeLocationSection = () => {
               ))}
           </p>
 
-          <motion.a
+          <a
             href={invitationData.mapsLink}
             target="_blank"
             rel="noopener noreferrer"
@@ -137,17 +123,12 @@ const TimeLocationSection = () => {
               color: "white",
               transition: "all 0.3s ease",
             }}
-            whileHover={{ 
-              backgroundColor: "rgba(255,255,255,0.2)",
-              scale: 1.05
-            }}
-            whileTap={{ scale: 0.95 }}
           >
             Link Google Maps
-          </motion.a>
-        </motion.div>
-      </motion.div>
-    </motion.section>
+          </a>
+        </div>
+      </div>
+    </section>
   );
 };
 

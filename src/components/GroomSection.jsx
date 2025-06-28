@@ -1,7 +1,5 @@
-import { motion } from "framer-motion";
 import { FaInstagram } from "react-icons/fa";
 import invitationData from "../data/invitationData";
-import { containerVariants, slideUp } from "./animations";
 
 const GroomSection = () => {
   return (
@@ -45,19 +43,14 @@ const GroomSection = () => {
         }}
       />
 
-      <motion.div 
+      <div 
         style={{
           position: "relative",
           zIndex: 1,
           maxWidth: '500px'
         }}
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
       >
-        <motion.p 
-          variants={slideUp}
+        <p 
           style={{ 
             fontSize: '0.8rem', 
             marginBottom: '4px', 
@@ -66,10 +59,9 @@ const GroomSection = () => {
           }}
         >
           GROOM
-        </motion.p>
+        </p>
         
-        <motion.h2 
-          variants={slideUp}
+        <h2 
           style={{ 
             fontSize: '1.75rem', 
             margin: '0 0 12px', 
@@ -78,10 +70,9 @@ const GroomSection = () => {
           }}
         >
           {invitationData.groom}
-        </motion.h2>
+        </h2>
         
-        <motion.p 
-          variants={slideUp}
+        <p 
           style={{ 
             fontSize: '0.8rem', 
             marginBottom: '4px', 
@@ -90,30 +81,27 @@ const GroomSection = () => {
           }}
         >
           FIRST SON OF
-        </motion.p>
+        </p>
         
-        <motion.p 
-          variants={slideUp}
+        <p 
           style={{ 
             marginBottom: '2px', 
             fontSize: '0.95rem' 
           }}
         >
           Mr. Estukurnia Iman
-        </motion.p>
+        </p>
         
-        <motion.p 
-          variants={slideUp}
+        <p 
           style={{ 
             marginBottom: '12px', 
             fontSize: '0.95rem' 
           }}
         >
           Mrs. Lusy Tantirahaju
-        </motion.p>
+        </p>
 
-        <motion.div 
-          variants={slideUp}
+        <div 
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -125,13 +113,11 @@ const GroomSection = () => {
             width: 'fit-content',
             backdropFilter: 'blur(2px)'
           }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
         >
           <FaInstagram style={{ width: '16px', height: '16px' }} />
           <span>@teosaneryutanesy</span>
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </section>
   );
 };
