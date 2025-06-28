@@ -14,32 +14,39 @@ const BrideSection = () => {
         padding: "40px 20px",
         textAlign: "right",
         fontFamily: "'Playfair Display', serif",
+        transform: "translate3d(0,0,0)",
+        backfaceVisibility: "hidden",
+        perspective: "1000px",
         willChange: "transform",
         overflow: "hidden"
       }}
+      className="scroll-section"
     >
-      {/* Background Image */}
-      <img
-        src={invitationData.backgroundImageBride}
-        alt="Bride background"
+      {/* Optimized Background */}
+      <div
         style={{
           position: "absolute",
           top: 0,
           left: 0,
           width: "100%",
           height: "100%",
-          objectFit: "cover",
-          zIndex: -1
+          backgroundImage: `url(${invitationData.backgroundImageBride})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          zIndex: -1,
+          transform: "translate3d(0,0,0)",
+          willChange: "transform"
         }}
       />
 
-      {/* Dark Overlay */}
+      {/* Optimized Overlay */}
       <div
         style={{
           position: "absolute",
           inset: 0,
           background: "linear-gradient(to top, rgba(0,0,0,0.7), rgba(100,100,100,0.3))",
           zIndex: 0,
+          transform: "translate3d(0,0,0)"
         }}
       />
 
@@ -47,7 +54,9 @@ const BrideSection = () => {
         style={{
           position: "relative",
           zIndex: 1,
-          maxWidth: '500px'
+          maxWidth: '500px',
+          transform: "translate3d(0,0,0)",
+          willChange: "transform"
         }}
       >
         <p 
@@ -55,7 +64,8 @@ const BrideSection = () => {
             fontSize: '0.8rem', 
             marginBottom: '4px', 
             opacity: 0.8, 
-            letterSpacing: '1.5px' 
+            letterSpacing: '1.5px',
+            textShadow: '0 1px 2px rgba(0,0,0,0.3)'
           }}
         >
           BRIDE
@@ -66,7 +76,8 @@ const BrideSection = () => {
             fontSize: '1.75rem', 
             margin: '0 0 12px', 
             fontWeight: '500', 
-            letterSpacing: '1px' 
+            letterSpacing: '1px',
+            textShadow: '0 2px 4px rgba(0,0,0,0.4)'
           }}
         >
           {invitationData.bride}
@@ -77,7 +88,8 @@ const BrideSection = () => {
             fontSize: '0.8rem', 
             marginBottom: '4px', 
             letterSpacing: '1.5px', 
-            opacity: 0.8 
+            opacity: 0.8,
+            textShadow: '0 1px 2px rgba(0,0,0,0.2)'
           }}
         >
           DAUGHTER OF
@@ -86,7 +98,8 @@ const BrideSection = () => {
         <p 
           style={{ 
             marginBottom: '2px', 
-            fontSize: '0.95rem' 
+            fontSize: '0.95rem',
+            textShadow: '0 1px 2px rgba(0,0,0,0.2)'
           }}
         >
           Mr. Robertus Santoso
@@ -95,7 +108,8 @@ const BrideSection = () => {
         <p 
           style={{ 
             marginBottom: '12px', 
-            fontSize: '0.95rem' 
+            fontSize: '0.95rem',
+            textShadow: '0 1px 2px rgba(0,0,0,0.2)'
           }}
         >
           Mrs. Maria Wijaya
@@ -112,7 +126,10 @@ const BrideSection = () => {
             borderRadius: '20px',
             width: 'fit-content',
             backdropFilter: 'blur(2px)',
-            marginLeft: 'auto'
+            marginLeft: 'auto',
+            border: '1px solid rgba(255,255,255,0.15)',
+            transform: "translate3d(0,0,0)",
+            willChange: "transform"
           }}
         >
           <FaInstagram style={{ width: '16px', height: '16px' }} />

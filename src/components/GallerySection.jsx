@@ -27,32 +27,38 @@ const GallerySection = () => {
         alignItems: "center",
         justifyContent: "center",
         textAlign: "center",
+        transform: "translate3d(0,0,0)",
+        backfaceVisibility: "hidden",
+        perspective: "1000px",
         willChange: "transform",
         overflow: "hidden"
       }}
+      className="scroll-section"
     >
-      {/* Background Image */}
-      <img
-        src={invitationData.dateTimeImage}
-        alt="Gallery background"
+      {/* Optimized Background */}
+      <div
         style={{
           position: "absolute",
           top: 0,
           left: 0,
           width: "100%",
           height: "100%",
-          objectFit: "cover",
-          zIndex: -1
+          backgroundImage: `url(${invitationData.dateTimeImage})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          zIndex: -1,
+          transform: "translate3d(0,0,0)"
         }}
       />
 
-      {/* Dark Overlay */}
+      {/* Optimized Overlay */}
       <div
         style={{
           position: "absolute",
           inset: 0,
           backgroundColor: "rgba(0,0,0,0.4)",
           zIndex: 0,
+          transform: "translate3d(0,0,0)"
         }}
       />
 
@@ -62,6 +68,7 @@ const GallerySection = () => {
           zIndex: 1,
           maxWidth: "800px",
           width: "100%",
+          transform: "translate3d(0,0,0)"
         }}
       >
         <h2 
@@ -72,7 +79,8 @@ const GallerySection = () => {
             fontFamily: "'Playfair Display', serif",
             color: 'white',
             fontWeight: 'normal',
-            letterSpacing: '2px'
+            letterSpacing: '2px',
+            textShadow: '0 2px 4px rgba(0,0,0,0.4)'
           }}
         >
           Our Precious Moments
@@ -87,7 +95,8 @@ const GallerySection = () => {
             maxWidth: '600px',
             marginLeft: 'auto',
             marginRight: 'auto',
-            fontStyle: 'italic'
+            fontStyle: 'italic',
+            textShadow: '0 1px 2px rgba(0,0,0,0.3)'
           }}
         >
           A journey of love captured in time
@@ -114,7 +123,8 @@ const GallerySection = () => {
             className="mySwiper"
             style={{ 
               paddingBottom: '60px',
-              paddingTop: '20px'
+              paddingTop: '20px',
+              transform: "translate3d(0,0,0)"
             }}
           >
             {invitationData.galleryImages.map((image, index) => (
@@ -126,13 +136,16 @@ const GallerySection = () => {
                   borderRadius: '8px',
                   overflow: 'hidden',
                   boxShadow: '0 8px 30px rgba(0,0,0,0.3)',
-                  transition: 'transform 0.3s ease'
+                  transition: 'transform 0.3s ease',
+                  transform: "translate3d(0,0,0)",
+                  willChange: "transform"
                 }}
               >
                 <div style={{
                   position: 'relative',
                   width: '100%',
-                  height: '100%'
+                  height: '100%',
+                  transform: "translate3d(0,0,0)"
                 }}>
                   <img
                     src={image}
@@ -141,8 +154,10 @@ const GallerySection = () => {
                       width: '100%',
                       height: '100%',
                       objectFit: 'cover',
-                      objectPosition: 'center'
+                      objectPosition: 'center',
+                      transform: "translate3d(0,0,0)"
                     }}
+                    loading="lazy"
                   />
                   <div
                     style={{
@@ -159,7 +174,11 @@ const GallerySection = () => {
                       fontSize: '1.2rem',
                       fontFamily: "'Playfair Display', serif",
                       opacity: 0,
-                      transition: 'opacity 0.3s ease'
+                      transition: 'opacity 0.3s ease',
+                      transform: "translate3d(0,0,0)",
+                      padding: '20px',
+                      textAlign: 'center',
+                      textShadow: '0 1px 3px rgba(0,0,0,0.5)'
                     }}
                     className="gallery-caption"
                   >
@@ -180,7 +199,8 @@ const GallerySection = () => {
           <p style={{
             fontSize: '0.9rem',
             color: 'rgba(255,255,255,0.8)',
-            fontStyle: 'italic'
+            fontStyle: 'italic',
+            textShadow: '0 1px 1px rgba(0,0,0,0.2)'
           }}>
             Swipe to see more of our story
           </p>

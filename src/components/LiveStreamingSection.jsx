@@ -14,33 +14,38 @@ const LiveStreamingSection = () => {
         alignItems: "center",
         justifyContent: "center",
         textAlign: "center",
+        transform: "translate3d(0,0,0)",
+        backfaceVisibility: "hidden",
+        perspective: "1000px",
         willChange: "transform",
         overflow: "hidden"
       }}
+      className="scroll-section"
     >
-      {/* Background Image */}
-      <img
-        src={invitationData.backgroundImageLive}
-        alt="Live streaming background"
+      {/* Optimized Background */}
+      <div
         style={{
           position: "absolute",
           top: 0,
           left: 0,
           width: "100%",
           height: "100%",
-          objectFit: "cover",
-          objectPosition: "45% center",
-          zIndex: -1
+          backgroundImage: `url(${invitationData.backgroundImageLive})`,
+          backgroundSize: "cover",
+          backgroundPosition: "45% center",
+          zIndex: -1,
+          transform: "translate3d(0,0,0)"
         }}
       />
 
-      {/* Dark Overlay */}
+      {/* Optimized Overlay */}
       <div
         style={{
           position: "absolute",
           inset: 0,
           backgroundColor: "rgba(0,0,0,0.5)",
           zIndex: 0,
+          transform: "translate3d(0,0,0)"
         }}
       />
 
@@ -50,6 +55,7 @@ const LiveStreamingSection = () => {
           zIndex: 1,
           maxWidth: "800px",
           width: "100%",
+          transform: "translate3d(0,0,0)"
         }}
       >
         <div>
@@ -57,14 +63,16 @@ const LiveStreamingSection = () => {
             fontSize: "1rem", 
             letterSpacing: "2px", 
             opacity: 0.9, 
-            marginBottom: "8px" 
+            marginBottom: "8px",
+            textShadow: "0 1px 2px rgba(0,0,0,0.3)"
           }}>
             LIVE STREAMING
           </p>
           <h5 style={{ 
             fontSize: "0.6rem", 
             fontWeight: "600", 
-            margin: "0 0 30px" 
+            margin: "0 0 30px",
+            textShadow: "0 1px 1px rgba(0,0,0,0.2)"
           }}>
             Watch our live Holy Matrimony virtually via Zoom app or Youtube
           </h5>
@@ -87,7 +95,9 @@ const LiveStreamingSection = () => {
               borderRadius: "15px",
               padding: "30px",
               textAlign: "center",
-              border: "1px solid rgba(255,255,255,0.2)"
+              border: "1px solid rgba(255,255,255,0.2)",
+              transform: "translate3d(0,0,0)",
+              willChange: "transform"
             }}
           >
             <div style={{ marginBottom: "20px" }}>
@@ -95,19 +105,22 @@ const LiveStreamingSection = () => {
                 width: "60px", 
                 height: "60px", 
                 marginBottom: "15px", 
-                color: "#2D8CFF" 
+                color: "#2D8CFF",
+                filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.3))"
               }} />
               <h3 style={{ 
                 fontSize: "1.5rem", 
                 fontWeight: "500", 
-                margin: "0 0 10px" 
+                margin: "0 0 10px",
+                textShadow: "0 2px 3px rgba(0,0,0,0.4)"
               }}>
                 Zoom Meeting
               </h3>
               <p style={{ 
                 fontSize: "0.9rem", 
                 opacity: 0.9, 
-                marginBottom: "20px" 
+                marginBottom: "20px",
+                textShadow: "0 1px 2px rgba(0,0,0,0.2)"
               }}>
                 Join our intimate virtual gathering via Zoom
               </p>
@@ -125,6 +138,10 @@ const LiveStreamingSection = () => {
                 textDecoration: "none",
                 color: "white",
                 fontWeight: "500",
+                transition: "all 0.3s ease",
+                transform: "translate3d(0,0,0)",
+                willChange: "transform",
+                boxShadow: "0 4px 6px rgba(0,0,0,0.1)"
               }}
             >
               Join Zoom Meeting
@@ -132,7 +149,8 @@ const LiveStreamingSection = () => {
             {invitationData.zoomId && (
               <div style={{ 
                 marginTop: "20px", 
-                fontSize: "0.85rem" 
+                fontSize: "0.85rem",
+                textShadow: "0 1px 1px rgba(0,0,0,0.2)"
               }}>
                 <p style={{ margin: "5px 0" }}>Meeting ID: {invitationData.zoomId}</p>
                 <p style={{ margin: "5px 0" }}>Password: {invitationData.zoomPassword}</p>
@@ -148,7 +166,9 @@ const LiveStreamingSection = () => {
               borderRadius: "15px",
               padding: "30px",
               textAlign: "center",
-              border: "1px solid rgba(255,255,255,0.2)"
+              border: "1px solid rgba(255,255,255,0.2)",
+              transform: "translate3d(0,0,0)",
+              willChange: "transform"
             }}
           >
             <div style={{ marginBottom: "20px" }}>
@@ -156,19 +176,22 @@ const LiveStreamingSection = () => {
                 width: "60px", 
                 height: "60px", 
                 marginBottom: "15px", 
-                color: "#FF0000" 
+                color: "#FF0000",
+                filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.3))"
               }} />
               <h3 style={{ 
                 fontSize: "1.5rem", 
                 fontWeight: "500", 
-                margin: "0 0 10px" 
+                margin: "0 0 10px",
+                textShadow: "0 2px 3px rgba(0,0,0,0.4)"
               }}>
                 YouTube Live
               </h3>
               <p style={{ 
                 fontSize: "0.9rem", 
                 opacity: 0.9, 
-                marginBottom: "20px" 
+                marginBottom: "20px",
+                textShadow: "0 1px 2px rgba(0,0,0,0.2)"
               }}>
                 Watch our live stream on YouTube
               </p>
@@ -186,6 +209,10 @@ const LiveStreamingSection = () => {
                 textDecoration: "none",
                 color: "white",
                 fontWeight: "500",
+                transition: "all 0.3s ease",
+                transform: "translate3d(0,0,0)",
+                willChange: "transform",
+                boxShadow: "0 4px 6px rgba(0,0,0,0.1)"
               }}
             >
               Watch on YouTube
@@ -198,7 +225,8 @@ const LiveStreamingSection = () => {
           style={{
             marginTop: "50px",
             fontSize: "0.9rem",
-            opacity: 0.8
+            opacity: 0.8,
+            textShadow: "0 1px 1px rgba(0,0,0,0.2)"
           }}
         >
           <p>Streaming will begin 15 minutes before the ceremony</p>

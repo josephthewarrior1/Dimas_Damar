@@ -13,33 +13,45 @@ const HeroSection = ({ guestName }) => {
         color: "white",
         textAlign: "center",
         fontFamily: "'Playfair Display', serif",
+        transform: "translate3d(0,0,0)",
+        backfaceVisibility: "hidden",
+        perspective: "1000px",
         willChange: "transform",
         overflow: "hidden"
       }}
+      className="scroll-section"
     >
-      {/* Background Image */}
-      <img
-        src={invitationData.backgroundImage2}
-        alt="Wedding background"
+      {/* Background Image - Optimized Version */}
+      <div
         style={{
           position: "absolute",
           top: 0,
           left: 0,
           width: "100%",
           height: "100%",
-          objectFit: "cover",
+          backgroundImage: `url(${invitationData.backgroundImage2})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
           zIndex: -1,
-          filter: "brightness(0.7)"
+          filter: "brightness(0.7)",
+          transform: "translate3d(0,0,0)",
+          willChange: "transform"
         }}
       />
 
       {/* Content */}
-      <div style={{ padding: "0 20px", width: "100%" }}>
+      <div style={{ 
+        padding: "0 20px", 
+        width: "100%",
+        transform: "translate3d(0,0,0)",
+        willChange: "transform"
+      }}>
         <p
           style={{ 
             fontSize: "clamp(14px, 3vw, 18px)", 
             letterSpacing: "2px",
-            marginBottom: "10px"
+            marginBottom: "10px",
+            textShadow: "0 1px 3px rgba(0,0,0,0.3)"
           }}
         >
           We invite you to our Holy Matrimony
@@ -50,7 +62,8 @@ const HeroSection = ({ guestName }) => {
             fontSize: "clamp(28px, 7vw, 42px)", 
             margin: "12px 0",
             fontWeight: 400,
-            lineHeight: 1.2
+            lineHeight: 1.2,
+            textShadow: "0 2px 4px rgba(0,0,0,0.4)"
           }}
         >
           {invitationData.coupleName}
@@ -59,7 +72,8 @@ const HeroSection = ({ guestName }) => {
         <p
           style={{ 
             fontSize: "clamp(14px, 3vw, 16px)",
-            marginBottom: "20px"
+            marginBottom: "20px",
+            textShadow: "0 1px 2px rgba(0,0,0,0.3)"
           }}
         >
           SATURDAY, 19 JULY 2025
@@ -75,19 +89,24 @@ const HeroSection = ({ guestName }) => {
             backdropFilter: "blur(5px)",
             maxWidth: "400px",
             marginLeft: "auto",
-            marginRight: "auto"
+            marginRight: "auto",
+            border: "1px solid rgba(255,255,255,0.15)",
+            transform: "translate3d(0,0,0)",
+            willChange: "transform"
           }}
         >
           <p style={{ 
             fontSize: "clamp(12px, 2.5vw, 14px)",
             marginBottom: "5px",
-            opacity: 0.8
+            opacity: 0.8,
+            textShadow: "0 1px 2px rgba(0,0,0,0.2)"
           }}>
             Special for:
           </p>
           <p style={{ 
             fontSize: "clamp(16px, 4vw, 20px)",
-            fontWeight: 500
+            fontWeight: 500,
+            textShadow: "0 1px 3px rgba(0,0,0,0.3)"
           }}>
             {guestName}
           </p>

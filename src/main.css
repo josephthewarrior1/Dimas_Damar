@@ -2,16 +2,152 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Reset CSS */
-body, html {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
+/* ===== CORE OPTIMIZATION ===== */
+html {
+  scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
+body {
+  @apply bg-black text-white;
+  position: relative;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ===== GPU ACCELERATION ===== */
+.gpu-accelerate {
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+  will-change: transform;
+}
+
+/* ===== IMAGE SYSTEM ===== */
+.img-container {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(to bottom, #111, #333);
+}
+
+.img-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: inherit;
+  z-index: -1;
+}
+
+.img-cover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 500ms ease-out;
+}
+
+.img-loaded {
+  opacity: 1;
+}
+
+/* ===== ANIMATION SYSTEM ===== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 20px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.animate {
+  animation-fill-mode: both;
+}
+
+.animate-fadeInUp {
+  animation-name: fadeInUp;
+  animation-duration: 800ms;
+}
+
+.delay-100 {
+  animation-delay: 100ms;
+}
+
+.delay-200 {
+  animation-delay: 200ms;
+}
+
+/* ===== SCROLL SNAP (Optional) ===== */
+.scroll-container {
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  height: 100vh;
+}
+
+.scroll-section {
+  scroll-snap-align: start;
+  height: 100vh;
+}
+
+/* ===== FONT LOADING ===== */
+.font-loading {
+  visibility: hidden;
+}
+
+.font-loaded {
+  visibility: visible;
+}
+
+/* ===== CRITICAL COMPONENTS ===== */
 #root {
+  position: relative;
   width: 100%;
   min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ===== FALLBACK LAYERS ===== */
+.fallback-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  z-index: -2;
+}
+
+/* ===== MOBILE TOUCH OPTIMIZATION ===== */
+@media (pointer: coarse) {
+  .scroll-touch {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  button, a {
+    min-width: 48px;
+    min-height: 48px;
+  }
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  
+  .no-print {
+    display: none !important;
+  }
 }
