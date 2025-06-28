@@ -1,9 +1,9 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-export default defineConfig(({ mode }) => ({
+export default defineConfig({
   plugins: [react()],
-  base: mode === 'production' ? '/wedding_invitation/' : '/',
+  base: '/', // Always use root for Vercel
   server: {
     port: 3000,
     open: true
@@ -18,4 +18,4 @@ export default defineConfig(({ mode }) => ({
     assetsDir: 'assets',
     emptyOutDir: true
   }
-}));
+});

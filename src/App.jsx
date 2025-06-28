@@ -7,14 +7,10 @@ import LoadingScreen from './components/LoadingScreen';
 const AppRouter = lazy(() => import('./routes'));
 
 export default function App() {
-  // Automatically detect environment
-  const isProduction = import.meta.env.PROD;
-  const basename = isProduction ? '/wedding_invitation' : '/';
-
   return (
     <HelmetProvider>
       <ThemeProvider>
-        <BrowserRouter basename={basename}>
+        <BrowserRouter>
           <Suspense fallback={<LoadingScreen />}>
             <AppRouter />
           </Suspense>
