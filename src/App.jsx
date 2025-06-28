@@ -19,7 +19,7 @@ export default function App() {
       <ThemeProvider>
 
 
-      <BrowserRouter>  
+      <BrowserRouter basename="/wedding_invitation/">
               <Suspense fallback={<LoadingScreen />}>
                 <AppRouter />
               </Suspense>
