@@ -1,8 +1,17 @@
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 import invitationData from "../data/invitationData";
 import { containerVariants, slideUp } from "./animations";
 
 const TimeLocationSection = () => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  useEffect(() => {
+    const img = new Image();
+    img.src = invitationData.dateTimeImage;
+    img.onload = () => setImageLoaded(true);
+  }, []);
+
   return (
     <motion.section
       initial="hidden"
@@ -11,6 +20,7 @@ const TimeLocationSection = () => {
       style={{
         position: "relative",
         minHeight: "100vh",
+        minHeight: "-webkit-fill-available",
         padding: "60px 20px",
         fontFamily: "'Helvetica Neue', sans-serif",
         color: "white",
@@ -18,25 +28,17 @@ const TimeLocationSection = () => {
         alignItems: "center",
         justifyContent: "center",
         textAlign: "left",
-        willChange: "transform",
-        overflow: "hidden"
+        overflow: "hidden",
+        backgroundColor: "#f0e7db",
+        backgroundImage: imageLoaded
+          ? `url(${invitationData.dateTimeImage})`
+          : "none",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        opacity: imageLoaded ? 1 : 0.99,
+        transition: "opacity 0.8s ease, background 0.8s ease"
       }}
     >
-      {/* Background Image */}
-      <img
-        src={invitationData.dateTimeImage}
-        alt="Time and location background"
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          zIndex: -1
-        }}
-      />
-
       {/* Dark Overlay */}
       <div
         style={{
@@ -56,6 +58,9 @@ const TimeLocationSection = () => {
           display: "flex",
           flexDirection: "column",
           gap: "40px",
+          opacity: imageLoaded ? 1 : 0,
+          transform: imageLoaded ? "translateY(0)" : "translateY(20px)",
+          transition: "opacity 0.6s ease, transform 0.6s ease"
         }}
         variants={containerVariants}
         initial="hidden"

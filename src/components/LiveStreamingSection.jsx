@@ -1,9 +1,18 @@
 import { motion } from "framer-motion";
 import { FaYoutube, FaVideo } from "react-icons/fa";
+import { useState, useEffect } from "react";
 import invitationData from "../data/invitationData";
 import { containerVariants, slideUp } from "./animations";
 
 const LiveStreamingSection = () => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  useEffect(() => {
+    const img = new Image();
+    img.src = invitationData.backgroundImageLive;
+    img.onload = () => setImageLoaded(true);
+  }, []);
+
   return (
     <motion.section
       initial="hidden"
@@ -12,6 +21,7 @@ const LiveStreamingSection = () => {
       style={{
         position: "relative",
         minHeight: "100vh",
+        minHeight: "-webkit-fill-available",
         padding: "60px 20px",
         fontFamily: "'Helvetica Neue', sans-serif",
         color: "white",
@@ -19,26 +29,17 @@ const LiveStreamingSection = () => {
         alignItems: "center",
         justifyContent: "center",
         textAlign: "center",
-        willChange: "transform",
-        overflow: "hidden"
+        overflow: "hidden",
+        backgroundColor: "#f0e7db",
+        backgroundImage: imageLoaded
+          ? `url(${invitationData.backgroundImageLive})`
+          : "none",
+        backgroundSize: "cover",
+        backgroundPosition: "45% center",
+        opacity: imageLoaded ? 1 : 0.99,
+        transition: "opacity 0.8s ease, background 0.8s ease"
       }}
     >
-      {/* Background Image */}
-      <img
-        src={invitationData.backgroundImageLive}
-        alt="Live streaming background"
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          objectPosition: "45% center",
-          zIndex: -1
-        }}
-      />
-
       {/* Dark Overlay */}
       <div
         style={{
@@ -55,6 +56,9 @@ const LiveStreamingSection = () => {
           zIndex: 1,
           maxWidth: "800px",
           width: "100%",
+          opacity: imageLoaded ? 1 : 0,
+          transform: imageLoaded ? "translateY(0)" : "translateY(20px)",
+          transition: "opacity 0.6s ease, transform 0.6s ease"
         }}
         variants={containerVariants}
         initial="hidden"
@@ -94,6 +98,7 @@ const LiveStreamingSection = () => {
             style={{
               backgroundColor: "rgba(255,255,255,0.1)",
               backdropFilter: "blur(5px)",
+              WebkitBackdropFilter: "blur(5px)",
               borderRadius: "15px",
               padding: "30px",
               textAlign: "center",
@@ -165,6 +170,7 @@ const LiveStreamingSection = () => {
             style={{
               backgroundColor: "rgba(255,255,255,0.1)",
               backdropFilter: "blur(5px)",
+              WebkitBackdropFilter: "blur(5px)",
               borderRadius: "15px",
               padding: "30px",
               textAlign: "center",

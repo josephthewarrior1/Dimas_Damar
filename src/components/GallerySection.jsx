@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCoverflow, Pagination } from 'swiper/modules';
+import { useState, useEffect } from "react";
 import invitationData from "../data/invitationData";
 import { containerVariants, slideUp } from "./animations";
 import 'swiper/css';
@@ -8,6 +9,8 @@ import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
 
 const GallerySection = () => {
+  const [bgLoaded, setBgLoaded] = useState(false);
+  const [imagesLoaded, setImagesLoaded] = useState(0);
   const galleryCaptions = [
     "First Meeting",
     "Our Engagement",
@@ -15,6 +18,18 @@ const GallerySection = () => {
     "Together",
     "Forever"
   ];
+
+  // Preload background image
+  useEffect(() => {
+    const img = new Image();
+    img.src = invitationData.dateTimeImage;
+    img.onload = () => setBgLoaded(true);
+  }, []);
+
+  // Track gallery images loading
+  const handleImageLoad = () => {
+    setImagesLoaded(prev => prev + 1);
+  };
 
   return (
     <motion.section
@@ -24,6 +39,7 @@ const GallerySection = () => {
       style={{
         position: "relative",
         minHeight: "100vh",
+        minHeight: "-webkit-fill-available",
         padding: "80px 20px",
         fontFamily: "'Playfair Display', serif",
         color: "white",
@@ -32,25 +48,17 @@ const GallerySection = () => {
         alignItems: "center",
         justifyContent: "center",
         textAlign: "center",
-        willChange: "transform",
-        overflow: "hidden"
+        overflow: "hidden",
+        backgroundColor: "#f0e7db",
+        backgroundImage: bgLoaded 
+          ? `url(${invitationData.dateTimeImage})`
+          : "none",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        opacity: bgLoaded ? 1 : 0.99,
+        transition: "opacity 0.8s ease, background 0.8s ease"
       }}
     >
-      {/* Background Image */}
-      <img
-        src={invitationData.dateTimeImage}
-        alt="Gallery background"
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          zIndex: -1
-        }}
-      />
-
       {/* Dark Overlay */}
       <div
         style={{
@@ -67,6 +75,9 @@ const GallerySection = () => {
           zIndex: 1,
           maxWidth: "800px",
           width: "100%",
+          opacity: bgLoaded ? 1 : 0,
+          transform: bgLoaded ? "translateY(0)" : "translateY(20px)",
+          transition: "opacity 0.6s ease, transform 0.6s ease"
         }}
         variants={containerVariants}
         initial="hidden"
@@ -82,7 +93,8 @@ const GallerySection = () => {
             fontFamily: "'Playfair Display', serif",
             color: 'white',
             fontWeight: 'normal',
-            letterSpacing: '2px'
+            letterSpacing: '2px',
+            textShadow: '0 2px 4px rgba(0,0,0,0.4)'
           }}
         >
           Our Precious Moments
@@ -98,7 +110,8 @@ const GallerySection = () => {
             maxWidth: '600px',
             marginLeft: 'auto',
             marginRight: 'auto',
-            fontStyle: 'italic'
+            fontStyle: 'italic',
+            textShadow: '0 1px 2px rgba(0,0,0,0.3)'
           }}
         >
           A journey of love captured in time
@@ -125,7 +138,9 @@ const GallerySection = () => {
             className="mySwiper"
             style={{ 
               paddingBottom: '60px',
-              paddingTop: '20px'
+              paddingTop: '20px',
+              opacity: imagesLoaded === invitationData.galleryImages.length ? 1 : 0,
+              transition: 'opacity 0.6s ease'
             }}
           >
             {invitationData.galleryImages.map((image, index) => (
@@ -143,16 +158,20 @@ const GallerySection = () => {
                 <div style={{
                   position: 'relative',
                   width: '100%',
-                  height: '100%'
+                  height: '100%',
+                  backgroundColor: '#f0e7db'
                 }}>
                   <img
                     src={image}
                     alt={`Gallery image ${index + 1}`}
+                    onLoad={handleImageLoad}
                     style={{
                       width: '100%',
                       height: '100%',
                       objectFit: 'cover',
-                      objectPosition: 'center'
+                      objectPosition: 'center',
+                      opacity: imagesLoaded > index ? 1 : 0,
+                      transition: 'opacity 0.6s ease'
                     }}
                   />
                   <motion.div

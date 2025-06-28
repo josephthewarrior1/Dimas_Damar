@@ -1,11 +1,23 @@
+import { useState, useEffect } from 'react';
 import invitationData from "../data/invitationData";
 
 const HeroSection = ({ guestName }) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // Preload the background image
+  useEffect(() => {
+    const img = new Image();
+    img.src = invitationData.backgroundImage2;
+    img.onload = () => setIsLoaded(true);
+    img.onerror = () => setIsLoaded(true); // Fallback if image fails to load
+  }, []);
+
   return (
     <section 
       style={{
         position: "relative",
         height: "100vh",
+        minHeight: "-webkit-fill-available", // Fix mobile viewport height
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -13,33 +25,36 @@ const HeroSection = ({ guestName }) => {
         color: "white",
         textAlign: "center",
         fontFamily: "'Playfair Display', serif",
-        willChange: "transform",
-        overflow: "hidden"
+        overflow: "hidden",
+        backgroundColor: "#f0e7db", // Fallback color (match your theme)
+        backgroundImage: isLoaded 
+          ? `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${invitationData.backgroundImage2})`
+          : "none",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        opacity: isLoaded ? 1 : 0.99, // Prevents flash of unstyled content
+        transition: "opacity 0.8s ease, background 0.8s ease",
+        willChange: "opacity, background"
       }}
     >
-      {/* Background Image */}
-      <img
-        src={invitationData.backgroundImage2}
-        alt="Wedding background"
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
+      {/* Content Container */}
+      <div 
+        style={{ 
+          padding: "0 20px", 
           width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          zIndex: -1,
-          filter: "brightness(0.7)"
+          opacity: isLoaded ? 1 : 0,
+          transform: isLoaded ? "translateY(0)" : "translateY(10px)",
+          transition: "opacity 0.6s ease, transform 0.6s ease",
+          willChange: "opacity, transform"
         }}
-      />
-
-      {/* Content */}
-      <div style={{ padding: "0 20px", width: "100%" }}>
+      >
         <p
           style={{ 
             fontSize: "clamp(14px, 3vw, 18px)", 
             letterSpacing: "2px",
-            marginBottom: "10px"
+            marginBottom: "10px",
+            textShadow: "0 1px 3px rgba(0,0,0,0.3)"
           }}
         >
           We invite you to our Holy Matrimony
@@ -50,7 +65,8 @@ const HeroSection = ({ guestName }) => {
             fontSize: "clamp(28px, 7vw, 42px)", 
             margin: "12px 0",
             fontWeight: 400,
-            lineHeight: 1.2
+            lineHeight: 1.2,
+            textShadow: "0 2px 4px rgba(0,0,0,0.4)"
           }}
         >
           {invitationData.coupleName}
@@ -59,7 +75,8 @@ const HeroSection = ({ guestName }) => {
         <p
           style={{ 
             fontSize: "clamp(14px, 3vw, 16px)",
-            marginBottom: "20px"
+            marginBottom: "20px",
+            textShadow: "0 1px 2px rgba(0,0,0,0.3)"
           }}
         >
           SATURDAY, 19 JULY 2025
@@ -73,9 +90,11 @@ const HeroSection = ({ guestName }) => {
             backgroundColor: "rgba(255,255,255,0.1)",
             borderRadius: "10px",
             backdropFilter: "blur(5px)",
+            WebkitBackdropFilter: "blur(5px)", // Safari support
             maxWidth: "400px",
             marginLeft: "auto",
-            marginRight: "auto"
+            marginRight: "auto",
+            border: "1px solid rgba(255,255,255,0.2)"
           }}
         >
           <p style={{ 

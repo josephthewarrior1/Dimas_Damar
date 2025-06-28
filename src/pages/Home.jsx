@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState, Suspense, lazy } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import HeroSection from '../components/HeroSection';
+import invitationData from '../data/invitationData';
 
 // Lazy load komponen lainnya
 const GroomSection = lazy(() => import('../components/GroomSection'));
