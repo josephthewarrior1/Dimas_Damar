@@ -1,15 +1,8 @@
 {
-    "builds": [
-      {
-        "src": "package.json",
-        "use": "@vercel/static-build"
-      }
+    "version": 2,
+    "rewrites": [
+      { "source": "/wedding_invitation/(.*)", "destination": "/wedding_invitation/index.html" },
+      { "source": "/(.*)", "destination": "/wedding_invitation/index.html" }
     ],
-    "routes": [
-      {
-        "src": "/wedding_invitation/(.*)",
-        "dest": "/wedding_invitation/index.html"
-      }
-    ]
+    "cleanUrls": true
   }
-  
