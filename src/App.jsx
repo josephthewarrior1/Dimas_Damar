@@ -12,8 +12,8 @@ export default function App() {
     <HelmetProvider>
       <ThemeProvider>
 
-        {/* <BrowserRouter basename="/wedding_invitation"> */}
-        <BrowserRouter>
+         <BrowserRouter basename="/wedding_invitation"> 
+        
           <Suspense fallback={<LoadingScreen />}>
             <AppRouter />
           </Suspense>
