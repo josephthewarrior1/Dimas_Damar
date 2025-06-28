@@ -1,18 +1,9 @@
 {
   "version": 2,
   "rewrites": [
-    { 
-      "source": "/wedding_invitation/assets/(.*)",
-      "destination": "/wedding_invitation/assets/$1" 
-    },
-    { 
-      "source": "/wedding_invitation/(.*)", 
-      "destination": "/wedding_invitation/index.html" 
-    },
-    { 
-      "source": "/(.*)", 
-      "destination": "/wedding_invitation/index.html" 
-    }
+    { "source": "/wedding_invitation/assets/(.*)", "destination": "/wedding_invitation/assets/$1" },
+    { "source": "/wedding_invitation/(.*)", "destination": "/wedding_invitation/index.html" },
+    { "source": "/(.*)", "destination": "/wedding_invitation/index.html" }
   ],
   "cleanUrls": true
 }

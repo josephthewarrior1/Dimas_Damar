@@ -8,13 +8,12 @@ import IntroScreen from '../components/IntroScreen';
 import AudioPlayer from '../components/AudioPlayer';
 
 export default function AppRouter() {
-  const [showIntro, setShowIntro] = useState(true);
-  const [isAudioPlaying, setIsAudioPlaying] = useState(false); // Ubah default menjadi false
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
 
   const routes = useRoutes([
     {
       path: '/',
-      element: <Navigate to="/intro" />,
+      element: <Navigate to="/intro" replace />,
     },
     {
       path: '/intro',
@@ -24,7 +23,7 @@ export default function AppRouter() {
           path: '',
           element: <IntroScreen 
             {...invitationData} 
-            onOpenInvitation={() => setIsAudioPlaying(true)} // Tambahkan prop ini
+            onOpenInvitation={() => setIsAudioPlaying(true)}
           />,
         },
       ],
@@ -37,7 +36,10 @@ export default function AppRouter() {
         </MainLayout>
       ),
     },
-   
+    {
+      path: '*',
+      element: <Navigate to="/intro" replace />,
+    }
   ]);
 
   return (
