@@ -37,13 +37,7 @@ export default function AppRouter() {
         </MainLayout>
       ),
     },
-    {
-      element: <MainLayout />,
-      children: [
-        { path: '/gallery', lazy: () => import('../pages/Gallery') },
-        { path: '/rsvp', lazy: () => import('../pages/RSVP') },
-      ],
-    },
+   
   ]);
 
   return (
