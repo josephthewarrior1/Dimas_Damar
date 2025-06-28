@@ -2,15 +2,9 @@
 import { lazy, Suspense } from 'react';
 import { BrowserRouter } from "react-router-dom"; 
 import { HelmetProvider } from 'react-helmet-async';
-
-// Context Providers
-
-import { ThemeProvider } from './theme'; // Custom theme
-
-// Components
+import { ThemeProvider } from './theme';
 import LoadingScreen from './components/LoadingScreen';
 
-// Lazy load main router
 const AppRouter = lazy(() => import('./routes'));
 
 export default function App() {
@@ -18,13 +12,13 @@ export default function App() {
     <HelmetProvider>
       <ThemeProvider>
 
+        {/* <BrowserRouter basename="/wedding_invitation"> */}
+        <BrowserRouter>
+          <Suspense fallback={<LoadingScreen />}>
+            <AppRouter />
+          </Suspense>
+        </BrowserRouter>
 
-      <BrowserRouter basename="/wedding_invitation/">
-              <Suspense fallback={<LoadingScreen />}>
-                <AppRouter />
-              </Suspense>
-              </BrowserRouter>  
-  
       </ThemeProvider>
     </HelmetProvider>
   );
