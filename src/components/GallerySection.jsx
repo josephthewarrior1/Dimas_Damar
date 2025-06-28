@@ -1,6 +1,8 @@
+import { motion } from "framer-motion";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCoverflow, Pagination } from 'swiper/modules';
 import invitationData from "../data/invitationData";
+import { containerVariants, slideUp } from "./animations";
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
@@ -15,7 +17,10 @@ const GallerySection = () => {
   ];
 
   return (
-    <section
+    <motion.section
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
       style={{
         position: "relative",
         minHeight: "100vh",
@@ -27,51 +32,49 @@ const GallerySection = () => {
         alignItems: "center",
         justifyContent: "center",
         textAlign: "center",
-        transform: "translate3d(0,0,0)",
-        backfaceVisibility: "hidden",
-        perspective: "1000px",
         willChange: "transform",
         overflow: "hidden"
       }}
-      className="scroll-section"
     >
-      {/* Optimized Background */}
-      <div
+      {/* Background Image */}
+      <img
+        src={invitationData.dateTimeImage}
+        alt="Gallery background"
         style={{
           position: "absolute",
           top: 0,
           left: 0,
           width: "100%",
           height: "100%",
-          backgroundImage: `url(${invitationData.dateTimeImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          zIndex: -1,
-          transform: "translate3d(0,0,0)"
+          objectFit: "cover",
+          zIndex: -1
         }}
       />
 
-      {/* Optimized Overlay */}
+      {/* Dark Overlay */}
       <div
         style={{
           position: "absolute",
           inset: 0,
           backgroundColor: "rgba(0,0,0,0.4)",
           zIndex: 0,
-          transform: "translate3d(0,0,0)"
         }}
       />
 
-      <div
+      <motion.div
         style={{
           position: "relative",
           zIndex: 1,
           maxWidth: "800px",
           width: "100%",
-          transform: "translate3d(0,0,0)"
         }}
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
       >
-        <h2 
+        <motion.h2 
+          variants={slideUp}
           style={{
             textAlign: 'center',
             fontSize: '2.5rem',
@@ -79,14 +82,14 @@ const GallerySection = () => {
             fontFamily: "'Playfair Display', serif",
             color: 'white',
             fontWeight: 'normal',
-            letterSpacing: '2px',
-            textShadow: '0 2px 4px rgba(0,0,0,0.4)'
+            letterSpacing: '2px'
           }}
         >
           Our Precious Moments
-        </h2>
+        </motion.h2>
         
-        <p 
+        <motion.p 
+          variants={slideUp}
           style={{
             textAlign: 'center',
             fontSize: '1.1rem',
@@ -95,14 +98,13 @@ const GallerySection = () => {
             maxWidth: '600px',
             marginLeft: 'auto',
             marginRight: 'auto',
-            fontStyle: 'italic',
-            textShadow: '0 1px 2px rgba(0,0,0,0.3)'
+            fontStyle: 'italic'
           }}
         >
           A journey of love captured in time
-        </p>
+        </motion.p>
 
-        <div>
+        <motion.div variants={slideUp}>
           <Swiper
             effect={'coverflow'}
             grabCursor={true}
@@ -123,8 +125,7 @@ const GallerySection = () => {
             className="mySwiper"
             style={{ 
               paddingBottom: '60px',
-              paddingTop: '20px',
-              transform: "translate3d(0,0,0)"
+              paddingTop: '20px'
             }}
           >
             {invitationData.galleryImages.map((image, index) => (
@@ -136,16 +137,13 @@ const GallerySection = () => {
                   borderRadius: '8px',
                   overflow: 'hidden',
                   boxShadow: '0 8px 30px rgba(0,0,0,0.3)',
-                  transition: 'transform 0.3s ease',
-                  transform: "translate3d(0,0,0)",
-                  willChange: "transform"
+                  transition: 'transform 0.3s ease'
                 }}
               >
                 <div style={{
                   position: 'relative',
                   width: '100%',
-                  height: '100%',
-                  transform: "translate3d(0,0,0)"
+                  height: '100%'
                 }}>
                   <img
                     src={image}
@@ -154,12 +152,12 @@ const GallerySection = () => {
                       width: '100%',
                       height: '100%',
                       objectFit: 'cover',
-                      objectPosition: 'center',
-                      transform: "translate3d(0,0,0)"
+                      objectPosition: 'center'
                     }}
-                    loading="lazy"
                   />
-                  <div
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    whileHover={{ opacity: 1 }}
                     style={{
                       position: 'absolute',
                       top: 0,
@@ -172,25 +170,19 @@ const GallerySection = () => {
                       justifyContent: 'center',
                       color: 'white',
                       fontSize: '1.2rem',
-                      fontFamily: "'Playfair Display', serif",
-                      opacity: 0,
-                      transition: 'opacity 0.3s ease',
-                      transform: "translate3d(0,0,0)",
-                      padding: '20px',
-                      textAlign: 'center',
-                      textShadow: '0 1px 3px rgba(0,0,0,0.5)'
+                      fontFamily: "'Playfair Display', serif"
                     }}
-                    className="gallery-caption"
                   >
                     {galleryCaptions[index] || "Our Memories"}
-                  </div>
+                  </motion.div>
                 </div>
               </SwiperSlide>
             ))}
           </Swiper>
-        </div>
+        </motion.div>
 
-        <div 
+        <motion.div 
+          variants={slideUp}
           style={{
             textAlign: 'center',
             marginTop: '30px'
@@ -199,14 +191,13 @@ const GallerySection = () => {
           <p style={{
             fontSize: '0.9rem',
             color: 'rgba(255,255,255,0.8)',
-            fontStyle: 'italic',
-            textShadow: '0 1px 1px rgba(0,0,0,0.2)'
+            fontStyle: 'italic'
           }}>
             Swipe to see more of our story
           </p>
-        </div>
-      </div>
-    </section>
+        </motion.div>
+      </motion.div>
+    </motion.section>
   );
 };
 
