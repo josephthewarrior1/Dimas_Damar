@@ -9,9 +9,6 @@ const GroomSection = () => {
       style={{
         position: "relative",
         minHeight: "100vh",
-        backgroundImage: `url(${invitationData.backgroundImageGroom})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
         display: "flex",
         alignItems: "flex-end",
         justifyContent: "flex-start",
@@ -19,9 +16,25 @@ const GroomSection = () => {
         padding: "40px 20px",
         textAlign: "left",
         fontFamily: "'Playfair Display', serif",
-        willChange: "transform"
+        willChange: "transform",
+        overflow: "hidden"
       }}
     >
+      {/* Background Image */}
+      <img
+        src={invitationData.backgroundImageGroom}
+        alt="Groom background"
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          zIndex: -1
+        }}
+      />
+
       {/* Dark Overlay */}
       <div
         style={{

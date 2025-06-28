@@ -24,9 +24,6 @@ const GallerySection = () => {
       style={{
         position: "relative",
         minHeight: "100vh",
-        backgroundImage: `url(${invitationData.dateTimeImage})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
         padding: "80px 20px",
         fontFamily: "'Playfair Display', serif",
         color: "white",
@@ -35,9 +32,26 @@ const GallerySection = () => {
         alignItems: "center",
         justifyContent: "center",
         textAlign: "center",
-        willChange: "transform"
+        willChange: "transform",
+        overflow: "hidden"
       }}
     >
+      {/* Background Image */}
+      <img
+        src={invitationData.dateTimeImage}
+        alt="Gallery background"
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          zIndex: -1
+        }}
+      />
+
+      {/* Dark Overlay */}
       <div
         style={{
           position: "absolute",
@@ -121,31 +135,47 @@ const GallerySection = () => {
                   width: '280px',
                   height: '420px',
                   borderRadius: '8px',
-                  backgroundImage: `url(${image})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                  boxShadow: '0 8px 30px rgba(0,0,0,0.3)',
                   overflow: 'hidden',
+                  boxShadow: '0 8px 30px rgba(0,0,0,0.3)',
                   transition: 'transform 0.3s ease'
                 }}
               >
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  whileHover={{ opacity: 1 }}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    background: 'rgba(0,0,0,0.5)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: 'white',
-                    fontSize: '1.2rem',
-                    fontFamily: "'Playfair Display', serif"
-                  }}
-                >
-                  {galleryCaptions[index] || "Our Memories"}
-                </motion.div>
+                <div style={{
+                  position: 'relative',
+                  width: '100%',
+                  height: '100%'
+                }}>
+                  <img
+                    src={image}
+                    alt={`Gallery image ${index + 1}`}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      objectPosition: 'center'
+                    }}
+                  />
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    whileHover={{ opacity: 1 }}
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      width: '100%',
+                      height: '100%',
+                      background: 'rgba(0,0,0,0.5)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: 'white',
+                      fontSize: '1.2rem',
+                      fontFamily: "'Playfair Display', serif"
+                    }}
+                  >
+                    {galleryCaptions[index] || "Our Memories"}
+                  </motion.div>
+                </div>
               </SwiperSlide>
             ))}
           </Swiper>

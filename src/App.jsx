@@ -1,6 +1,6 @@
 // src/App.jsx
 import { lazy, Suspense } from 'react';
-import { HashRouter } from 'react-router-dom'; 
+import { BrowserRouter } from "react-router-dom"; 
 import { HelmetProvider } from 'react-helmet-async';
 
 // Context Providers
@@ -19,11 +19,11 @@ export default function App() {
       <ThemeProvider>
 
 
-      <HashRouter>  
+      <BrowserRouter>  
               <Suspense fallback={<LoadingScreen />}>
                 <AppRouter />
               </Suspense>
-              </HashRouter>  
+              </BrowserRouter>  
   
       </ThemeProvider>
     </HelmetProvider>

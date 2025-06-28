@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react';
 export default function IntroScreen({
   coupleName,
   backgroundImage,
-  audioUrl
+  audioUrl,
+  onOpenInvitation
 }) {
   const navigate = useNavigate();
   const [params] = useSearchParams();
@@ -23,11 +24,10 @@ export default function IntroScreen({
   }, []);
 
   const handleOpenInvitation = () => {
-    // Navigate to home first
-    navigate("/home?to=" + encodeURIComponent(guestName) + "&scroll=true");
-
-    
+    onOpenInvitation();
+    navigate(`/home?to=${encodeURIComponent(guestName)}`);
   };
+
   return (
     <div
       style={{

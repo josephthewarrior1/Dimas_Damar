@@ -11,9 +11,6 @@ const TimeLocationSection = () => {
       style={{
         position: "relative",
         minHeight: "100vh",
-        backgroundImage: `url(${invitationData.dateTimeImage})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
         padding: "60px 20px",
         fontFamily: "'Helvetica Neue', sans-serif",
         color: "white",
@@ -21,9 +18,26 @@ const TimeLocationSection = () => {
         alignItems: "center",
         justifyContent: "center",
         textAlign: "left",
-        willChange: "transform"
+        willChange: "transform",
+        overflow: "hidden"
       }}
     >
+      {/* Background Image */}
+      <img
+        src={invitationData.dateTimeImage}
+        alt="Time and location background"
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          zIndex: -1
+        }}
+      />
+
+      {/* Dark Overlay */}
       <div
         style={{
           position: "absolute",

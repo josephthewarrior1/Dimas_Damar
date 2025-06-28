@@ -12,9 +12,6 @@ const LiveStreamingSection = () => {
       style={{
         position: "relative",
         minHeight: "100vh",
-        backgroundImage: `url(${invitationData.backgroundImageLive})`,
-        backgroundSize: "cover",
-        backgroundPosition: "45% center",
         padding: "60px 20px",
         fontFamily: "'Helvetica Neue', sans-serif",
         color: "white",
@@ -22,9 +19,27 @@ const LiveStreamingSection = () => {
         alignItems: "center",
         justifyContent: "center",
         textAlign: "center",
-        willChange: "transform"
+        willChange: "transform",
+        overflow: "hidden"
       }}
     >
+      {/* Background Image */}
+      <img
+        src={invitationData.backgroundImageLive}
+        alt="Live streaming background"
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          objectPosition: "45% center",
+          zIndex: -1
+        }}
+      />
+
+      {/* Dark Overlay */}
       <div
         style={{
           position: "absolute",
