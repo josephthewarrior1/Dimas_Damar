@@ -3,6 +3,7 @@ import { useState } from 'react';
 import MainLayout from '../layouts/MainLayout';
 import IntroLayout from '../layouts/IntroLayout';
 import HomePage from '../pages/Home';
+import WeddingPage from '../pages/WeddingPage';
 import invitationData from '../data/invitationData';
 import IntroScreen from '../components/IntroScreen';
 import AudioPlayer from '../components/AudioPlayer';
@@ -33,6 +34,14 @@ export default function AppRouter() {
       element: (
         <MainLayout>
           <HomePage />
+        </MainLayout>
+      ),
+    },
+    {
+      path: '/wedding',
+      element: (
+        <MainLayout>
+          <WeddingPage />
         </MainLayout>
       ),
     },
