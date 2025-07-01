@@ -1,23 +1,12 @@
-import { useState, useEffect } from 'react';
 import invitationData from "../data/invitationData";
 
 const HeroSection = ({ guestName }) => {
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  // Preload the background image
-  useEffect(() => {
-    const img = new Image();
-    img.src = invitationData.backgroundImage2;
-    img.onload = () => setIsLoaded(true);
-    img.onerror = () => setIsLoaded(true); // Fallback if image fails to load
-  }, []);
-
   return (
     <section 
       style={{
         position: "relative",
         height: "100vh",
-        minHeight: "-webkit-fill-available", // Fix mobile viewport height
+        minHeight: "-webkit-fill-available",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -26,16 +15,11 @@ const HeroSection = ({ guestName }) => {
         textAlign: "center",
         fontFamily: "'Playfair Display', serif",
         overflow: "hidden",
-        backgroundColor: "#f0e7db", // Fallback color (match your theme)
-        backgroundImage: isLoaded 
-          ? `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${invitationData.backgroundImage2})`
-          : "none",
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${invitationData.backgroundImage2})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-        opacity: isLoaded ? 1 : 0.99, // Prevents flash of unstyled content
-        transition: "opacity 0.8s ease, background 0.8s ease",
-        willChange: "opacity, background"
+        animation: 'fadeIn 1s ease-out'
       }}
     >
       {/* Content Container */}
@@ -43,10 +27,7 @@ const HeroSection = ({ guestName }) => {
         style={{ 
           padding: "0 20px", 
           width: "100%",
-          opacity: isLoaded ? 1 : 0,
-          transform: isLoaded ? "translateY(0)" : "translateY(10px)",
-          transition: "opacity 0.6s ease, transform 0.6s ease",
-          willChange: "opacity, transform"
+          animation: 'slideUpFadeIn 0.8s ease-out'
         }}
       >
         <p
@@ -90,11 +71,13 @@ const HeroSection = ({ guestName }) => {
             backgroundColor: "rgba(255,255,255,0.1)",
             borderRadius: "10px",
             backdropFilter: "blur(5px)",
-            WebkitBackdropFilter: "blur(5px)", // Safari support
+            WebkitBackdropFilter: "blur(5px)",
             maxWidth: "400px",
             marginLeft: "auto",
             marginRight: "auto",
-            border: "1px solid rgba(255,255,255,0.2)"
+            border: "1px solid rgba(255,255,255,0.2)",
+            animation: 'fadeIn 1s ease-out 0.3s forwards',
+            opacity: 0
           }}
         >
           <p style={{ 
@@ -112,6 +95,24 @@ const HeroSection = ({ guestName }) => {
           </p>
         </div>
       </div>
+
+      {/* CSS Animations */}
+      <style jsx>{`
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes slideUpFadeIn {
+          from { 
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to { 
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
     </section>
   );
 };
