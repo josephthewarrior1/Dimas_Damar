@@ -156,11 +156,12 @@ export default function HomePage() {
       )}
       
       <HeroSection guestName={guestName} />
-      <GroomSection />
-      <BrideSection />
-      <TimeLocationSection />
-      <LiveStreamingSection />
-      <GallerySection />
+<GroomSection />
+<BrideSection />
+<TimeLocationSection />
+{/* <LiveStreamingSection /> */}
+{/* <GallerySection /> */}
+
     </div>
   );
 }
