@@ -1,12 +1,21 @@
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
 export default defineConfig({
-  base: '/', // Pastikan ini sesuai dengan base URL
   plugins: [react()],
+  base: '/', // Always use root for Vercel
   server: {
-    historyApiFallback: true, // Kritikal untuk BrowserRouter
-    port: 3000
+    port: 3000,
+    open: true
+  },
+  css: {
+    modules: {
+      localsConvention: 'camelCase'
+    }
   },
   build: {
     outDir: 'dist',
+    assetsDir: 'assets',
     emptyOutDir: true
   }
 });
