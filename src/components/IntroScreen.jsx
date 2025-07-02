@@ -9,8 +9,13 @@ export default function IntroScreen({
 }) {
   const navigate = useNavigate();
   const [params] = useSearchParams();
-  const guestName = params.get("to") || "Tamu Undangan";
   const [isHovered, setIsHovered] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  // Handle guest name with safe default
+  const guestName = mounted 
+    ? params.get("to") || "Tamu Undangan"
+    : "Tamu Undangan";
 
   const capitalized = guestName
     .toLowerCase()
@@ -19,6 +24,7 @@ export default function IntroScreen({
     .join(" ");
 
   useEffect(() => {
+    setMounted(true); // Mark component as mounted
     const audio = document.getElementById("bg-audio");
     audio?.play().catch(() => {});
   }, []);
