@@ -10,7 +10,7 @@ export default function App() {
   return (
     <HelmetProvider>
       <ThemeProvider>
-        <BrowserRouter>
+      <BrowserRouter basename="/">
           <Suspense fallback={<LoadingScreen />}>
             <AppRouter />
           </Suspense>
