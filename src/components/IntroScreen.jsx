@@ -12,10 +12,13 @@ export default function IntroScreen({
   const [isHovered, setIsHovered] = useState(false);
   const [mounted, setMounted] = useState(false);
 
-  // Handle guest name with safe default
-  const guestName = mounted 
-    ? params.get("to") || "Tamu Undangan"
-    : "Tamu Undangan";
+  const rawGuestName = params.get("to") 
+  || (typeof window !== "undefined" && window.location.hash.match(/to=([^&]+)/)?.[1]) 
+  || "Tamu Undangan";
+
+const guestName = mounted 
+  ? decodeURIComponent(rawGuestName)
+  : "Tamu Undangan";
 
   const capitalized = guestName
     .toLowerCase()
