@@ -27,8 +27,11 @@ export default function HomePage() {
   return (
     <div ref={homeRef}>
       <HeroSection guestName={guestName} />
-     
-     
+      <GroomSection />
+      <BrideSection />
+      <TimeLocationSection />
+      <LiveStreamingSection />
+      <GallerySection />
     </div>
   );
 }
