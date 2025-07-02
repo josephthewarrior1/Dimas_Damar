@@ -1,22 +1,35 @@
 <!DOCTYPE html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Undangan Pernikahan Theo & Sherin</title>
+<head>
+  <meta charset="UTF-8" />
+  <title>Undangan Pernikahan Theo & Sherin</title>
 
-    <!-- OG Meta Tags -->
-    <meta property="og:title" content="Undangan Pernikahan Theo & Sherin" />
-    <meta property="og:description" content="Dengan sukacita, kami mengundang Anda hadir dalam momen spesial kami." />
-    <meta property="og:image" content="https://wedding-invitation-eight-theta.vercel.app/og-cover.jpg" />
-    <meta property="og:url" content="https://wedding-invitation-eight-theta.vercel.app/preview" />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
-    
-    <!-- Tambahkan ini -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="canonical" href="https://wedding-invitation-eight-theta.vercel.app/preview" />
-  </head>
-  <body>
-    <p>Halaman preview undangan</p>
-  </body>
+  <!-- OG Meta Tags -->
+  <meta property="og:title" content="Undangan Pernikahan Theo & Sherin" />
+  <meta property="og:description" content="Dengan sukacita, kami mengundang Anda hadir dalam momen spesial kami." />
+  <meta property="og:image" content="https://wedding-invitation-eight-theta.vercel.app/og-cover.jpg" />
+  <meta property="og:url" content="https://wedding-invitation-eight-theta.vercel.app/preview" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    /* Bikin body benar-benar kosong dan gak keliatan */
+    html, body {
+      margin: 0; padding: 0; height: 100%;
+      background: #fff;
+      overflow: hidden;
+      font-size: 0;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    const hash = window.location.hash;
+    const match = hash.match(/to=([^&]+)/i);
+    const guestName = match ? decodeURIComponent(match[1]) : null;
+    const redirectUrl = guestName ? `/intro?to=${guestName}` : '/intro';
+    window.location.replace(redirectUrl);
+  </script>
+</body>
 </html>
