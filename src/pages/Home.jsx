@@ -6,6 +6,7 @@ import BrideSection from '../components/BrideSection';
 import TimeLocationSection from '../components/TimeLocationSection';
 import LiveStreamingSection from '../components/LiveStreamingSection';
 import HeroSection from '../components/HeroSection';
+import RsvpWishSection from '../components/RsvpWishSection';
 
 export default function HomePage() {
   const homeRef = useRef(null);
@@ -31,6 +32,7 @@ export default function HomePage() {
       <BrideSection />
       <TimeLocationSection />
       <LiveStreamingSection />
+      <RsvpWishSection/>
       <GallerySection />
     </div>
   );
