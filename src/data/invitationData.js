@@ -6,7 +6,7 @@ const invitationData = {
   coupleName: "Teosaner & Sherin",
   groom: "TEOSANER YUTANESY IMAN",
   bride: "SHERIN ANGELA",
-  backgroundImage: assetPath('dq.jpg'),
+  backgroundImage: assetPath('intro.webp'),
   backgroundImage2: assetPath('dq2.webp'),
   backgroundImageGroom: assetPath('groom.webp'),
   backgroundImageBride: assetPath('bride.webp'),

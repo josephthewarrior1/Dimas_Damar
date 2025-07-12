@@ -44,7 +44,7 @@ const guestName = mounted
         height: "100vh",
         backgroundImage: `url(${backgroundImage})`,
         backgroundSize: "cover",
-        backgroundPosition: "75% center",
+        backgroundPosition: "50% center",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
