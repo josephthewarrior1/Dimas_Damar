@@ -12,7 +12,7 @@ const RsvpWishViaWhatsApp = () => {
   const [pax, setPax] = useState("");
   const [error, setError] = useState(null);
 
-  const whatsappNumber = "6281234567890"; // ← Ganti dengan nomor WA aktif
+  const whatsappNumber = "628119660089"; // ← Ganti dengan nomor WA aktif
 
   const handlePaxChange = (e) => {
     let value = e.target.value;
