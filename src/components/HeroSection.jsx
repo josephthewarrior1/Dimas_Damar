@@ -3,13 +3,20 @@ import invitationData from "../data/invitationData";
 
 const HeroSection = ({ guestName }) => {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isContentVisible, setIsContentVisible] = useState(false);
 
-  // Preload the background image
+  // Preload the background image and handle animations
   useEffect(() => {
     const img = new Image();
     img.src = invitationData.backgroundImage2;
-    img.onload = () => setIsLoaded(true);
-    img.onerror = () => setIsLoaded(true); // Fallback if image fails to load
+    img.onload = () => {
+      setIsLoaded(true);
+      setTimeout(() => setIsContentVisible(true), 300);
+    };
+    img.onerror = () => {
+      setIsLoaded(true);
+      setIsContentVisible(true);
+    };
   }, []);
 
   return (
@@ -17,101 +24,127 @@ const HeroSection = ({ guestName }) => {
       style={{
         position: "relative",
         height: "100vh",
-        minHeight: "-webkit-fill-available", // Fix mobile viewport height
+        minHeight: "-webkit-fill-available",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
         color: "white",
         textAlign: "center",
-        fontFamily: "'Playfair Display', serif",
+        fontFamily: "'Cormorant Garamond', serif",
         overflow: "hidden",
-        backgroundColor: "#f0e7db", // Fallback color (match your theme)
+        backgroundColor: "#f9f5f0",
         backgroundImage: isLoaded 
-          ? `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${invitationData.backgroundImage2})`
+          ? `url(${invitationData.backgroundImage2})`
           : "none",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-        opacity: isLoaded ? 1 : 0.99, // Prevents flash of unstyled content
+        opacity: isLoaded ? 1 : 0.99,
         transition: "opacity 0.8s ease, background 0.8s ease",
         willChange: "opacity, background"
       }}
     >
-      {/* Content Container */}
+      {/* Main Content Container */}
       <div 
         style={{ 
-          padding: "0 20px", 
+          padding: "0 24px", 
           width: "100%",
-          opacity: isLoaded ? 1 : 0,
-          transform: isLoaded ? "translateY(0)" : "translateY(10px)",
-          transition: "opacity 0.6s ease, transform 0.6s ease",
-          willChange: "opacity, transform"
+          maxWidth: "500px",
+          marginBottom: "-20px",
+          opacity: isContentVisible ? 1 : 0,
+          transform: isContentVisible ? "translateY(0)" : "translateY(20px)",
+          transition: "opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1)",
+          willChange: "opacity, transform",
+          zIndex: 1,
+          position: "relative"
         }}
       >
+        {/* Wedding Title */}
         <p
           style={{ 
-            fontSize: "clamp(14px, 3vw, 18px)", 
-            letterSpacing: "2px",
-            marginBottom: "10px",
-            textShadow: "0 1px 3px rgba(0,0,0,0.3)"
-          }}
-        >
-          We invite you to our Holy Matrimony
-        </p>
-
-        <h1
-          style={{ 
-            fontSize: "clamp(28px, 7vw, 42px)", 
-            margin: "12px 0",
-            fontWeight: 400,
-            lineHeight: 1.2,
-            textShadow: "0 2px 4px rgba(0,0,0,0.4)"
-          }}
-        >
-          {invitationData.coupleName}
-        </h1>
-
-        <p
-          style={{ 
-            fontSize: "clamp(14px, 3vw, 16px)",
-            marginBottom: "20px",
+            fontSize: "clamp(14px, 3.5vw, 18px)", 
+            letterSpacing: "3px",
+            marginBottom: "16px",
+            textTransform: "uppercase",
+            fontWeight: 300,
+            color: "#FFFFFF",
             textShadow: "0 1px 2px rgba(0,0,0,0.3)"
           }}
         >
-          SATURDAY, 19 JULY 2025
+          The Wedding Of
         </p>
 
-        {/* Guest Name Section */}
-        <div
-          style={{ 
-            marginTop: "30px",
-            padding: "15px 20px",
-            backgroundColor: "rgba(255,255,255,0.1)",
-            borderRadius: "10px",
-            backdropFilter: "blur(5px)",
-            WebkitBackdropFilter: "blur(5px)", // Safari support
-            maxWidth: "400px",
-            marginLeft: "auto",
-            marginRight: "auto",
-            border: "1px solid rgba(255,255,255,0.2)"
+        {/* Couple Name */}
+        <h1
+          style={{
+            fontSize: "clamp(100px, 12vw, 120px)",
+            margin: "16px 0",
+            fontWeight: 600,
+            lineHeight: 1.2,
+            letterSpacing: "0.5px",
+            fontFamily: "'Great Vibes', cursive",
+            color: "#ffffff",
+            textShadow: "0 2px 4px rgba(0,0,0,0.3)",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "8px"
           }}
         >
-          <p style={{ 
-            fontSize: "clamp(12px, 2.5vw, 14px)",
-            marginBottom: "5px",
-            opacity: 0.8
-          }}>
-            Special for:
-          </p>
-          <p style={{ 
-            fontSize: "clamp(16px, 4vw, 20px)",
-            fontWeight: 500
-          }}>
-            {guestName}
-          </p>
+          <span>Nathan</span>
+          <span>Tia</span>
+        </h1>
+
+        {/* Wedding Date - Directly Typed */}
+        <p
+          style={{ 
+            fontSize: "clamp(20px, 4vw, 24px)",
+            marginBottom: "24px",
+            letterSpacing: "1px",
+            textShadow: "0 1px 3px rgba(0,0,0,0.5)",
+            fontStyle: "italic",
+            fontWeight: 300
+          }}
+        >
+          December 12, 2024
+        </p>
+
+        {/* Decorative Separator */}
+        <div style={{
+          width: "80px",
+          height: "1px",
+          background: "rgba(255,255,255,0.5)",
+          margin: "24px auto",
+          position: "relative"
+        }}>
+          <div style={{
+            position: "absolute",
+            top: "-3px",
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: "6px",
+            height: "6px",
+            borderRadius: "50%",
+            background: "rgba(255,255,255,0.8)"
+          }}></div>
         </div>
       </div>
+
+      {/* CSS for bounce animation */}
+      <style jsx>{`
+        @keyframes bounce {
+          0%, 20%, 50%, 80%, 100% {
+            transform: translateY(0) translateX(-50%);
+          }
+          40% {
+            transform: translateY(-10px) translateX(-50%);
+          }
+          60% {
+            transform: translateY(-5px) translateX(-50%);
+          }
+        }
+      `}</style>
     </section>
   );
 };

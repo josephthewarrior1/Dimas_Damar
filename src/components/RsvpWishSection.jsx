@@ -9,7 +9,6 @@ import invitationData from "../data/invitationData";
 const RsvpWishSection = () => {
   const [params] = useSearchParams();
   const guestName = params.get("to") || "";
-  const [presence, setPresence] = useState("Hadir");
   const [wish, setWish] = useState("");
   const [wishes, setWishes] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -24,7 +23,7 @@ const RsvpWishSection = () => {
     }
 
     if (alreadySubmitted) {
-      setSubmitError("Anda sudah mengisi RSVP sebelumnya.");
+      setSubmitError("Anda sudah mengisi ucapan sebelumnya.");
       return;
     }
 
@@ -34,7 +33,6 @@ const RsvpWishSection = () => {
     try {
       await push(ref(db, "rsvp"), {
         name: guestName,
-        presence,
         wish,
         createdAt: Date.now(),
       });
@@ -42,7 +40,7 @@ const RsvpWishSection = () => {
       setWish("");
       setAlreadySubmitted(true);
     } catch (error) {
-      console.error("Error submitting RSVP:", error);
+      console.error("Error submitting wish:", error);
       setSubmitError("Gagal mengirim ucapan. Coba lagi nanti.");
     } finally {
       setIsSubmitting(false);
@@ -102,7 +100,7 @@ const RsvpWishSection = () => {
         style={{
           position: "absolute",
           inset: 0,
-          backgroundImage: `url(${invitationData.backgroundImageLive})`,
+          backgroundImage: `url(${invitationData.rsvpImage})`,
           backgroundSize: "cover",
           backgroundPosition: "45% center",
           zIndex: 0,
@@ -143,11 +141,13 @@ const RsvpWishSection = () => {
             variants={slideUp}
             style={{
               textAlign: "center",
-              fontSize: "1.5rem",
+              fontSize: "3rem",
               marginBottom: "10px",
+              translateY: "-50px",
+              fontFamily: "'Playfair Display', serif",
             }}
           >
-            CONFIRMATION OF ATTENDANCE WITH PRAYERS AND HOPES
+            Wedding Wish
           </motion.h2>
           <motion.p
             variants={slideUp}
@@ -155,10 +155,10 @@ const RsvpWishSection = () => {
               textAlign: "center",
               fontSize: "0.9rem",
               marginBottom: "20px",
+              translateY: "-50px",
             }}
           >
-            With all due respect, please take a moment to confirm your
-            attendance and write down your prayers/hopes for us.
+           Send Prayers & Best Wishes to the Bride and Groom
           </motion.p>
         </motion.div>
 
@@ -175,7 +175,8 @@ const RsvpWishSection = () => {
             overflowY: "auto",
             padding: "20px",
             borderRadius: "16px",
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            transform: "translateY(-50px)",
+          
           }}
         >
           {/* Form section */}
@@ -203,58 +204,50 @@ const RsvpWishSection = () => {
               </motion.div>
             )}
 
-            <motion.select
-              variants={slideUp}
-              value={presence}
-              onChange={(e) => setPresence(e.target.value)}
-              disabled={alreadySubmitted}
-              style={{
-                padding: "10px",
-                borderRadius: "12px",
-                border: "1px solid #ccc",
-                background: "rgba(255,255,255,0.9)",
-              }}
-            >
-              <option value="Hadir">Hadir</option>
-              <option value="Tidak Hadir">Tidak Hadir</option>
-            </motion.select>
-
             <motion.textarea
               variants={slideUp}
-              placeholder="Ucapan Doa/Harapan"
+              placeholder="Tulis ucapan dan doa Anda disini"
               value={wish}
               onChange={(e) => setWish(e.target.value)}
               rows={3}
+              
               disabled={alreadySubmitted}
               style={{
                 padding: "10px",
                 borderRadius: "12px",
+                fontFamily: "'Playfair Display', serif",
                 border: "1px solid #ccc",
                 background: "rgba(255,255,255,0.9)",
               }}
             />
 
-            <motion.button
-              variants={slideUp}
-              type="submit"
-              disabled={isSubmitting || alreadySubmitted}
-              style={{
-                background: alreadySubmitted ? "#999" : "#fff",
-                color: "#222",
-                padding: "12px",
-                fontWeight: "bold",
-                borderRadius: "24px",
-                border: "none",
-                cursor: alreadySubmitted ? "not-allowed" : "pointer",
-                transition: "0.3s",
-              }}
-            >
-              {alreadySubmitted
-                ? "Sudah Mengisi"
-                : isSubmitting
-                ? "Mengirim..."
-                : "Kirim"}
-            </motion.button>
+<motion.button
+  variants={slideUp}
+  type="submit"
+  disabled={isSubmitting || alreadySubmitted}
+  style={{
+    background: alreadySubmitted ? "#999" : "#fff",
+    color: "#222",
+    padding: "12px",
+    fontWeight: "bold",
+    borderRadius: "24px",
+    border: "none",
+    cursor: alreadySubmitted ? "not-allowed" : "pointer",
+    transition: "0.3s",
+    display: "flex",
+    fontFamily: "'Playfair Display', serif",
+    justifyContent: "center", // Add this to center horizontally
+    alignItems: "center", // Add this to center vertically
+    margin: "0 auto", // Add this to help with centering
+    width: "80%", // Adjust width as needed
+  }}
+>
+  {alreadySubmitted
+    ? "Sudah Mengisi"
+    : isSubmitting
+    ? "Mengirim..."
+    : "Give your best wish"}
+</motion.button>  
 
             {alreadySubmitted && (
               <motion.div
@@ -265,23 +258,14 @@ const RsvpWishSection = () => {
                   marginTop: "10px",
                 }}
               >
-                Terima kasih, Anda sudah mengisi RSVP 🎉
+                Terima kasih atas ucapan dan doanya 🎉
               </motion.div>
             )}
           </motion.form>
 
           {/* Wishes section */}
           <motion.div variants={slideUp}>
-            <h3
-              style={{
-                textAlign: "center",
-                marginBottom: "20px",
-                color: "#fff",
-                textShadow: "0 1px 2px rgba(0,0,0,0.5)",
-              }}
-            >
-              Ucapan dari Tamu Undangan
-            </h3>
+           
             
             {wishes.length === 0 ? (
               <p style={{ textAlign: "center", color: "#fff" }}>
@@ -331,21 +315,7 @@ const RsvpWishSection = () => {
                           color: "#333",
                         }}
                       >
-                        {item.name}{" "}
-                        <span
-                          style={{
-                            fontSize: "0.75rem",
-                            marginLeft: "6px",
-                            backgroundColor:
-                              item.presence === "Hadir" ? "#d4edda" : "#f8d7da",
-                            color:
-                              item.presence === "Hadir" ? "#155724" : "#721c24",
-                            padding: "2px 6px",
-                            borderRadius: "8px",
-                          }}
-                        >
-                          {item.presence}
-                        </span>
+                        {item.name}
                       </div>
                       <div style={{ fontSize: "0.9rem", color: "#333" }}>
                         {item.wish}

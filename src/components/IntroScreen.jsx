@@ -44,7 +44,7 @@ const guestName = mounted
         height: "100vh",
         backgroundImage: `url(${backgroundImage})`,
         backgroundSize: "cover",
-        backgroundPosition: "50% center",
+        backgroundPosition: "70% center",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -70,66 +70,71 @@ const guestName = mounted
         <h4 style={{ 
           letterSpacing: "2px", 
           fontWeight: "300",
-          transform: "translateY(-90px)"
+          transform: "translateY(-90px)",
+          marginTop: "-20px",
         }}>
-          HOLY MATRIMONY OF
+          WEDDING OF
         </h4>
         
         <h1 style={{ 
-          fontSize: "32px", 
+          fontSize: "50px", 
           margin: "10px 0",
-          transform: "translateY(-105px)"
+          transform: "translateY(-105px)",
+          fontFamily: "'Great Vibes', cursive",
         }}>
           {coupleName}
         </h1>
         
-        <p style={{ 
-          margin: "0 0 10px 0",
-          fontSize: "14px",
-          fontStyle: "italic"
-        }}>
-          Cordially invite to
-        </p>
+        {/* Tambahkan div pembungkus untuk bagian yang ingin diturunkan */}
+  <div style={{ transform: "translateY(100px)" }}>
+    <p style={{ 
+      margin: "0 0 10px 0",
+      fontSize: "14px",
+      fontStyle: "italic"
+    }}>
+      Dear
+    </p>
 
-        <h2 style={{ 
-          fontWeight: "500", 
-          fontSize: "22px",
-          margin: "0 0 5px 0"
-        }}>
-          {capitalized}
-        </h2>
+    <h2 style={{ 
+      fontWeight: "500", 
+      fontSize: "22px",
+      margin: "0 0 5px 0"
+    }}>
+      {capitalized}
+    </h2>
 
-        <p style={{ 
-          fontSize: "12px", 
-          opacity: 0.8,
-          margin: "0",
-          fontStyle: "italic"
-        }}>
-          We apologize for any misspelled name / title
-        </p>
-        
-        <button
-          onClick={handleOpenInvitation}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          style={{
-            marginTop: "24px",
-            padding: "10px 24px",
-            borderRadius: "24px",
-            border: "1px solid rgba(255,255,255,0.5)",
-            background: isHovered ? "rgba(255,255,255,0.4)" : "rgba(255,255,255,0.2)",
-            color: "white",
-            cursor: "pointer",
-            fontSize: "16px",
-            transition: "all 0.3s ease",
-            transform: isHovered ? "scale(1.05)" : "scale(1)",
-            fontWeight: "500",
-            backdropFilter: "blur(4px)"
-          }}
-        >
-          Open Invitation
-        </button>
-      </div>
+    <p style={{ 
+      fontSize: "12px", 
+      opacity: 0.8,
+      margin: "0",
+      fontStyle: "italic"
+    }}>
+      We apologize for any misspelled name / title
+    </p>
+    
+    <button
+      onClick={handleOpenInvitation}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      style={{
+        marginTop: "24px",
+        padding: "10px 24px",
+        borderRadius: "24px",
+        border: "1px solid rgba(255,255,255,0.5)",
+        background: isHovered ? "rgba(255,255,255,0.4)" : "rgba(255,255,255,0.2)",
+        color: "white",
+        cursor: "pointer",
+        fontSize: "16px",
+        transition: "all 0.3s ease",
+        transform: isHovered ? "scale(1.05)" : "scale(1)",
+        fontWeight: "500",
+        backdropFilter: "blur(4px)"
+      }}
+    >
+      Open Invitation
+    </button>
+  </div>
+</div>
 
       <audio id="bg-audio" src={audioUrl} loop autoPlay />
     </div>

@@ -10,17 +10,17 @@ const BrideSection = () => {
         position: "relative",
         minHeight: "100vh",
         display: "flex",
-        alignItems: "flex-end",
-        justifyContent: "flex-end",
+        alignItems: "center",
+        justifyContent: "center",
         color: "white",
         padding: "40px 20px",
-        textAlign: "right",
+        textAlign: "center",
         fontFamily: "'Playfair Display', serif",
         willChange: "transform",
-        overflow: "hidden"
+        overflow: "hidden",
       }}
     >
-      {/* Background Image */}
+      {/* Background Utama */}
       <img
         src={invitationData.backgroundImageBride}
         alt="Bride background"
@@ -31,11 +31,31 @@ const BrideSection = () => {
           width: "100%",
           height: "100%",
           objectFit: "cover",
-          zIndex: -1
+          zIndex: -2,
         }}
       />
 
-      {/* Dark Overlay */}
+      {/* Gambar Square Tengah */}
+      <img
+        src={invitationData.backgroundImageBride}
+        alt="Bride center"
+        style={{
+          position: "absolute",
+          width: "370px",
+          height: "370px",
+          objectFit: "cover",
+          objectPosition: "center 10%", // artinya fokus ke titik 30% dari atas
+          borderRadius: "8px",
+          border: "4px solid white",
+          boxShadow: "0 6px 30px rgba(0,0,0,0.4)",
+          zIndex: 1,
+          top: "16%",
+          left: "50%",
+          transform: "translateX(-50%)",
+        }}
+      />
+
+      {/* Overlay Gelap */}
       <div
         style={{
           position: "absolute",
@@ -45,96 +65,86 @@ const BrideSection = () => {
         }}
       />
 
-      <motion.div 
+      <motion.div
         style={{
           position: "relative",
           zIndex: 1,
-          maxWidth: '500px'
+          maxWidth: "500px",
+          marginTop: "370px",
         }}
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
       >
-        <motion.p 
+        <motion.p
           variants={slideUp}
-          style={{ 
-            fontSize: '0.8rem', 
-            marginBottom: '4px', 
-            opacity: 0.8, 
-            letterSpacing: '1.5px' 
+          style={{
+            fontSize: "1rem",
+            marginBottom: "6px",
+            opacity: 0.85,
+            letterSpacing: "1.8px",
           }}
         >
           BRIDE
         </motion.p>
-        
-        <motion.h2 
+
+        <motion.h2
           variants={slideUp}
-          style={{ 
-            fontSize: '1.75rem', 
-            margin: '0 0 12px', 
-            fontWeight: '500', 
-            letterSpacing: '1px' 
+          style={{
+            fontSize: "2.25rem",
+            margin: "0 0 16px",
+            fontWeight: "600",
+            letterSpacing: "1px",
           }}
         >
-          {invitationData.bride}
+          {invitationData.bride || "SHERIN ANGELA"}
         </motion.h2>
-        
-        <motion.p 
+
+        <motion.p
           variants={slideUp}
-          style={{ 
-            fontSize: '0.8rem', 
-            marginBottom: '4px', 
-            letterSpacing: '1.5px', 
-            opacity: 0.8 
+          style={{
+            fontSize: "1rem",
+            marginBottom: "6px",
+            letterSpacing: "1.5px",
+            opacity: 0.8,
           }}
         >
           DAUGHTER OF
         </motion.p>
-        
-        <motion.p 
-          variants={slideUp}
-          style={{ 
-            marginBottom: '2px', 
-            fontSize: '0.95rem' 
-          }}
-        >
-          Mr. Robertus Santoso
-        </motion.p>
-        
-        <motion.p 
-          variants={slideUp}
-          style={{ 
-            marginBottom: '12px', 
-            fontSize: '0.95rem' 
-          }}
-        >
-          Mrs. Maria Wijaya
-        </motion.p>
 
-        <motion.div 
+        <motion.div variants={slideUp} style={{ marginBottom: "12px", lineHeight: "1.4" }}>
+          <p style={{ margin: "4px 0", fontSize: "1.05rem" }}>Mr. Robertus Santoso</p>
+          <p style={{ margin: "4px 0", fontSize: "1.05rem" }}>Mrs. Maria Wijaya</p>
+        </motion.div>
+
+        <motion.a
+          href="https://www.instagram.com/sherinangelina"
+          target="_blank"
+          rel="noopener noreferrer"
           variants={slideUp}
           style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '6px',
-            fontSize: '0.85rem',
-            backgroundColor: 'rgba(255,255,255,0.1)',
-            padding: '6px 12px',
-            borderRadius: '20px',
-            width: 'fit-content',
-            backdropFilter: 'blur(2px)',
-            marginLeft: 'auto'
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "8px",
+            fontSize: "1rem",
+            backgroundColor: "rgba(255,255,255,0.2)",
+            padding: "8px 16px",
+            borderRadius: "24px",
+            backdropFilter: "blur(4px)",
+            marginTop: "12px",
+            color: "white",
+            textDecoration: "none",
           }}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          <FaInstagram style={{ width: '16px', height: '16px' }} />
-          <span>@sherinangelina</span>
-        </motion.div>
+          <FaInstagram style={{ width: "18px", height: "18px" }} />
+          <span style={{ fontWeight: "500" }}>@sherinangelina</span>
+        </motion.a>
       </motion.div>
     </section>
   );
 };
 
-export default BrideSection
+export default BrideSection;

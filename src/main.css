@@ -2,31 +2,80 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Reset dan Base Styles */
+/* Font Imports */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Great+Vibes&family=Poppins:wght@300;400;500;600&display=swap');
+
+/* Base Reset */
 html {
   scroll-behavior: smooth;
   overflow-x: hidden;
   height: 100%;
 }
 
+.mobile-only {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-only {
+    display: inline;
+  }
+}
+
+
 body {
   margin: 0;
   padding: 0;
   width: 100%;
   min-height: 100vh;
-  font-family: 'Playfair Display', serif;
-  background-color: #f9f7f4; /* Warna fallback */
+  font-family: 'Poppins', sans-serif;
+  background-color: #f9f7f4;
   overflow-x: hidden;
-  -webkit-overflow-scrolling: touch; /* Smooth scroll untuk iOS */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Mobile Container Overrides */
+.mobile-outer-wrapper {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f9f7f4;
+  position: relative;
+}
+
+.mobile-inner-container {
+  width: 100%;
+  max-width: 430px;
+  height: 100%;
+  min-height: 100vh;
+  background-color: #e5e7eb;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Typography */
+.wedding-script {
+  font-family: 'Great Vibes', cursive;
+  font-weight: 400;
+}
+
+.formal-text {
+  font-family: 'Playfair Display', serif;
+}
+
+.body-text {
+  font-family: 'Poppins', sans-serif;
 }
 
 /* Section Styles */
 .section {
   position: relative;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   overflow: hidden;
-  will-change: transform;
 }
 
 /* Image Optimization */
@@ -37,7 +86,7 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  background-color: #f0e7db; /* Warna placeholder */
+  background-color: #f0e7db;
   opacity: 0;
   transition: opacity 0.8s ease;
 }
@@ -65,7 +114,7 @@ body {
   padding: 40px 20px;
 }
 
-/* Animasi */
+/* Animations */
 .slide-up {
   opacity: 0;
   transform: translateY(20px);
@@ -79,14 +128,47 @@ body {
   }
 }
 
+/* Button Styles */
+.invitation-button {
+  margin-top: 24px;
+  padding: 10px 24px;
+  border-radius: 24px;
+  border: 1px solid rgba(255,255,255,0.5);
+  background: rgba(255,255,255,0.2);
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  backdrop-filter: blur(4px);
+}
+
+.invitation-button:hover {
+  background: rgba(255,255,255,0.4);
+  transform: scale(1.05);
+}
+
 /* Mobile Optimization */
 @media (max-width: 768px) {
-  .section {
-    height: 100vh;
-    min-height: -webkit-fill-available; /* Untuk mobile browser */
-  }
-  
   .section-content {
     padding: 30px 15px;
+  }
+}
+
+/* Print Styles */
+@media print {
+  body {
+    background: white !important;
+  }
+  
+  .mobile-outer-wrapper {
+    display: block;
+    background: white;
+  }
+  
+  .mobile-inner-container {
+    max-width: 100%;
+    box-shadow: none;
+    background: white;
   }
 }

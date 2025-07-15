@@ -1,223 +1,243 @@
-import { motion } from "framer-motion";
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { EffectCoverflow, Pagination } from 'swiper/modules';
-import { useState, useEffect } from "react";
-import invitationData from "../data/invitationData";
-import { containerVariants, slideUp } from "./animations";
-import 'swiper/css';
-import 'swiper/css/effect-coverflow';
-import 'swiper/css/pagination';
+import { useState, useEffect } from 'react';
+import invitationData from '../data/invitationData';
 
-const GallerySection = () => {
-  const [bgLoaded, setBgLoaded] = useState(false);
-  const [imagesLoaded, setImagesLoaded] = useState(0);
-  const galleryCaptions = [
-    "First Meeting",
-    "Our Engagement",
-    "Special Moments",
-    "Together",
-    "Forever"
-  ];
+const HorizontalGallery = () => {
+  const photos = invitationData.galleryImages;
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const [currentImageIndex, setCurrentImageIndex] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Preload background image
+  const bibleVerse = {
+    text: "Dan sekarang ketiga hal ini tetap: iman, pengharapan dan kasih, dan yang paling besar di antaranya ialah kasih.",
+    reference: "1 Korintus 13:13"
+  };
+
   useEffect(() => {
-    const img = new Image();
-    img.src = invitationData.dateTimeImage;
-    img.onload = () => setBgLoaded(true);
-  }, []);
+    const galleryWidth = photos.length * 126;
+    const scrollSpeed = 0.5;
 
-  // Track gallery images loading
-  const handleImageLoad = () => {
-    setImagesLoaded(prev => prev + 1);
+    const interval = setInterval(() => {
+      setScrollPosition((prev) => {
+        const newPos = prev + scrollSpeed;
+        return newPos >= galleryWidth ? 0 : newPos;
+      });
+    }, 30);
+
+    return () => clearInterval(interval);
+  }, [photos.length]);
+
+  const handleImageClick = (index) => {
+    setCurrentImageIndex(index % photos.length);
+    setIsModalOpen(true);
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    document.body.style.overflow = 'auto';
+  };
+
+  const navigateImages = (direction) => {
+    setCurrentImageIndex((prev) => {
+      if (direction === 'prev') {
+        return (prev - 1 + photos.length) % photos.length;
+      } else {
+        return (prev + 1) % photos.length;
+      }
+    });
   };
 
   return (
-    <motion.section
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-100px" }}
-      style={{
-        position: "relative",
-        minHeight: "100vh",
-        minHeight: "-webkit-fill-available",
-        padding: "80px 20px",
-        fontFamily: "'Playfair Display', serif",
-        color: "white",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        textAlign: "center",
-        overflow: "hidden",
-        backgroundColor: "#f0e7db",
-        backgroundImage: bgLoaded 
-          ? `url(${invitationData.dateTimeImage})`
-          : "none",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        opacity: bgLoaded ? 1 : 0.99,
-        transition: "opacity 0.8s ease, background 0.8s ease"
-      }}
-    >
-      {/* Dark Overlay */}
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          backgroundColor: "rgba(0,0,0,0.4)",
-          zIndex: 0,
-        }}
-      />
+    <section style={{
+      width: '100%',
+      overflow: 'hidden',
+      padding: '20px 20px 30px',
+      backgroundColor: '#fafafa',
+      margin: '0 auto',
+      textAlign: 'center',
+      fontFamily: '"Times New Roman", serif',
+      boxSizing: 'border-box',
+      maxWidth: '700px',
+      position: 'relative'
+    }}>
+      {/* Bible Verse */}
+      <div style={{
+        margin: '0 auto 25px',
+        padding: '0 15px',
+        maxWidth: '600px'
+      }}>
+        <p style={{
+          fontSize: '16px',
+          lineHeight: '1.6',
+          color: '#555',
+          fontStyle: 'italic',
+          margin: '0 0 10px'
+        }}>
+          "{bibleVerse.text}"
+        </p>
+        <p style={{
+          fontSize: '14px',
+          color: '#888',
+          fontWeight: '500',
+          margin: 0
+        }}>
+          - {bibleVerse.reference} -
+        </p>
+      </div>
 
-      <motion.div
-        style={{
-          position: "relative",
-          zIndex: 1,
-          maxWidth: "800px",
-          width: "100%",
-          opacity: bgLoaded ? 1 : 0,
-          transform: bgLoaded ? "translateY(0)" : "translateY(20px)",
-          transition: "opacity 0.6s ease, transform 0.6s ease"
-        }}
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-      >
-        <motion.h2 
-          variants={slideUp}
-          style={{
-            textAlign: 'center',
-            fontSize: '2.5rem',
-            marginBottom: '20px',
-            fontFamily: "'Playfair Display', serif",
-            color: 'white',
-            fontWeight: 'normal',
-            letterSpacing: '2px',
-            textShadow: '0 2px 4px rgba(0,0,0,0.4)'
-          }}
-        >
-          Our Precious Moments
-        </motion.h2>
-        
-        <motion.p 
-          variants={slideUp}
-          style={{
-            textAlign: 'center',
-            fontSize: '1.1rem',
-            marginBottom: '40px',
-            color: 'rgba(255,255,255,0.9)',
-            maxWidth: '600px',
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            fontStyle: 'italic',
-            textShadow: '0 1px 2px rgba(0,0,0,0.3)'
-          }}
-        >
-          A journey of love captured in time
-        </motion.p>
-
-        <motion.div variants={slideUp}>
-          <Swiper
-            effect={'coverflow'}
-            grabCursor={true}
-            centeredSlides={true}
-            slidesPerView={'auto'}
-            coverflowEffect={{
-              rotate: 15,
-              stretch: 0,
-              depth: 200,
-              modifier: 1,
-              slideShadows: true,
-            }}
-            pagination={{
-              clickable: true,
-              dynamicBullets: true
-            }}
-            modules={[EffectCoverflow, Pagination]}
-            className="mySwiper"
-            style={{ 
-              paddingBottom: '60px',
-              paddingTop: '20px',
-              opacity: imagesLoaded === invitationData.galleryImages.length ? 1 : 0,
-              transition: 'opacity 0.6s ease'
-            }}
-          >
-            {invitationData.galleryImages.map((image, index) => (
-              <SwiperSlide
-                key={index}
+      {/* Gallery Container */}
+      <div style={{
+        width: '100%',
+        overflow: 'hidden',
+        padding: '0 10px'
+      }}>
+        <div style={{ 
+          display: 'flex',
+          width: 'max-content',
+          transition: 'transform 0.1s ease-out',
+          transform: `translateX(-${scrollPosition}px)`,
+          padding: '10px 0'
+        }}>
+          {[...photos, ...photos].map((photo, i) => (
+            <div 
+              key={i} 
+              style={{
+                margin: '0 6px',
+                cursor: 'pointer',
+                transition: 'transform 0.2s ease'
+              }}
+              onClick={() => handleImageClick(i)}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.03)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+            >
+              <img 
+                src={photo} 
+                alt={`Gallery ${i + 1}`} 
                 style={{
-                  width: '280px',
-                  height: '420px',
-                  borderRadius: '8px',
-                  overflow: 'hidden',
-                  boxShadow: '0 8px 30px rgba(0,0,0,0.3)',
-                  transition: 'transform 0.3s ease'
+                  width: '120px',
+                  height: '120px',
+                  objectFit: 'cover',
+                  borderRadius: '6px',
+                  boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
+                  border: '1px solid #eee',
+                  flexShrink: 0
                 }}
-              >
-                <div style={{
-                  position: 'relative',
-                  width: '100%',
-                  height: '100%',
-                  backgroundColor: '#f0e7db'
-                }}>
-                  <img
-                    src={image}
-                    alt={`Gallery image ${index + 1}`}
-                    onLoad={handleImageLoad}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      objectPosition: 'center',
-                      opacity: imagesLoaded > index ? 1 : 0,
-                      transition: 'opacity 0.6s ease'
-                    }}
-                  />
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    whileHover={{ opacity: 1 }}
-                    style={{
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      width: '100%',
-                      height: '100%',
-                      background: 'rgba(0,0,0,0.5)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: 'white',
-                      fontSize: '1.2rem',
-                      fontFamily: "'Playfair Display', serif"
-                    }}
-                  >
-                    {galleryCaptions[index] || "Our Memories"}
-                  </motion.div>
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </motion.div>
+              />
+            </div>
+          ))}
+        </div>
+      </div>
 
-        <motion.div 
-          variants={slideUp}
-          style={{
-            textAlign: 'center',
-            marginTop: '30px'
-          }}
-        >
-          <p style={{
-            fontSize: '0.9rem',
-            color: 'rgba(255,255,255,0.8)',
-            fontStyle: 'italic'
-          }}>
-            Swipe to see more of our story
-          </p>
-        </motion.div>
-      </motion.div>
-    </motion.section>
+      {/* Image Modal */}
+      {isModalOpen && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.9)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000,
+          padding: '20px'
+        }} onClick={closeModal}>
+          <div style={{
+            maxWidth: '90%',
+            maxHeight: '90%',
+            position: 'relative',
+            display: 'flex',
+            alignItems: 'center'
+          }} onClick={(e) => e.stopPropagation()}>
+            <button 
+              onClick={(e) => {
+                e.stopPropagation();
+                navigateImages('prev');
+              }}
+              style={{
+                position: 'absolute',
+                left: '-25px',
+                background: 'rgba(255,255,255,0.2)',
+                border: 'none',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                fontSize: '20px',
+                color: 'white',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                zIndex: 1001
+              }}
+            >
+              ❮
+            </button>
+
+            <img 
+              src={photos[currentImageIndex]} 
+              alt="Selected" 
+              style={{
+                maxWidth: '100%',
+                maxHeight: '80vh',
+                borderRadius: '8px',
+                boxShadow: '0 4px 20px rgba(0,0,0,0.3)'
+              }}
+            />
+
+            <button 
+              onClick={(e) => {
+                e.stopPropagation();
+                navigateImages('next');
+              }}
+              style={{
+                position: 'absolute',
+                right: '-25px',
+                background: 'rgba(255,255,255,0.2)',
+                border: 'none',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                fontSize: '20px',
+                color: 'white',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                zIndex: 1001
+              }}
+            >
+              ❯
+            </button>
+
+            <button 
+              onClick={closeModal}
+              style={{
+                position: 'absolute',
+                top: '-20px',
+                right: '-20px',
+                background: '#fff',
+                border: 'none',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                fontSize: '20px',
+                fontWeight: 'bold',
+                cursor: 'pointer',
+                boxShadow: '0 2px 5px rgba(0,0,0,0.2)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            >
+              ×
+            </button>
+          </div>
+        </div>
+      )}
+    </section>
   );
 };
 
-export default GallerySection;
+export default HorizontalGallery;

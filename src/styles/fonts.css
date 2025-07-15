@@ -1,0 +1,26 @@
+/* fonts.css */
+@font-face {
+    font-family: 'Madina';
+    src: url('../assets/fonts/Madina.otf') format('opentype'),
+         url('../assets/fonts/Madina.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Distant Stroke';
+    src: url('../assets/fonts/Distant_Stroke_Medium.otf') format('opentype'),
+         url('../assets/fonts/Distant_Stroke_Medium.ttf') format('truetype');
+
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Duende';
+    src: url('../assets/fonts/Duende.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}

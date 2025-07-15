@@ -7,6 +7,8 @@ import TimeLocationSection from '../components/TimeLocationSection';
 import LiveStreamingSection from '../components/LiveStreamingSection';
 import HeroSection from '../components/HeroSection';
 import RsvpWishSection from '../components/RsvpWishSection';
+import RsvpWishViaWhatsApp from '../components/RsvpWishViaWhatsApp';
+import WeddingEventSection from '../components/WeddingEvent';
 
 export default function HomePage() {
   const homeRef = useRef(null);
@@ -28,12 +30,15 @@ export default function HomePage() {
   return (
     <div ref={homeRef}>
       <HeroSection guestName={guestName} />
-      <GroomSection />
-      <BrideSection />
-      <TimeLocationSection />
-      <LiveStreamingSection />
-      <RsvpWishSection/>
       <GallerySection />
+      <TimeLocationSection />
+      <BrideSection />
+      <GroomSection />
+      <WeddingEventSection />
+      <RsvpWishViaWhatsApp/>
+      <RsvpWishSection/>
+     
+      
     </div>
   );
 }
