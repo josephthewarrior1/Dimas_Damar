@@ -9,6 +9,7 @@ import HeroSection from '../components/HeroSection';
 import RsvpWishSection from '../components/RsvpWishSection';
 import RsvpWishViaWhatsApp from '../components/RsvpWishViaWhatsApp';
 import WeddingEventSection from '../components/WeddingEvent';
+import LoveStorySection from '../components/LoveStorySection';
 
 export default function HomePage() {
   const homeRef = useRef(null);
@@ -35,6 +36,7 @@ export default function HomePage() {
       <BrideSection />
       <GroomSection />
       <WeddingEventSection />
+      <LoveStorySection />
       <RsvpWishViaWhatsApp/>
       <RsvpWishSection/>
      

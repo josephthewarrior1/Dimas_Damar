@@ -48,7 +48,7 @@ const RsvpWishViaWhatsApp = () => {
     <section
       style={{
         position: "relative",
-        minHeight: "50vh", // Diubah dari 10vh ke 50vh
+        minHeight: "50vh",
         overflow: "hidden",
         fontFamily: "Poppins, sans-serif",
         color: "#fff",
@@ -77,14 +77,14 @@ const RsvpWishViaWhatsApp = () => {
         style={{
           position: "relative",
           zIndex: 2,
-          padding: "40px 20px", // Padding lebih kecil
+          padding: "40px 20px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          justifyContent: "center", // Ditambahkan untuk vertikal center
-          maxWidth: "500px",        // Lebar maksimal disesuaikan
+          justifyContent: "center",
+          maxWidth: "500px",
           margin: "0 auto",
-          height: "100%", // Ditambahkan untuk memenuhi parent
+          height: "100%",
         }}
       >
         <motion.div
@@ -96,16 +96,15 @@ const RsvpWishViaWhatsApp = () => {
             width: "100%",
             textAlign: "center",
             textShadow: "0 1px 3px rgba(0,0,0,0.5)",
-          
           }}
         >
           <motion.h2
             variants={slideUp}
             style={{
-              fontSize: "3.5rem", // Ukuran lebih kecil
+              fontSize: "3.5rem",
               fontFamily: "'Playfair Display', serif",
-              marginBottom: "25px", // Margin bawah lebih kecil
-              lineHeight: "1", // Line height lebih ketat
+              marginBottom: "25px",
+              lineHeight: "1",
             }}
           >
             RSVP
@@ -114,8 +113,8 @@ const RsvpWishViaWhatsApp = () => {
           <motion.p
             variants={slideUp}
             style={{
-              fontSize: "0.85rem", // Ukuran lebih kecil
-              marginBottom: "20px", // Margin bawah lebih kecil
+              fontSize: "0.85rem",
+              marginBottom: "20px",
               lineHeight: "1.5",
             }}
           >
@@ -130,12 +129,12 @@ const RsvpWishViaWhatsApp = () => {
           style={{
             display: "flex",
             flexDirection: "column",
-            gap: "12px", // Gap lebih kecil
+            gap: "12px",
             background: "transparent",
-            borderRadius: "12px", // Border radius lebih kecil
-            padding: "20px", // Padding lebih kecil
+            borderRadius: "12px",
+            padding: "20px",
             width: "100%",
-            maxWidth: "400px", // Lebar maksimal form lebih kecil
+            maxWidth: "400px",
             color: "#fff",
           }}
         >
@@ -144,10 +143,10 @@ const RsvpWishViaWhatsApp = () => {
               style={{
                 backgroundColor: "rgba(255, 0, 0, 0.2)",
                 color: "#fff",
-                padding: "8px", // Padding lebih kecil
-                borderRadius: "6px", // Border radius lebih kecil
+                padding: "8px",
+                borderRadius: "6px",
                 border: "1px solid rgba(255, 255, 255, 0.3)",
-                fontSize: "0.8rem", // Ukuran font lebih kecil
+                fontSize: "0.8rem",
               }}
             >
               {error}
@@ -161,45 +160,38 @@ const RsvpWishViaWhatsApp = () => {
               placeholder="Nama Anda"
               onChange={(e) => setName(e.target.value)}
               style={{
-                padding: "10px", // Padding lebih kecil
-                borderRadius: "6px", // Border radius lebih kecil
+                padding: "10px",
+                borderRadius: "6px",
                 border: "1px solid rgba(255,255,255,0.5)",
                 background: "transparent",
                 color: "#fff",
-                fontSize: "0.85rem", // Ukuran font lebih kecil
+                fontSize: "0.85rem",
               }}
             />
           </div>
 
-          {attending === "yes" && (
-            <div style={{ display: "flex", flexDirection: "column" }}>
-              <input
-                type="number"
-                min="1"
-                max="5"
-                value={pax}
-                onChange={handlePaxChange}
-                placeholder="Jumlah orang (1-5)"
-                style={{
-                  padding: "10px", // Padding lebih kecil
-                  borderRadius: "6px", // Border radius lebih kecil
-                  border: "1px solid rgba(255,255,255,0.5)",
-                  background: "transparent",
-                  color: "#fff",
-                  fontSize: "0.85rem", // Ukuran font lebih kecil
-                }}
-              />
-            </div>
-          )}
-
-          <div style={{ display: "flex", flexDirection: "column" }}>
+          {/* Konfirmasi Section */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+            <p style={{ 
+              fontSize: "0.9rem",
+              marginBottom: "5px",
+              fontWeight: "500"
+            }}>
+              Konfirmasi
+            </p>
+            
             <div style={{ 
               display: "flex", 
-              gap: "15px", // Gap lebih kecil
-              justifyContent: "center", // Ditengah
-              fontSize: "0.85rem" // Ukuran font lebih kecil
+              gap: "15px",
+              justifyContent: "flex-start", // Changed to flex-start to align left
+              fontSize: "0.85rem"
             }}>
-              <label style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+              <label style={{ 
+                display: "flex", 
+                alignItems: "center", 
+                gap: "6px",
+                marginRight: "20px" // Added margin to separate options
+              }}>
                 <input
                   type="radio"
                   name="attending"
@@ -209,7 +201,7 @@ const RsvpWishViaWhatsApp = () => {
                     setAttending(e.target.value);
                     setError(null);
                   }}
-                  style={{ width: "14px", height: "14px" }} // Ukuran lebih kecil
+                  style={{ width: "14px", height: "14px" }}
                 />
                 Hadir
               </label>
@@ -223,12 +215,33 @@ const RsvpWishViaWhatsApp = () => {
                     setAttending(e.target.value);
                     setError(null);
                   }}
-                  style={{ width: "14px", height: "14px" }} // Ukuran lebih kecil
+                  style={{ width: "14px", height: "14px" }}
                 />
                 Tidak Hadir
               </label>
             </div>
           </div>
+
+          {attending === "yes" && (
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <input
+                type="number"
+                min="1"
+                max="5"
+                value={pax}
+                onChange={handlePaxChange}
+                placeholder="Jumlah orang (1-5)"
+                style={{
+                  padding: "10px",
+                  borderRadius: "6px",
+                  border: "1px solid rgba(255,255,255,0.5)",
+                  background: "transparent",
+                  color: "#fff",
+                  fontSize: "0.85rem",
+                }}
+              />
+            </div>
+          )}
 
           <button
             type="submit"
@@ -236,12 +249,12 @@ const RsvpWishViaWhatsApp = () => {
               backgroundColor: "transparent",
               color: "#fff",
               fontWeight: "bold",
-              padding: "10px", // Padding lebih kecil
-              borderRadius: "20px", // Border radius lebih kecil
+              padding: "10px",
+              borderRadius: "20px",
               border: "1px solid #fff",
               cursor: "pointer",
-              fontSize: "0.85rem", // Ukuran font lebih kecil
-              marginTop: "5px", // Margin atas lebih kecil
+              fontSize: "0.85rem",
+              marginTop: "5px",
               transition: "all 0.3s ease",
             }}
             onMouseOver={(e) => {
