@@ -3,20 +3,80 @@ import { motion } from "framer-motion";
 import { useSearchParams } from "react-router-dom";
 import { containerVariants, slideUp } from "./animations";
 import { db } from "../config/firebaseConfig";
-import { ref, push, onValue } from "firebase/database";
+import { ref, onValue, query, orderByChild, equalTo, update } from "firebase/database";
 import invitationData from "../data/invitationData";
 
 const RsvpWishSection = () => {
   const [params] = useSearchParams();
-  const guestName = params.get("to") || "";
+  const fullCode = params.get("to") || "";
+  const [coupleId, guestCode] = fullCode ? fullCode.split('_') : [null, null];
   const [wish, setWish] = useState("");
   const [wishes, setWishes] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState(null);
   const [alreadySubmitted, setAlreadySubmitted] = useState(false);
+  const [guestName, setGuestName] = useState("");
+  const [guestId, setGuestId] = useState("");
+  const [loadingWishes, setLoadingWishes] = useState(true);
+
+  // Find guest data
+  useEffect(() => {
+    if (!coupleId || !guestCode) return;
+
+    const guestRef = query(
+      ref(db, `couples/${coupleId}/guests`),
+      orderByChild('code'),
+      equalTo(guestCode)
+    );
+
+    const unsubscribeGuest = onValue(guestRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const guests = snapshot.val();
+        const [foundGuestId, guestData] = Object.entries(guests)[0];
+        setGuestName(guestData.name || "Tamu Undangan");
+        setGuestId(foundGuestId);
+        setAlreadySubmitted(!!guestData.wish);
+      }
+    });
+
+    return () => unsubscribeGuest();
+  }, [coupleId, guestCode]);
+
+  // Load wishes only for current couple
+  useEffect(() => {
+    if (!coupleId) return;
+
+    setLoadingWishes(true);
+    const wishesRef = ref(db, `couples/${coupleId}/guests`);
+    
+    const unsubscribeWishes = onValue(wishesRef, (snapshot) => {
+      const guests = snapshot.val();
+      if (!guests) {
+        setWishes([]);
+        setLoadingWishes(false);
+        return;
+      }
+
+      const coupleWishes = Object.entries(guests)
+        .filter(([_, guest]) => guest.wish)
+        .map(([guestId, guest]) => ({
+          id: guestId,
+          name: guest.name || "Anonymous",
+          wish: guest.wish,
+          createdAt: guest.createdAt || 0
+        }))
+        .sort((a, b) => b.createdAt - a.createdAt);
+
+      setWishes(coupleWishes);
+      setLoadingWishes(false);
+    });
+
+    return () => unsubscribeWishes();
+  }, [coupleId]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
     if (!wish.trim()) {
       setSubmitError("Ucapan harus diisi");
       return;
@@ -27,14 +87,18 @@ const RsvpWishSection = () => {
       return;
     }
 
+    if (!coupleId || !guestCode || !guestId) {
+      setSubmitError("Tidak dapat mengidentifikasi tamu");
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitError(null);
 
     try {
-      await push(ref(db, "rsvp"), {
-        name: guestName,
+      await update(ref(db, `couples/${coupleId}/guests/${guestId}`), {
         wish,
-        createdAt: Date.now(),
+        createdAt: Date.now()
       });
 
       setWish("");
@@ -47,37 +111,8 @@ const RsvpWishSection = () => {
     }
   };
 
-  useEffect(() => {
-    const rsvpRef = ref(db, "rsvp");
-
-    const unsubscribe = onValue(rsvpRef, (snapshot) => {
-      const data = snapshot.val();
-      if (data) {
-        const loadedWishes = Object.entries(data)
-          .map(([id, value]) => ({
-            id,
-            ...value,
-          }))
-          .sort((a, b) => b.createdAt - a.createdAt);
-
-        setWishes(loadedWishes);
-
-        if (guestName) {
-          const hasSubmitted = loadedWishes.some(
-            (w) => w.name.toLowerCase() === guestName.toLowerCase()
-          );
-          setAlreadySubmitted(hasSubmitted);
-        }
-      } else {
-        setWishes([]);
-      }
-    });
-
-    return () => unsubscribe();
-  }, [guestName]);
-
   const formatDate = (timestamp) =>
-    new Date(timestamp).toLocaleString("en-GB", {
+    new Date(timestamp).toLocaleString("id-ID", {
       day: "numeric",
       month: "long",
       year: "numeric",
@@ -96,6 +131,7 @@ const RsvpWishSection = () => {
         color: "#fff",
       }}
     >
+      {/* Background image and overlay */}
       <div
         style={{
           position: "absolute",
@@ -116,6 +152,7 @@ const RsvpWishSection = () => {
         }}
       />
 
+      {/* Main content */}
       <div
         style={{
           position: "relative",
@@ -126,6 +163,7 @@ const RsvpWishSection = () => {
           alignItems: "center",
         }}
       >
+        {/* Header */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -158,11 +196,11 @@ const RsvpWishSection = () => {
               translateY: "-50px",
             }}
           >
-           Send Prayers & Best Wishes to the Bride and Groom
+           Kirim Doa & Ucapan untuk Pengantin
           </motion.p>
         </motion.div>
 
-        {/* Combined scrollable container */}
+        {/* Form and wishes container */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -176,10 +214,9 @@ const RsvpWishSection = () => {
             padding: "20px",
             borderRadius: "16px",
             transform: "translateY(-50px)",
-          
           }}
         >
-          {/* Form section */}
+          {/* Wish form */}
           <motion.form
             onSubmit={handleSubmit}
             variants={slideUp}
@@ -210,7 +247,6 @@ const RsvpWishSection = () => {
               value={wish}
               onChange={(e) => setWish(e.target.value)}
               rows={3}
-              
               disabled={alreadySubmitted}
               style={{
                 padding: "10px",
@@ -221,33 +257,33 @@ const RsvpWishSection = () => {
               }}
             />
 
-<motion.button
-  variants={slideUp}
-  type="submit"
-  disabled={isSubmitting || alreadySubmitted}
-  style={{
-    background: alreadySubmitted ? "#999" : "#fff",
-    color: "#222",
-    padding: "12px",
-    fontWeight: "bold",
-    borderRadius: "24px",
-    border: "none",
-    cursor: alreadySubmitted ? "not-allowed" : "pointer",
-    transition: "0.3s",
-    display: "flex",
-    fontFamily: "'Playfair Display', serif",
-    justifyContent: "center", // Add this to center horizontally
-    alignItems: "center", // Add this to center vertically
-    margin: "0 auto", // Add this to help with centering
-    width: "80%", // Adjust width as needed
-  }}
->
-  {alreadySubmitted
-    ? "Sudah Mengisi"
-    : isSubmitting
-    ? "Mengirim..."
-    : "Give your best wish"}
-</motion.button>  
+            <motion.button
+              variants={slideUp}
+              type="submit"
+              disabled={isSubmitting || alreadySubmitted}
+              style={{
+                background: alreadySubmitted ? "#999" : "#fff",
+                color: "#222",
+                padding: "12px",
+                fontWeight: "bold",
+                borderRadius: "24px",
+                border: "none",
+                cursor: alreadySubmitted ? "not-allowed" : "pointer",
+                transition: "0.3s",
+                display: "flex",
+                fontFamily: "'Playfair Display', serif",
+                justifyContent: "center",
+                alignItems: "center",
+                margin: "0 auto",
+                width: "80%",
+              }}
+            >
+              {alreadySubmitted
+                ? "Sudah Mengisi"
+                : isSubmitting
+                ? "Mengirim..."
+                : "Kirim Ucapan"}
+            </motion.button>
 
             {alreadySubmitted && (
               <motion.div
@@ -263,11 +299,13 @@ const RsvpWishSection = () => {
             )}
           </motion.form>
 
-          {/* Wishes section */}
+          {/* Wishes list */}
           <motion.div variants={slideUp}>
-           
-            
-            {wishes.length === 0 ? (
+            {loadingWishes ? (
+              <p style={{ textAlign: "center", color: "#fff" }}>
+                Memuat ucapan...
+              </p>
+            ) : wishes.length === 0 ? (
               <p style={{ textAlign: "center", color: "#fff" }}>
                 Belum ada ucapan yang ditulis.
               </p>

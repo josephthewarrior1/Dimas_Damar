@@ -10,7 +10,7 @@ import RsvpWishSection from '../components/RsvpWishSection';
 import RsvpWishViaWhatsApp from '../components/RsvpWishViaWhatsApp';
 import WeddingEventSection from '../components/WeddingEvent';
 import LoveStorySection from '../components/LoveStorySection';
-
+import GuestInvitationPage from '../components/GuessInvitation';
 export default function HomePage() {
   const homeRef = useRef(null);
   const [params] = useSearchParams();
@@ -39,6 +39,7 @@ export default function HomePage() {
       <LoveStorySection />
       <RsvpWishViaWhatsApp/>
       <RsvpWishSection/>
+      <GuestInvitationPage/>
      
       
     </div>

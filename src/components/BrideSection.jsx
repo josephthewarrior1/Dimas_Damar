@@ -2,8 +2,24 @@ import { motion } from "framer-motion";
 import { FaInstagram } from "react-icons/fa";
 import invitationData from "../data/invitationData";
 import { containerVariants, slideUp } from "./animations";
+import { useState, useEffect } from "react";
 
 const BrideSection = () => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkIfMobile();
+    window.addEventListener('resize', checkIfMobile);
+
+    return () => {
+      window.removeEventListener('resize', checkIfMobile);
+    };
+  }, []);
+
   return (
     <section
       style={{
@@ -35,7 +51,7 @@ const BrideSection = () => {
         }}
       />
 
-      {/* Gambar Square Tengah */}
+      {/* Gambar Square Tengah (UNCHANGED) */}
       <img
         src={invitationData.backgroundImageBride}
         alt="Bride center"
@@ -44,7 +60,7 @@ const BrideSection = () => {
           width: "370px",
           height: "370px",
           objectFit: "cover",
-          objectPosition: "center 10%", // artinya fokus ke titik 30% dari atas
+          objectPosition: "center 10%",
           borderRadius: "8px",
           border: "4px solid white",
           boxShadow: "0 6px 30px rgba(0,0,0,0.4)",
@@ -65,12 +81,13 @@ const BrideSection = () => {
         }}
       />
 
+      {/* TEXT CONTAINER - ONLY CHANGE MARGINTOP CONDITIONALLY */}
       <motion.div
         style={{
           position: "relative",
           zIndex: 1,
           maxWidth: "500px",
-          marginTop: "370px",
+          marginTop: isMobile ? "370px" : "450px", // Adjusted for PC
         }}
         variants={containerVariants}
         initial="hidden"
@@ -140,7 +157,7 @@ const BrideSection = () => {
           whileTap={{ scale: 0.95 }}
         >
           <FaInstagram style={{ width: "18px", height: "18px" }} />
-          <span style={{ fontWeight: "500" }}>@sherinangelina</span>
+          <span style={{ fontWeight: "500" }}>NataliaAngeline</span>
         </motion.a>
       </motion.div>
     </section>

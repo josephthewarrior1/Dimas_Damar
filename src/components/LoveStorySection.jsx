@@ -4,6 +4,7 @@ import invitationData from "../data/invitationData";
 const LoveStorySection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
   const touchStartX = useRef(null);
   const touchEndX = useRef(null);
   const carouselRef = useRef(null);
@@ -43,17 +44,25 @@ const LoveStorySection = () => {
     }
   ];
 
-  // Auto-play functionality
+  // Auto-play and device detection
   useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkIfMobile();
+    window.addEventListener('resize', checkIfMobile);
+
     if (isAutoPlaying) {
       intervalRef.current = setInterval(() => {
         setCurrentSlide(prev => (prev + 1) % loveStoryData.length);
       }, 5000);
-    } else {
-      clearInterval(intervalRef.current);
     }
 
-    return () => clearInterval(intervalRef.current);
+    return () => {
+      clearInterval(intervalRef.current);
+      window.removeEventListener('resize', checkIfMobile);
+    };
   }, [isAutoPlaying, loveStoryData.length]);
 
   // Handle touch events for swipe
@@ -71,10 +80,8 @@ const LoveStorySection = () => {
 
     const difference = touchStartX.current - touchEndX.current;
     if (difference > 50) {
-      // Swipe left - next slide
       setCurrentSlide(prev => (prev + 1) % loveStoryData.length);
     } else if (difference < -50) {
-      // Swipe right - previous slide
       setCurrentSlide(prev => (prev - 1 + loveStoryData.length) % loveStoryData.length);
     }
 
@@ -98,10 +105,11 @@ const LoveStorySection = () => {
         color: "#fff",
         fontFamily: "'Cormorant Garamond', serif",
         overflow: "hidden",
-        backgroundImage: `url(${invitationData.backgroundImage})`, // Using backgroundImage from invitationData
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundAttachment: "fixed"
+        backgroundImage: `url(${invitationData.backgroundImage})`,
+        backgroundSize: isMobile ? "cover" : "50% auto", // More zoom on PC
+        backgroundPosition: isMobile ? "center" : "center 45%", // Adjust focus area
+        backgroundAttachment: "fixed",
+        transition: "background 0.5s ease"
       }}
     >
       {/* Dark overlay */}

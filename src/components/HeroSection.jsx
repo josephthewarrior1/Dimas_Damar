@@ -5,7 +5,6 @@ const HeroSection = ({ guestName }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isContentVisible, setIsContentVisible] = useState(false);
 
-  // Preload the background image and handle animations
   useEffect(() => {
     const img = new Image();
     img.src = invitationData.backgroundImage2;
@@ -45,19 +44,20 @@ const HeroSection = ({ guestName }) => {
         willChange: "opacity, background"
       }}
     >
-      {/* Main Content Container */}
+      {/* Main Content Container - Fixed Structure */}
       <div 
         style={{ 
-          padding: "0 24px", 
+          padding: "0 20px",
           width: "100%",
           maxWidth: "500px",
-          marginBottom: "-20px",
+          margin: "0 auto",
           opacity: isContentVisible ? 1 : 0,
           transform: isContentVisible ? "translateY(0)" : "translateY(20px)",
           transition: "opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1)",
           willChange: "opacity, transform",
           zIndex: 1,
-          position: "relative"
+          position: "relative",
+          boxSizing: "border-box"
         }}
       >
         {/* Wedding Title */}
@@ -96,7 +96,7 @@ const HeroSection = ({ guestName }) => {
           <span>Tia</span>
         </h1>
 
-        {/* Wedding Date - Directly Typed */}
+        {/* Wedding Date */}
         <p
           style={{ 
             fontSize: "clamp(20px, 4vw, 24px)",
@@ -130,21 +130,6 @@ const HeroSection = ({ guestName }) => {
           }}></div>
         </div>
       </div>
-
-      {/* CSS for bounce animation */}
-      <style jsx>{`
-        @keyframes bounce {
-          0%, 20%, 50%, 80%, 100% {
-            transform: translateY(0) translateX(-50%);
-          }
-          40% {
-            transform: translateY(-10px) translateX(-50%);
-          }
-          60% {
-            transform: translateY(-5px) translateX(-50%);
-          }
-        }
-      `}</style>
     </section>
   );
 };

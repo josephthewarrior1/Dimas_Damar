@@ -11,9 +11,16 @@ const TimeLocationSection = () => {
     seconds: 0
   });
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    // Preload background image
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkIfMobile();
+    window.addEventListener('resize', checkIfMobile);
+
     const img = new Image();
     img.src = invitationData.dateTimeImage;
     img.onload = () => setImageLoaded(true);
@@ -36,7 +43,10 @@ const TimeLocationSection = () => {
     calculateTimeLeft();
     const timer = setInterval(calculateTimeLeft, 1000);
 
-    return () => clearInterval(timer);
+    return () => {
+      clearInterval(timer);
+      window.removeEventListener('resize', checkIfMobile);
+    };
   }, []);
 
   return (
@@ -58,11 +68,12 @@ const TimeLocationSection = () => {
         overflow: "hidden",
         backgroundColor: "#000",
         backgroundImage: imageLoaded ? `url(${invitationData.dateTimeImage})` : "none",
-        backgroundSize: "cover",
+        backgroundSize: isMobile ? "cover" : "auto 160%", // Diubah untuk zoom out
         backgroundPosition: "center",
-        backgroundAttachment: "fixed",
+        backgroundAttachment: isMobile ? "fixed" : "local", // Diubah untuk smooth scroll di PC
         transition: "opacity 0.8s ease",
-        opacity: imageLoaded ? 1 : 0.9
+        opacity: imageLoaded ? 1 : 0.9,
+        backgroundRepeat: "no-repeat"
       }}
     >
       {/* Dark Overlay */}
@@ -93,19 +104,16 @@ const TimeLocationSection = () => {
       >
         {/* Countdown Section */}
         <motion.div variants={slideUp}>
-        <h2 style={{ 
-        fontSize: "2.8rem", 
-        fontWeight: "600", 
-        marginBottom: "50px",
-        letterSpacing: "2px",
-        fontStyle: "normal",
-        fontFamily: "'Playfair Display', serif",
-
-        
-      }}>
-        Save The Date
-      </h2>
-
+          <h2 style={{ 
+            fontSize: "2.8rem", 
+            fontWeight: "600", 
+            marginBottom: "50px",
+            letterSpacing: "2px",
+            fontStyle: "normal",
+            fontFamily: "'Playfair Display', serif",
+          }}>
+            Save The Date
+          </h2>
           
           <div style={{ 
             display: "flex", 
@@ -114,22 +122,16 @@ const TimeLocationSection = () => {
             marginBottom: "40px",
             flexWrap: "wrap"
           }}>
-            <div style={{ minWidth: "70px" }}>
-              <div style={{ fontSize: "2rem", fontWeight: "500", fontFamily: "'Montserrat', sans-serif" }}>{timeLeft.days}</div>
-              <div style={{ fontSize: "0.8rem", opacity: 0.8, letterSpacing: "1px" }}>DAYS</div>
-            </div>
-            <div style={{ minWidth: "70px" }}>
-              <div style={{ fontSize: "2rem", fontWeight: "500", fontFamily: "'Montserrat', sans-serif" }}>{timeLeft.hours}</div>
-              <div style={{ fontSize: "0.8rem", opacity: 0.8, letterSpacing: "1px" }}>HOURS</div>
-            </div>
-            <div style={{ minWidth: "70px" }}>
-              <div style={{ fontSize: "2rem", fontWeight: "500", fontFamily: "'Montserrat', sans-serif" }}>{timeLeft.minutes}</div>
-              <div style={{ fontSize: "0.8rem", opacity: 0.8, letterSpacing: "1px" }}>MINUTES</div>
-            </div>
-            <div style={{ minWidth: "70px" }}>
-              <div style={{ fontSize: "2rem", fontWeight: "500", fontFamily: "'Montserrat', sans-serif" }}>{timeLeft.seconds}</div>
-              <div style={{ fontSize: "0.8rem", opacity: 0.8, letterSpacing: "1px" }}>SECONDS</div>
-            </div>
+            {Object.entries(timeLeft).map(([unit, value]) => (
+              <div key={unit} style={{ minWidth: "70px" }}>
+                <div style={{ fontSize: "2rem", fontWeight: "500", fontFamily: "'Montserrat', sans-serif" }}>
+                  {value}
+                </div>
+                <div style={{ fontSize: "0.8rem", opacity: 0.8, letterSpacing: "1px" }}>
+                  {unit.toUpperCase()}
+                </div>
+              </div>
+            ))}
           </div>
 
           <motion.a

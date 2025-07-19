@@ -2,8 +2,24 @@ import { motion } from "framer-motion";
 import { FaInstagram } from "react-icons/fa";
 import invitationData from "../data/invitationData";
 import { containerVariants, slideUp } from "./animations";
+import { useState, useEffect } from "react";
 
 const GroomSection = () => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkIfMobile();
+    window.addEventListener('resize', checkIfMobile);
+
+    return () => {
+      window.removeEventListener('resize', checkIfMobile);
+    };
+  }, []);
+
   return (
     <section
       style={{
@@ -35,7 +51,7 @@ const GroomSection = () => {
         }}
       />
 
-      {/* Center Square Image */}
+      {/* Center Square Image (UNCHANGED) */}
       <img
         src={invitationData.backgroundImageGroom}
         alt="Groom center"
@@ -65,12 +81,13 @@ const GroomSection = () => {
         }}
       />
 
+      {/* TEXT CONTAINER - ONLY THIS PART IS CONDITIONAL */}
       <motion.div
         style={{
           position: "relative",
           zIndex: 1,
           maxWidth: "500px",
-          marginTop: "370px",
+          marginTop: isMobile ? "370px" : "450px", // Only this line changes
         }}
         variants={containerVariants}
         initial="hidden"
@@ -140,7 +157,7 @@ const GroomSection = () => {
           whileTap={{ scale: 0.95 }}
         >
           <FaInstagram style={{ width: "18px", height: "18px" }} />
-          <span style={{ fontWeight: "500" }}>@teosaner</span>
+          <span style={{ fontWeight: "500" }}>NathanaelEriskon</span>
         </motion.a>
       </motion.div>
     </section>
