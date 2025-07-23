@@ -1,23 +1,47 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { containerVariants, slideUp } from "./animations";
 import invitationData from "../data/invitationData";
+import { db } from "../config/firebaseConfig";
+import { ref, query, orderByChild, equalTo, onValue } from "firebase/database";
 
 const RsvpWishViaWhatsApp = () => {
   const [params] = useSearchParams();
-  const defaultName = params.get("to") || "";
-  const [name, setName] = useState(defaultName);
+  const fullCode = params.get("to") || "";
+  const [coupleId, guestCode] = fullCode ? fullCode.split('_') : [null, null];
+  const [name, setName] = useState("");
   const [attending, setAttending] = useState("yes");
   const [pax, setPax] = useState("");
   const [error, setError] = useState(null);
+  const [alreadySubmitted, setAlreadySubmitted] = useState(false);
 
-  const whatsappNumber = "628119660089"; // ← Ganti dengan nomor WA aktif
+  const whatsappNumber = "628119660089"; // Ganti dengan nomor WA aktif
+
+  // Fetch guest data from Firebase
+  useEffect(() => {
+    if (!coupleId || !guestCode) return;
+
+    const guestRef = query(
+      ref(db, `couples/${coupleId}/guests`),
+      orderByChild('code'),
+      equalTo(guestCode)
+    );
+
+    const unsubscribe = onValue(guestRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const guests = snapshot.val();
+        const [_, guestData] = Object.entries(guests)[0];
+        setName(guestData.name || "");
+        setAlreadySubmitted(!!guestData.rsvpSubmitted);
+      }
+    });
+
+    return () => unsubscribe();
+  }, [coupleId, guestCode]);
 
   const handlePaxChange = (e) => {
     let value = e.target.value;
-    
-    // Only allow numbers and empty string
     if (value === "" || /^[1-5]$/.test(value)) {
       setPax(value);
     }
@@ -37,11 +61,20 @@ const RsvpWishViaWhatsApp = () => {
     }
 
     const finalPax = attending === "yes" ? pax : "0";
+    const status = attending === "yes" ? "Hadir" : "Tidak Hadir";
 
-    const message = `Halo, saya *${name}* ingin RSVP:\n\nStatus: ${attending === "yes" ? "Hadir" : "Tidak Hadir"}\n${attending === "yes" ? `Jumlah orang: ${finalPax} pax` : ""}\n\nTerima kasih 🙏🏻`;
+    const message = `Halo, saya *${name}* ingin RSVP:\n\n` +
+                   `Status: ${status}\n` +
+                   `${attending === "yes" ? `Jumlah orang: ${finalPax} pax\n` : ""}\n` +
+                   `Terima kasih 🙏🏻`;
 
-    const url = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(message)}`;
-    window.location.href = url;
+    const whatsappUrl = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(message)}`;
+    
+    // Open WhatsApp in new tab
+    window.open(whatsappUrl, '_blank');
+    
+    // Mark as submitted (you might want to update Firebase here)
+    setAlreadySubmitted(true);
   };
 
   return (
@@ -159,6 +192,7 @@ const RsvpWishViaWhatsApp = () => {
               value={name}
               placeholder="Nama Anda"
               onChange={(e) => setName(e.target.value)}
+              disabled={alreadySubmitted}
               style={{
                 padding: "10px",
                 borderRadius: "6px",
@@ -166,6 +200,7 @@ const RsvpWishViaWhatsApp = () => {
                 background: "transparent",
                 color: "#fff",
                 fontSize: "0.85rem",
+                opacity: alreadySubmitted ? 0.7 : 1,
               }}
             />
           </div>
@@ -183,14 +218,14 @@ const RsvpWishViaWhatsApp = () => {
             <div style={{ 
               display: "flex", 
               gap: "15px",
-              justifyContent: "flex-start", // Changed to flex-start to align left
+              justifyContent: "flex-start",
               fontSize: "0.85rem"
             }}>
               <label style={{ 
                 display: "flex", 
                 alignItems: "center", 
                 gap: "6px",
-                marginRight: "20px" // Added margin to separate options
+                marginRight: "20px"
               }}>
                 <input
                   type="radio"
@@ -201,6 +236,7 @@ const RsvpWishViaWhatsApp = () => {
                     setAttending(e.target.value);
                     setError(null);
                   }}
+                  disabled={alreadySubmitted}
                   style={{ width: "14px", height: "14px" }}
                 />
                 Hadir
@@ -215,6 +251,7 @@ const RsvpWishViaWhatsApp = () => {
                     setAttending(e.target.value);
                     setError(null);
                   }}
+                  disabled={alreadySubmitted}
                   style={{ width: "14px", height: "14px" }}
                 />
                 Tidak Hadir
@@ -231,6 +268,7 @@ const RsvpWishViaWhatsApp = () => {
                 value={pax}
                 onChange={handlePaxChange}
                 placeholder="Jumlah orang (1-5)"
+                disabled={alreadySubmitted}
                 style={{
                   padding: "10px",
                   borderRadius: "6px",
@@ -238,6 +276,7 @@ const RsvpWishViaWhatsApp = () => {
                   background: "transparent",
                   color: "#fff",
                   fontSize: "0.85rem",
+                  opacity: alreadySubmitted ? 0.7 : 1,
                 }}
               />
             </div>
@@ -245,27 +284,43 @@ const RsvpWishViaWhatsApp = () => {
 
           <button
             type="submit"
+            disabled={alreadySubmitted}
             style={{
-              backgroundColor: "transparent",
+              backgroundColor: alreadySubmitted ? "rgba(255,255,255,0.2)" : "transparent",
               color: "#fff",
               fontWeight: "bold",
               padding: "10px",
               borderRadius: "20px",
               border: "1px solid #fff",
-              cursor: "pointer",
+              cursor: alreadySubmitted ? "not-allowed" : "pointer",
               fontSize: "0.85rem",
               marginTop: "5px",
               transition: "all 0.3s ease",
             }}
             onMouseOver={(e) => {
-              e.target.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+              if (!alreadySubmitted) {
+                e.target.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+              }
             }}
             onMouseOut={(e) => {
-              e.target.style.backgroundColor = "transparent";
+              if (!alreadySubmitted) {
+                e.target.style.backgroundColor = "transparent";
+              }
             }}
           >
-            Kirim via WhatsApp
+            {alreadySubmitted ? "RSVP Terkirim" : "Kirim via WhatsApp"}
           </button>
+
+          {alreadySubmitted && (
+            <p style={{
+              fontSize: "0.8rem",
+              textAlign: "center",
+              color: "rgba(255,255,255,0.8)",
+              marginTop: "10px"
+            }}>
+              Terima kasih telah mengkonfirmasi kehadiran Anda
+            </p>
+          )}
         </motion.form>
       </div>
     </section>
