@@ -51,25 +51,32 @@ const GroomSection = () => {
         }}
       />
 
-      {/* Center Square Image (UNCHANGED) */}
-      <img
-        src={invitationData.backgroundImageGroom}
-        alt="Groom center"
-        style={{
-          position: "absolute",
-          width: "370px",
-          height: "370px",
-          objectFit: "cover",
-          objectPosition: "center 10%",
-          borderRadius: "8px",
-          border: "4px solid white",
-          boxShadow: "0 6px 30px rgba(0,0,0,0.4)",
-          zIndex: 1,
-          top: "16%",
-          left: "50%",
-          transform: "translateX(-50%)",
-        }}
-      />
+<motion.img
+      src={invitationData.backgroundImageGroom}
+      alt="Groom center"
+      initial={{ opacity: 0, scale: 0.8 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true }}
+      transition={{
+        type: "spring",
+        stiffness: 50,
+        damping: 12,
+        delay: 0.3
+      }}
+      style={{
+        position: "absolute",
+        width: "370px",
+        height: "370px",
+        objectFit: "cover",
+        objectPosition: "center 10%",
+        borderRadius: "8px",
+        border: "4px solid white",
+        boxShadow: "0 6px 30px rgba(0,0,0,0.4)",
+        zIndex: 1,
+        top: "16%",
+        transform: "translateX(-50%)",
+      }}
+    />
 
       {/* Dark Overlay */}
       <div

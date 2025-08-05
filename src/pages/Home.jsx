@@ -11,6 +11,9 @@ import RsvpWishViaWhatsApp from '../components/RsvpWishViaWhatsApp';
 import WeddingEventSection from '../components/WeddingEvent';
 import LoveStorySection from '../components/LoveStorySection';
 import GuestInvitationPage from '../components/GuessInvitation';
+import WeddingGift from '../components/WeddingGift';
+import ThankYouSection from '../components/ThankyouSection';
+
 export default function HomePage() {
   const homeRef = useRef(null);
   const [params] = useSearchParams();
@@ -39,7 +42,10 @@ export default function HomePage() {
       <LoveStorySection />
       <RsvpWishViaWhatsApp/>
       <RsvpWishSection/>
+      <WeddingGift/>
+      <ThankYouSection/>
       <GuestInvitationPage/>
+
      
       
     </div>

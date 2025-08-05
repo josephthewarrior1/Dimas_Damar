@@ -1,26 +1,31 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { containerVariants, slideUp } from "./animations";
-import invitationData from "../data/invitationData";
 import { db } from "../config/firebaseConfig";
 import { ref, query, orderByChild, equalTo, onValue } from "firebase/database";
+import invitationData from "../data/invitationData";
 
 const RsvpWishViaWhatsApp = () => {
   const [params] = useSearchParams();
-  const fullCode = params.get("to") || "";
-  const [coupleId, guestCode] = fullCode ? fullCode.split('_') : [null, null];
-  const [name, setName] = useState("");
+  const fullParam = params.get("to") || "";
+  
+  // Pisahkan parameter menjadi coupleId dan guestCode
+  const [coupleId, guestCode] = fullParam.split('_');
+  
+  const [guestName, setGuestName] = useState("Tamu Undangan");
   const [attending, setAttending] = useState("yes");
   const [pax, setPax] = useState("");
   const [error, setError] = useState(null);
-  const [alreadySubmitted, setAlreadySubmitted] = useState(false);
 
-  const whatsappNumber = "628119660089"; // Ganti dengan nomor WA aktif
+  const whatsappNumber = "628119660089"; // ← Ganti dengan nomor WA aktif
 
-  // Fetch guest data from Firebase
+  // Cari data tamu berdasarkan guestCode
   useEffect(() => {
-    if (!coupleId || !guestCode) return;
+    if (!coupleId || !guestCode) {
+      setError("Link undangan tidak valid");
+      return;
+    }
 
     const guestRef = query(
       ref(db, `couples/${coupleId}/guests`),
@@ -32,8 +37,10 @@ const RsvpWishViaWhatsApp = () => {
       if (snapshot.exists()) {
         const guests = snapshot.val();
         const [_, guestData] = Object.entries(guests)[0];
-        setName(guestData.name || "");
-        setAlreadySubmitted(!!guestData.rsvpSubmitted);
+        setGuestName(guestData.name || "Tamu Undangan");
+        setError(null);
+      } else {
+        setError("Tamu tidak ditemukan");
       }
     });
 
@@ -42,6 +49,8 @@ const RsvpWishViaWhatsApp = () => {
 
   const handlePaxChange = (e) => {
     let value = e.target.value;
+    
+    // Only allow numbers and empty string
     if (value === "" || /^[1-5]$/.test(value)) {
       setPax(value);
     }
@@ -50,8 +59,8 @@ const RsvpWishViaWhatsApp = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!name.trim()) {
-      setError("Harap isi nama Anda");
+    if (!guestName.trim() || guestName === "Tamu Undangan") {
+      setError("Nama tamu tidak valid");
       return;
     }
 
@@ -61,48 +70,32 @@ const RsvpWishViaWhatsApp = () => {
     }
 
     const finalPax = attending === "yes" ? pax : "0";
-    const status = attending === "yes" ? "Hadir" : "Tidak Hadir";
 
-    const message = `Halo, saya *${name}* ingin RSVP:\n\n` +
-                   `Status: ${status}\n` +
-                   `${attending === "yes" ? `Jumlah orang: ${finalPax} pax\n` : ""}\n` +
-                   `Terima kasih 🙏🏻`;
+    const message = `Halo, saya *${guestName}* ingin RSVP:\n\nStatus: ${attending === "yes" ? "Hadir" : "Tidak Hadir"}\n${attending === "yes" ? `Jumlah orang: ${finalPax} pax` : ""}\n\nTerima kasih 🙏🏻`;
 
-    const whatsappUrl = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(message)}`;
-    
-    // Open WhatsApp in new tab
-    window.open(whatsappUrl, '_blank');
-    
-    // Mark as submitted (you might want to update Firebase here)
-    setAlreadySubmitted(true);
+    const url = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(message)}`;
+    window.location.href = url;
   };
 
   return (
     <section
       style={{
         position: "relative",
-        minHeight: "50vh",
+        minHeight: "80vh",
         overflow: "hidden",
         fontFamily: "Poppins, sans-serif",
-        color: "#fff",
+        color: "#000",
+        backgroundColor: "#fff"
       }}
     >
       <div
         style={{
           position: "absolute",
           inset: 0,
-          backgroundImage: `url(${invitationData.rsvpImage})`,
+          background: "#fff",
           backgroundSize: "cover",
           backgroundPosition: "center",
           zIndex: 0,
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          backgroundColor: "rgba(0, 0, 0, 0.6)",
-          zIndex: 1,
         }}
       />
 
@@ -110,13 +103,13 @@ const RsvpWishViaWhatsApp = () => {
         style={{
           position: "relative",
           zIndex: 2,
-          padding: "40px 20px",
+          padding: "50px 50px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
           maxWidth: "500px",
-          margin: "0 auto",
+          margin: "-70px auto",
           height: "100%",
         }}
       >
@@ -128,16 +121,18 @@ const RsvpWishViaWhatsApp = () => {
           style={{
             width: "100%",
             textAlign: "center",
-            textShadow: "0 1px 3px rgba(0,0,0,0.5)",
           }}
         >
           <motion.h2
             variants={slideUp}
             style={{
               fontSize: "3.5rem",
+              fontWeight: "500", 
               fontFamily: "'Playfair Display', serif",
               marginBottom: "25px",
               lineHeight: "1",
+              color: "#000",
+              fontWeight: 300
             }}
           >
             RSVP
@@ -146,13 +141,17 @@ const RsvpWishViaWhatsApp = () => {
           <motion.p
             variants={slideUp}
             style={{
-              fontSize: "0.85rem",
-              marginBottom: "20px",
-              lineHeight: "1.5",
+              fontSize: "1.0rem",
+              lineHeight: 2,
+              fontStyle: "normal",
+              fontWeight: 300,
+              fontFamily: "'Cormorant Garamond', serif",
+              opacity: 0.9,
+              color: "#000"
             }}
           >
-            It would be such an honor and joy if you could <br />attend
-            and share your blessings with us.<br />Thank you from our hearts.
+            We'd love to hear from you!<br/>
+            Please fill out the confirmation below:
           </motion.p>
         </motion.div>
 
@@ -162,165 +161,198 @@ const RsvpWishViaWhatsApp = () => {
           style={{
             display: "flex",
             flexDirection: "column",
-            gap: "12px",
+            alignItems: "center",
+            gap: "40px",
             background: "transparent",
             borderRadius: "12px",
             padding: "20px",
             width: "100%",
-            maxWidth: "400px",
-            color: "#fff",
+            maxWidth: "350px",
+            color: "#000",
           }}
         >
           {error && (
             <div
               style={{
-                backgroundColor: "rgba(255, 0, 0, 0.2)",
-                color: "#fff",
+                backgroundColor: "rgba(0, 0, 0, 0.1)",
+                color: "#000",
                 padding: "8px",
                 borderRadius: "6px",
-                border: "1px solid rgba(255, 255, 255, 0.3)",
+                border: "1px solid rgba(0, 0, 0, 0.3)",
                 fontSize: "0.8rem",
+                width: "100%",
               }}
             >
               {error}
             </div>
           )}
 
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <input
-              type="text"
-              value={name}
-              placeholder="Nama Anda"
-              onChange={(e) => setName(e.target.value)}
-              disabled={alreadySubmitted}
+          {/* Name Field */}
+          <div style={{ width: "100%" }}>
+            <label 
+              htmlFor="nameInput"
               style={{
-                padding: "10px",
+                display: "block",
+                marginBottom: "8px",
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: "1.1rem",
+                color: "#000",
+                fontWeight: 300,
+                letterSpacing: "0.5px"
+              }}
+            >
+              Name
+            </label>
+            <input
+              id="nameInput"
+              type="text"
+              value={guestName}
+              readOnly
+              style={{
+                width: "100%",
+                padding: "12px",
                 borderRadius: "6px",
-                border: "1px solid rgba(255,255,255,0.5)",
+                border: "1px solid rgba(0,0,0,0.5)",
                 background: "transparent",
-                color: "#fff",
-                fontSize: "0.85rem",
-                opacity: alreadySubmitted ? 0.7 : 1,
+                fontFamily: "'Cormorant Garamond', serif",
+                color: "#000",
+                fontSize: "0.95rem",
+                cursor: "not-allowed"
               }}
             />
           </div>
 
-          {/* Konfirmasi Section */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-            <p style={{ 
-              fontSize: "0.9rem",
-              marginBottom: "5px",
-              fontWeight: "500"
-            }}>
-              Konfirmasi
-            </p>
-            
-            <div style={{ 
-              display: "flex", 
-              gap: "15px",
-              justifyContent: "flex-start",
-              fontSize: "0.85rem"
-            }}>
-              <label style={{ 
-                display: "flex", 
-                alignItems: "center", 
-                gap: "6px",
-                marginRight: "20px"
-              }}>
-                <input
-                  type="radio"
-                  name="attending"
-                  value="yes"
-                  checked={attending === "yes"}
-                  onChange={(e) => {
-                    setAttending(e.target.value);
-                    setError(null);
-                  }}
-                  disabled={alreadySubmitted}
-                  style={{ width: "14px", height: "14px" }}
-                />
-                Hadir
-              </label>
-              <label style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                <input
-                  type="radio"
-                  name="attending"
-                  value="no"
-                  checked={attending === "no"}
-                  onChange={(e) => {
-                    setAttending(e.target.value);
-                    setError(null);
-                  }}
-                  disabled={alreadySubmitted}
-                  style={{ width: "14px", height: "14px" }}
-                />
-                Tidak Hadir
-              </label>
+          {/* Attendance Buttons */}
+          <div style={{ width: "100%" }}>
+            <label 
+              style={{
+                display: "block",
+                marginBottom: "8px",
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: "0.95rem",
+                fontWeight: 300,
+                letterSpacing: "0.5px",
+                color: "#000"
+              }}
+            >
+              Will you attend the wedding?
+            </label>
+            <div style={{ display: "flex", gap: "16px", width: "100%" }}>
+              <button
+                type="button"
+                onClick={() => setAttending("yes")}
+                style={{
+                  flex: 1,
+                  padding: "10px 16px",
+                  borderRadius: "6px",
+                  backgroundColor: attending === "yes" ? "#BFA980" : "transparent",
+                  color: attending === "yes" ? "#fff" : "#BFA980",
+                  border: "1px solid rgba(0,0,0,0.5)",
+                  cursor: "pointer",
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontSize: "1rem",
+                  transition: "all 0.3s ease"
+                }}
+              >
+                Gladly Attend
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setAttending("no")}
+                style={{
+                  flex: 1,
+                  padding: "10px 16px",
+                  borderRadius: "6px",
+                  backgroundColor: attending === "no" ? "#BFA980" : "transparent",
+                  color: attending === "no" ? "#fff" : "#000",
+                  border: "1px solid rgba(0,0,0,0.5)",
+                  cursor: "pointer",
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontSize: "1rem",
+                  transition: "all 0.3s ease"
+                }}
+              >
+                Unable to Attend
+              </button>
             </div>
           </div>
 
+          {/* Pax Dropdown */}
           {attending === "yes" && (
-            <div style={{ display: "flex", flexDirection: "column" }}>
-              <input
-                type="number"
-                min="1"
-                max="5"
-                value={pax}
-                onChange={handlePaxChange}
-                placeholder="Jumlah orang (1-5)"
-                disabled={alreadySubmitted}
+            <div style={{ width: "100%" }}>
+              <label 
                 style={{
-                  padding: "10px",
-                  borderRadius: "6px",
-                  border: "1px solid rgba(255,255,255,0.5)",
-                  background: "transparent",
-                  color: "#fff",
-                  fontSize: "0.85rem",
-                  opacity: alreadySubmitted ? 0.7 : 1,
+                  display: "block",
+                  marginBottom: "8px",
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontSize: "1.1rem",
+                  color: "#000",
+                  fontWeight: 300
                 }}
-              />
+              >
+                Number of Guests
+              </label>
+              <select
+                value={pax}
+                onChange={(e) => setPax(e.target.value)}
+                style={{
+                  width: "100%",
+                  padding: "12px",
+                  borderRadius: "6px",
+                  border: "1px solid rgba(0,0,0,0.5)",
+                  background: "transparent",
+                  color: "#000",
+                  fontSize: "0.95rem",
+                  fontFamily: "'Cormorant Garamond', serif",
+                  appearance: "none",
+                  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`,
+                  backgroundRepeat: "no-repeat",
+                  backgroundPosition: "right 12px center",
+                  backgroundSize: "16px"
+                }}
+              >
+                <option value="" style={{ color: "#555", backgroundColor: "#fff" }}>
+                  Select number of guests
+                </option>
+                {[1, 2, 3, 4, 5].map((val) => (
+                  <option 
+                    key={val} 
+                    value={val}
+                    style={{ 
+                      color: "#000", 
+                      backgroundColor: "#fff",
+                      padding: "8px"
+                    }}
+                  >
+                    {val} {val > 1 ? "guests" : "guest"}
+                  </option>
+                ))}
+              </select>
             </div>
           )}
 
+          {/* Submit Button */}
           <button
             type="submit"
-            disabled={alreadySubmitted}
             style={{
-              backgroundColor: alreadySubmitted ? "rgba(255,255,255,0.2)" : "transparent",
-              color: "#fff",
-              fontWeight: "bold",
-              padding: "10px",
-              borderRadius: "20px",
-              border: "1px solid #fff",
-              cursor: alreadySubmitted ? "not-allowed" : "pointer",
-              fontSize: "0.85rem",
-              marginTop: "5px",
+              display: "inline-block",
+              padding: "12px 30px",
+              backgroundColor: "#BFA980",
+              border: "1px solid #BFA980",
+              borderRadius: "6px",
+              cursor: "pointer",
+              fontSize: "0.9rem",
+              textDecoration: "none",
+              color: "white",
               transition: "all 0.3s ease",
-            }}
-            onMouseOver={(e) => {
-              if (!alreadySubmitted) {
-                e.target.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
-              }
-            }}
-            onMouseOut={(e) => {
-              if (!alreadySubmitted) {
-                e.target.style.backgroundColor = "transparent";
-              }
+              letterSpacing: "1px",
+              fontFamily: "'Playfair Display', serif",
+              fontWeight: "400"
             }}
           >
-            {alreadySubmitted ? "RSVP Terkirim" : "Kirim via WhatsApp"}
+            Submit
           </button>
-
-          {alreadySubmitted && (
-            <p style={{
-              fontSize: "0.8rem",
-              textAlign: "center",
-              color: "rgba(255,255,255,0.8)",
-              marginTop: "10px"
-            }}>
-              Terima kasih telah mengkonfirmasi kehadiran Anda
-            </p>
-          )}
         </motion.form>
       </div>
     </section>

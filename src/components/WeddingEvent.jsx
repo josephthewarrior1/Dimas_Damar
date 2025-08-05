@@ -4,12 +4,10 @@ import invitationData from "../data/invitationData";
 import { containerVariants, slideUp } from "./animations";
 
 const WeddingEventSection = () => {
-  const [imageLoaded, setImageLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    const img = new Image();
-    img.src = invitationData.dateTimeImage;
-    img.onload = () => setImageLoaded(true);
+    setTimeout(() => setIsLoaded(true), 100);
   }, []);
 
   return (
@@ -20,46 +18,29 @@ const WeddingEventSection = () => {
       style={{
         position: "relative",
         minHeight: "100vh",
-        minHeight: "-webkit-fill-available",
         padding: "60px 20px",
-        fontFamily: "'Helvetica Neue', sans-serif",
-        color: "white",
+        fontFamily: "'Cormorant Garamond', serif",
+        color: "#2E2E2E",
+        background: "linear-gradient(to bottom, #ffffff 0%, #f0f0f0 100%)",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        textAlign: "left",
+        textAlign: "center",
         overflow: "hidden",
-        backgroundColor: "#f0e7db",
-        backgroundImage: imageLoaded
-          ? `url(${invitationData.dateTimeImage})`
-          : "none",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        opacity: imageLoaded ? 1 : 0.99,
-        transition: "opacity 0.8s ease, background 0.8s ease"
+        transition: "opacity 0.8s ease",
       }}
     >
-      {/* Dark Overlay */}
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          backgroundColor: "rgba(0,0,0,0.35)",
-          zIndex: 0,
-        }}
-      />
-
       <motion.div
         style={{
           position: "relative",
           zIndex: 1,
-          maxWidth: "700px",
+          maxWidth: "600px",
           width: "100%",
           display: "flex",
           flexDirection: "column",
-          gap: "40px",
-          opacity: imageLoaded ? 1 : 0,
-          transform: imageLoaded ? "translateY(0)" : "translateY(20px)",
+          gap: "30px",
+          opacity: isLoaded ? 1 : 0,
+          transform: isLoaded ? "translateY(0)" : "translateY(20px)",
           transition: "opacity 0.6s ease, transform 0.6s ease"
         }}
         variants={containerVariants}
@@ -67,88 +48,130 @@ const WeddingEventSection = () => {
         whileInView="visible"
         viewport={{ once: true }}
       >
-        {/* Date Section */}
         <motion.div variants={slideUp}>
-          <p style={{ fontSize: "0.8rem", letterSpacing: "2px", opacity: 0.9 }}>
-            DAY, DATE, TIME
+          <p style={{ fontSize: "1rem", lineHeight: 2, fontWeight: 300, opacity: 0.9 }}>
+            Together with joyful hearts and the grace of God, we cordially request the honor of your presence at our wedding celebration:
           </p>
-          <h2 style={{ fontSize: "2rem", fontWeight: "600", margin: "10px 0" }}>
-            SATURDAY,<br />19 JULY 2025
-          </h2>
-          <p style={{ fontSize: "1.1rem", marginBottom: "20px" }}>
-            10.00 - 12.00 WIB
-          </p>
-          <motion.a
-            href={invitationData.calendarLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              display: "inline-block",
-              padding: "10px 24px",
-              border: "1px solid white",
-              borderRadius: "25px",
-              fontSize: "0.9rem",
-              textDecoration: "none",
-              color: "white",
-              transition: "all 0.3s ease",
-            }}
-            whileHover={{ 
-              backgroundColor: "rgba(255,255,255,0.2)",
-              scale: 1.05
-            }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Add to Calendar
-          </motion.a>
         </motion.div>
 
-        {/* Place Section */}
+        {/* Date */}
         <motion.div variants={slideUp}>
-          <p style={{ fontSize: "0.8rem", letterSpacing: "2px", opacity: 0.9 }}>
-            PLACE
+          <p style={{ fontSize: "0.9rem", letterSpacing: "2px", marginBottom: "5px", color: "#A0A0A0" }}>
+            DATE
           </p>
-          <h3 style={{ 
-            fontSize: "1.5rem", 
+          <h2 style={{ 
+            fontSize: "1.6rem", 
             fontWeight: "500", 
-            lineHeight: 1.4, 
-            marginBottom: "15px" 
+            margin: "10px 0",
+            fontFamily: "'Playfair Display', serif"
           }}>
-            {invitationData.locationAddress.split('\n')[0]}
-          </h3>
-          <p style={{ fontSize: "1rem", lineHeight: 1.6, opacity: 0.95 }}>
-            {invitationData.locationAddress
-              .split('\n')
-              .slice(1)
-              .map((line, i) => (
-                <span key={i}>
-                  {line}
-                  <br />
-                </span>
-              ))}
-          </p>
+            Monday, 1 September 2025
+          </h2>
 
+          <div style={{ 
+            height: "50px",
+            width: "2px",
+            backgroundColor: "#C0C0C0",
+            margin: "30px auto 0",
+            opacity: 0.5
+          }} />
+
+          <motion.div
+            style={{ margin: "20px auto 0", width: "60px", height: "60px" }}
+            variants={slideUp}
+          >
+            <motion.img 
+              src={invitationData.cincin} 
+              alt="Wedding Ring" 
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "contain",
+                opacity: 0.8
+              }}
+              whileHover={{ rotate: 15, scale: 1.1 }}
+              transition={{ type: "spring", stiffness: 300, damping: 10 }}
+            />
+          </motion.div>
+        </motion.div>
+
+        {/* Holy Matrimony */}
+        <motion.div variants={slideUp}>
+          <p style={{ fontSize: "0.9rem", letterSpacing: "2px", marginBottom: "5px", color: "#A0A0A0" }}>
+            HOLY MATRIMONY
+          </p>
+          <p style={{ fontSize: "1.1rem", margin: "10px 0" }}>
+            10.00 WIB
+          </p>
+          <p style={{ fontSize: "1rem", lineHeight: 1.6, marginBottom: "10px" }}>
+            {invitationData.locationAddress.split('\n')[0]}
+          </p>
+          <div style={{ 
+            height: "50px", 
+            width: "2px", 
+            backgroundColor: "#C0C0C0",
+            margin: "30px auto 0",
+            opacity: 0.5
+          }} />
+          <motion.div
+            style={{ margin: "20px auto 0", width: "60px", height: "60px" }}
+            variants={slideUp}
+          >
+            <motion.img 
+              src={invitationData.gelas} 
+              alt="Wedding Glass" 
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "contain",
+                opacity: 0.8
+              }}
+              whileHover={{ rotate: -15, scale: 1.1 }}
+              transition={{ type: "spring", stiffness: 300, damping: 10 }}
+            />
+          </motion.div>
+        </motion.div>
+
+        {/* Reception */}
+        <motion.div variants={slideUp}>
+          <p style={{ fontSize: "0.9rem", letterSpacing: "2px", marginBottom: "5px", color: "#A0A0A0" }}>
+            WEDDING RECEPTION
+          </p>
+          <p style={{ fontSize: "1.1rem", margin: "10px 0" }}>
+            12.00 WIB
+          </p>
+          <p style={{ fontSize: "1rem", lineHeight: 1.6 }}>
+            {invitationData.locationAddress.split('\n')[0]}
+          </p>
+        </motion.div>
+
+        {/* Button */}
+        <motion.div variants={slideUp} style={{ marginTop: "30px" }}>
           <motion.a
             href={invitationData.mapsLink}
             target="_blank"
             rel="noopener noreferrer"
             style={{
               display: "inline-block",
-              marginTop: "20px",
-              padding: "10px 24px",
-              border: "1px solid white",
-              borderRadius: "25px",
+              padding: "12px 30px",
+              backgroundColor: "#BFA980",
+              border: "1px solid #BFA980",
+              borderRadius: "30px",
               fontSize: "0.9rem",
               textDecoration: "none",
               color: "white",
               transition: "all 0.3s ease",
+              letterSpacing: "1px",
+              fontFamily: "'Playfair Display', serif",
+              fontWeight: "400"
             }}
             whileHover={{ 
-              backgroundColor: "rgba(255,255,255,0.2)",
+              backgroundColor: "#D4C2A6",
               scale: 1.05
             }}
             whileTap={{ scale: 0.95 }}
           >
-            Link Google Maps
+            See Location
           </motion.a>
         </motion.div>
       </motion.div>

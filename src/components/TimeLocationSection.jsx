@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 import { useState, useEffect } from "react";
 import invitationData from "../data/invitationData";
 import { containerVariants, slideUp } from "./animations";
@@ -12,6 +12,7 @@ const TimeLocationSection = () => {
   });
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const controls = useAnimation();
 
   useEffect(() => {
     const checkIfMobile = () => {
@@ -26,7 +27,7 @@ const TimeLocationSection = () => {
     img.onload = () => setImageLoaded(true);
 
     const calculateTimeLeft = () => {
-      const eventDate = new Date(invitationData.eventDate);
+      const eventDate = new Date('2025-09-01T10:00:00');
       const currentDate = new Date();
       const difference = eventDate - currentDate;
 
@@ -37,17 +38,40 @@ const TimeLocationSection = () => {
         const seconds = Math.floor((difference / 1000) % 60);
 
         setTimeLeft({ days, hours, minutes, seconds });
+      } else {
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
       }
     };
 
     calculateTimeLeft();
     const timer = setInterval(calculateTimeLeft, 1000);
 
+    // Animate count-up when component mounts
+    controls.start({
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5 }
+    });
+
     return () => {
       clearInterval(timer);
       window.removeEventListener('resize', checkIfMobile);
     };
-  }, []);
+  }, [controls]);
+
+  // Animation variants for count-up effect
+  const countUpVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: (i) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: i * 0.1,
+        duration: 0.8,
+        ease: "easeOut"
+      }
+    })
+  };
 
   return (
     <motion.section
@@ -68,9 +92,9 @@ const TimeLocationSection = () => {
         overflow: "hidden",
         backgroundColor: "#000",
         backgroundImage: imageLoaded ? `url(${invitationData.dateTimeImage})` : "none",
-        backgroundSize: isMobile ? "cover" : "auto 160%", // Diubah untuk zoom out
+        backgroundSize: isMobile ? "cover" : "auto 160%",
         backgroundPosition: "center",
-        backgroundAttachment: isMobile ? "fixed" : "local", // Diubah untuk smooth scroll di PC
+        backgroundAttachment: isMobile ? "fixed" : "local",
         transition: "opacity 0.8s ease",
         opacity: imageLoaded ? 1 : 0.9,
         backgroundRepeat: "no-repeat"
@@ -122,15 +146,27 @@ const TimeLocationSection = () => {
             marginBottom: "40px",
             flexWrap: "wrap"
           }}>
-            {Object.entries(timeLeft).map(([unit, value]) => (
-              <div key={unit} style={{ minWidth: "70px" }}>
-                <div style={{ fontSize: "2rem", fontWeight: "500", fontFamily: "'Montserrat', sans-serif" }}>
-                  {value}
+            {Object.entries(timeLeft).map(([unit, value], index) => (
+              <motion.div 
+                key={unit}
+                custom={index}
+                initial="hidden"
+                animate="visible"
+                variants={countUpVariants}
+                style={{ minWidth: "70px" }}
+              >
+                <div style={{ 
+                  fontSize: "2rem", 
+                  fontWeight: "500", 
+                  fontFamily: "'Montserrat', sans-serif",
+                  minHeight: "2.5rem"
+                }}>
+                  {value.toString().padStart(2, '0')}
                 </div>
                 <div style={{ fontSize: "0.8rem", opacity: 0.8, letterSpacing: "1px" }}>
                   {unit.toUpperCase()}
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
 

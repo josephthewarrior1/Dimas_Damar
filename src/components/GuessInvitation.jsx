@@ -4,13 +4,16 @@ import { ref, query, orderByChild, equalTo, onValue } from 'firebase/database';
 import { db } from '../config/firebaseConfig';
 import QRCode from 'react-qr-code';
 import { saveAs } from 'file-saver';
-import invitationData from '../data/invitationData';
+import Modal from 'react-modal';
+
+Modal.setAppElement('#root');
 
 export default function GuestInvitationPage() {
   const location = useLocation();
   const [guestData, setGuestData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   // Parse URL parameters
   const searchParams = new URLSearchParams(location.search);
@@ -24,15 +27,11 @@ export default function GuestInvitationPage() {
       return;
     }
 
-    console.log('Searching for guest:', { coupleId, guestCode });
-
     const guestsRef = ref(db, `couples/${coupleId}/guests`);
     const guestQuery = query(guestsRef, orderByChild('code'), equalTo(guestCode));
 
     const unsubscribe = onValue(guestQuery, (snapshot) => {
       try {
-        console.log('Firebase response:', snapshot.val());
-        
         if (!snapshot.exists()) {
           throw new Error('Guest not found with this code');
         }
@@ -47,16 +46,9 @@ export default function GuestInvitationPage() {
         }
 
         const [guestId, guest] = guestEntry;
-        
-        console.log('Found guest:', guest);
-        
-        setGuestData({
-          id: guestId,
-          ...guest
-        });
+        setGuestData({ id: guestId, ...guest });
         setError('');
       } catch (err) {
-        console.error('Error fetching guest:', err);
         setError(err.message);
         setGuestData(null);
       } finally {
@@ -88,146 +80,266 @@ export default function GuestInvitationPage() {
     img.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgData)));
   };
 
+  const openModal = () => setModalIsOpen(true);
+  const closeModal = () => setModalIsOpen(false);
+
+  if (!fullCode) return null;
+
   if (loading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="text-center">
-          <p>Loading your invitation...</p>
-        </div>
-      </div>
-    );
+    return null;
   }
 
   if (error) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="text-center p-6 bg-white rounded-lg shadow-md max-w-md mx-4">
-          <h1 className="text-2xl font-bold text-red-500 mb-2">Error</h1>
-          <p className="mb-4">{error}</p>
-          <p>Please check your invitation link or contact the couple.</p>
-          <p className="mt-2 text-sm text-gray-600">
-            Trying to access: {coupleId}_{guestCode}
-          </p>
-        </div>
-      </div>
-    );
+    return null;
   }
 
   return (
-    <div
-      style={{
-        position: "relative",
-        minHeight: "100vh",
-        backgroundImage: `url(${invitationData.rsvpImage})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "20px",
-        color: "white",
-        fontFamily: "Poppins, sans-serif",
-      }}
-    >
-      {/* Overlay */}
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          backgroundColor: "rgba(0, 0, 0, 0.5)",
-          zIndex: 0,
-        }}
-      />
+    <>
+      {/* Hamburger Menu Button - Top Right */}
+      <div style={{
+        position: 'fixed',
+        top: '20px',
+        right: '20px',
+        zIndex: 100,
+        cursor: 'pointer'
+      }}>
+        <div 
+          onClick={openModal}
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '5px',
+            alignItems: 'center',
+            padding: '10px',
+            borderRadius: '50%',
+            background: 'rgba(142, 110, 83, 0.8)',
+            width: '40px',
+            height: '40px',
+            justifyContent: 'center',
+            boxShadow: '0 2px 10px rgba(0, 0, 0, 0.2)',
+            transition: 'all 0.3s ease'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = 'rgba(142, 110, 83, 0.9)';
+            e.currentTarget.style.transform = 'scale(1.1)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = 'rgba(142, 110, 83, 0.8)';
+            e.currentTarget.style.transform = 'scale(1)';
+          }}
+        >
+          <div style={{
+            width: '20px',
+            height: '2px',
+            background: 'white',
+            borderRadius: '2px'
+          }}></div>
+          <div style={{
+            width: '20px',
+            height: '2px',
+            background: 'white',
+            borderRadius: '2px'
+          }}></div>
+          <div style={{
+            width: '20px',
+            height: '2px',
+            background: 'white',
+            borderRadius: '2px'
+          }}></div>
+        </div>
+      </div>
 
-      {/* Content */}
-      <div
+      {/* Modal for QR Code */}
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
         style={{
-          position: "relative",
-          zIndex: 1,
-          backgroundColor: "rgba(255, 255, 255, 0.15)",
-          backdropFilter: "blur(10px)",
-          borderRadius: "20px",
-          padding: "30px",
-          maxWidth: "500px",
-          width: "100%",
-          textAlign: "center",
+          overlay: {
+            backgroundColor: 'rgba(0, 0, 0, 0.75)',
+            zIndex: 1000,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          },
+          content: {
+            position: 'relative',
+            inset: 'auto',
+            background: '#f5f5f5',
+            border: 'none',
+            borderRadius: '16px',
+            padding: '30px',
+            maxWidth: '450px',
+            width: '90%',
+            maxHeight: '90vh',
+            overflow: 'auto',
+            color: '#5d4037',
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.15)'
+          }
         }}
       >
-        <h1
-          style={{
-            fontSize: "2.5rem",
-            marginBottom: "20px",
+        <div style={{ textAlign: 'center' }}>
+          <h2 style={{
+            fontSize: '1.8rem',
+            marginBottom: '20px',
+            color: '#5d4037',
             fontFamily: "'Playfair Display', serif",
-          }}
-        >
-          Wedding Invitation
-        </h1>
+            fontWeight: 500
+          }}>
+            Your Wedding QR Code
+          </h2>
 
-        <div
-          style={{
-            backgroundColor: "white",
-            padding: "20px",
-            borderRadius: "15px",
-            marginBottom: "20px",
+          {/* Guest Info */}
+          {guestData && (
+            <div style={{
+              background: 'rgba(141, 110, 83, 0.1)',
+              padding: '15px',
+              borderRadius: '12px',
+              marginBottom: '25px',
+              border: '1px solid rgba(141, 110, 83, 0.2)'
+            }}>
+              <div style={{ marginBottom: '10px', fontSize: '1.1rem' }}>
+                <span style={{ fontWeight: 500 }}>For: </span>
+                <span style={{ fontWeight: 600 }}>{guestData.name}</span>
+              </div>
+              <div style={{ fontSize: '0.9rem', color: '#8e6e53' }}>
+                <span>Invitation Code: </span>
+                <span style={{ fontWeight: 500 }}>{guestData.code}</span>
+              </div>
+            </div>
+          )}
+
+          {/* QR Code Section */}
+          <div style={{ 
             display: 'flex',
-            justifyContent: 'center'
-          }}
-        >
-          <QRCode
-            id="guest-qr-code"
-            value={`${window.location.origin}/home?to=${coupleId}_${guestCode}`}
-            size={200}
-            level="H"
-            bgColor="#ffffff"
-            fgColor="#000000"
-          />
+            justifyContent: 'center',
+            marginBottom: '30px'
+          }}>
+            <div style={{
+              background: 'white',
+              padding: '20px',
+              borderRadius: '12px',
+              border: '1px solid #e0e0e0',
+              boxShadow: '0 5px 15px rgba(0, 0, 0, 0.05)',
+              position: 'relative',
+              overflow: 'hidden'
+            }}>
+              {/* Decorative corners */}
+              <div style={{
+                position: 'absolute',
+                top: '0',
+                left: '0',
+                width: '30px',
+                height: '30px',
+                borderTop: '2px solid #8e6e53',
+                borderLeft: '2px solid #8e6e53',
+                borderTopLeftRadius: '8px'
+              }}></div>
+              <div style={{
+                position: 'absolute',
+                top: '0',
+                right: '0',
+                width: '30px',
+                height: '30px',
+                borderTop: '2px solid #8e6e53',
+                borderRight: '2px solid #8e6e53',
+                borderTopRightRadius: '8px'
+              }}></div>
+              <div style={{
+                position: 'absolute',
+                bottom: '0',
+                left: '0',
+                width: '30px',
+                height: '30px',
+                borderBottom: '2px solid #8e6e53',
+                borderLeft: '2px solid #8e6e53',
+                borderBottomLeftRadius: '8px'
+              }}></div>
+              <div style={{
+                position: 'absolute',
+                bottom: '0',
+                right: '0',
+                width: '30px',
+                height: '30px',
+                borderBottom: '2px solid #8e6e53',
+                borderRight: '2px solid #8e6e53',
+                borderBottomRightRadius: '8px'
+              }}></div>
+              
+              <QRCode
+                id="guest-qr-code"
+                value={`${window.location.origin}/home?to=${coupleId}_${guestCode}`}
+                size={200}
+                level="H"
+                bgColor="#ffffff"
+                fgColor="#5d4037"
+              />
+            </div>
+          </div>
+
+          <p style={{ 
+            fontSize: '0.95rem',
+            color: '#8e6e53',
+            marginBottom: '30px',
+            fontStyle: 'italic'
+          }}>
+            Present this QR code at the wedding entrance
+          </p>
+
+          {/* Buttons */}
+          <div style={{ 
+            display: 'flex', 
+            gap: '15px', 
+            justifyContent: 'center',
+            flexWrap: 'wrap'
+          }}>
+            <button 
+              onClick={downloadQRCode}
+              style={{
+                background: 'linear-gradient(135deg, #8e6e53 0%, #5d4037 100%)',
+                color: 'white',
+                border: 'none',
+                padding: '12px 25px',
+                borderRadius: '30px',
+                cursor: 'pointer',
+                fontWeight: 600,
+                fontSize: '0.95rem',
+                transition: 'all 0.3s ease',
+                minWidth: '180px',
+                boxShadow: '0 4px 10px rgba(93, 64, 55, 0.3)'
+              }}
+              onMouseEnter={(e) => e.target.style.transform = 'translateY(-3px)'}
+              onMouseLeave={(e) => e.target.style.transform = 'translateY(0)'}
+            >
+              Download QR Code
+            </button>
+            <button 
+              onClick={closeModal}
+              style={{
+                background: 'transparent',
+                color: '#5d4037',
+                border: '1px solid #5d4037',
+                padding: '12px 25px',
+                borderRadius: '30px',
+                cursor: 'pointer',
+                fontWeight: 600,
+                fontSize: '0.95rem',
+                transition: 'all 0.3s ease',
+                minWidth: '120px'
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.transform = 'translateY(-3px)';
+                e.target.style.background = 'rgba(93, 64, 55, 0.05)';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.transform = 'translateY(0)';
+                e.target.style.background = 'transparent';
+              }}
+            >
+              Close
+            </button>
+          </div>
         </div>
-
-        <div
-          style={{
-            marginBottom: "20px",
-            textAlign: "left",
-            backgroundColor: "rgba(255, 255, 255, 0.2)",
-            padding: "15px",
-            borderRadius: "10px",
-          }}
-        >
-          <p style={{ marginBottom: "8px" }}>
-            <strong>Name:</strong> {guestData.name}
-          </p>
-          <p style={{ marginBottom: "8px" }}>
-            <strong>Invitation Code:</strong> {guestData.code}
-          </p>
-          <p style={{ marginBottom: "8px" }}>
-            <strong>Status:</strong> {guestData.status || 'pending'}
-          </p>
-        </div>
-
-        <button
-          onClick={downloadQRCode}
-          style={{
-            backgroundColor: "#fdbb3c",
-            color: "white",
-            border: "none",
-            padding: "12px 24px",
-            borderRadius: "25px",
-            cursor: "pointer",
-            fontWeight: "bold",
-            fontSize: "1rem",
-            transition: "all 0.3s ease",
-            marginBottom: "15px",
-          }}
-          onMouseEnter={(e) => (e.target.style.transform = "scale(1.05)")}
-          onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
-        >
-          Download QR Code
-        </button>
-
-        <p style={{ fontSize: "0.9rem", opacity: 0.8 }}>
-          Present this QR code at the wedding entrance
-        </p>
-      </div>
-    </div>
+      </Modal>
+    </>
   );
 }

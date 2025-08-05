@@ -60,26 +60,13 @@ const HeroSection = ({ guestName }) => {
           boxSizing: "border-box"
         }}
       >
-        {/* Wedding Title */}
-        <p
-          style={{ 
-            fontSize: "clamp(14px, 3.5vw, 18px)", 
-            letterSpacing: "3px",
-            marginBottom: "16px",
-            textTransform: "uppercase",
-            fontWeight: 300,
-            color: "#FFFFFF",
-            textShadow: "0 1px 2px rgba(0,0,0,0.3)"
-          }}
-        >
-          The Wedding Of
-        </p>
+        
 
         {/* Couple Name */}
         <h1
           style={{
             fontSize: "clamp(100px, 12vw, 120px)",
-            margin: "16px 0",
+            margin: "60px 0 16px",
             fontWeight: 600,
             lineHeight: 1.2,
             letterSpacing: "0.5px",
@@ -107,7 +94,7 @@ const HeroSection = ({ guestName }) => {
             fontWeight: 300
           }}
         >
-          December 12, 2024
+          September 1, 2025
         </p>
 
         {/* Decorative Separator */}
