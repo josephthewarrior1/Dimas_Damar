@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import invitationData from "../data/invitationData";
 
-const HeroSection = ({ guestName }) => {
+const SaveTheDateSection = ({ guestName }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isContentVisible, setIsContentVisible] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -55,7 +55,7 @@ const HeroSection = ({ guestName }) => {
           ? `url(${invitationData.weddingImage})`
           : "none",
         backgroundSize: "cover",
-        backgroundPosition: isMobile ? "58% center" : "70% center", // Only mobile-dependent style
+        backgroundPosition: isMobile ? "58% center" : "70% center",
         backgroundRepeat: "no-repeat",
         opacity: isLoaded ? 1 : 0.99,
         transition: "opacity 1s ease-in-out",
@@ -79,7 +79,7 @@ const HeroSection = ({ guestName }) => {
           padding: "0 20px",
           width: "100%",
           maxWidth: "500px",
-          margin: "300px auto 0", // Kept your exact margin
+          margin: "300px auto 0",
           opacity: isContentVisible ? 1 : 0,
           transform: isContentVisible ? "translateY(0)" : "translateY(20px)",
           transition: "opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1)",
@@ -89,52 +89,27 @@ const HeroSection = ({ guestName }) => {
           boxSizing: "border-box"
         }}
       >
-        {/* Wedding Title */}
-        <h2
-          style={{
-            fontSize: "clamp(16px, 3vw, 20px)",
-            fontWeight: 300,
-            letterSpacing: "2px",
-            marginBottom: "24px",
-            textTransform: "uppercase",
-            textShadow: "0 1px 3px rgba(0,0,0,0.5)",
-          }}
-        >
-          THE WEDDING OF
-        </h2>
+       
 
-        {/* Couple Name */}
+        {/* Save The Date Text */}
         <h1
           style={{
-            fontSize: "90px", // Kept your exact size
+            fontSize: "90px",
             margin: "0 0 16px",
             fontWeight: 400,
             lineHeight: 1,
             letterSpacing: "1px",
-            fontFamily: "'wano-quin', cursive",
+            
             color: "#ffffff",
             textShadow: "0 2px 8px rgba(0,0,0,0.5)",
           }}
         >
-          ROMEO<br />JULIET
+          SAVE<br />THE<br />DATE
         </h1>
 
-        {/* Wedding Date */}
-        <p
-          style={{ 
-            fontSize: "20px", // Kept your exact size
-            marginBottom: "24px",
-            letterSpacing: "1px",
-            textShadow: "0 1px 3px rgba(0,0,0,0.5)",
-            translate: "0 -20px",
-            fontWeight: 300,
-          }}
-        >
-          Saturday, 09 November 2025
-        </p>
       </div>
     </section>
   );
 };
 
-export default HeroSection;
+export default SaveTheDateSection;

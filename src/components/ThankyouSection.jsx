@@ -9,19 +9,21 @@ const ThankYouSection = () => {
 
   useEffect(() => {
     const checkIfMobile = () => {
-      const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      );
       setIsMobile(isMobileDevice || window.innerWidth < 768);
     };
-    
+
     checkIfMobile();
-    window.addEventListener('resize', checkIfMobile);
+    window.addEventListener("resize", checkIfMobile);
 
     const img = new Image();
     img.src = invitationData.dateTimeImage;
     img.onload = () => setImageLoaded(true);
 
     return () => {
-      window.removeEventListener('resize', checkIfMobile);
+      window.removeEventListener("resize", checkIfMobile);
     };
   }, []);
 
@@ -43,44 +45,55 @@ const ThankYouSection = () => {
         textAlign: "center",
         overflow: "hidden",
         backgroundColor: "white",
+        backgroundImage: `url(${invitationData.dateTimeImage})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundAttachment: isMobile ? "scroll" : "fixed",
         transition: "opacity 0.8s ease",
-        opacity: imageLoaded ? 1 : 0.9,
+        opacity: imageLoaded ? 1 : 0,
         backgroundRepeat: "no-repeat",
-        transform: "translate3d(0,0,0)",
-        backfaceVisibility: "hidden",
-        perspective: "1000px"
       }}
     >
-      {/* Floral Ornament - Top Left */}
-      <div style={{
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        width: '120px',
-        height: '120px',
-        backgroundImage: `url(${invitationData.bunga})`,
-        backgroundSize: 'contain',
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'left top',
-      }}></div>
+      {/* Ornamen Bunga - Kiri Atas */}
+      <motion.div
+        initial={{ opacity: 0, y: -30 }}
+        animate={{ opacity: 0.5, y: 0 }}
+        transition={{ duration: 1, delay: 0.3 }}
+        style={{
+          position: "absolute",
+          top: "0",
+          left: "0",
+          width: "120px",
+          height: "120px",
+          backgroundImage: `url(${invitationData.bunga})`,
+          backgroundSize: "contain",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "left top",
+          pointerEvents: "none",
+        }}
+      />
 
-      {/* Floral Ornament - Top Right */}
-      <div style={{
-        position: 'absolute',
-        top: '0',
-        right: '0',
-        width: '120px',
-        height: '120px',
-        backgroundImage: `url(${invitationData.bunga})`,
-        backgroundSize: 'contain',
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'right top',
-        transform: 'rotate(180deg)'
-      }}></div>
+      {/* Ornamen Bunga - Kanan Atas */}
+      <motion.div
+        initial={{ opacity: 0, y: -30 }}
+        animate={{ opacity: 0.5, y: 0 }}
+        transition={{ duration: 1, delay: 0.3 }}
+        style={{
+          position: "absolute",
+          top: "0",
+          right: "0",
+          width: "120px",
+          height: "120px",
+          backgroundImage: `url(${invitationData.bunga})`,
+          backgroundSize: "contain",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "right top",
+          transform: "rotate(180deg)",
+          pointerEvents: "none",
+        }}
+      />
 
+      {/* Konten Utama */}
       <motion.div
         style={{
           position: "relative",
@@ -91,6 +104,10 @@ const ThankYouSection = () => {
           flexDirection: "column",
           gap: "30px",
           alignItems: "center",
+          padding: "20px",
+          backgroundColor: "rgba(255, 255, 255, 0.85)",
+          borderRadius: "12px",
+          boxShadow: "0 8px 30px rgba(0,0,0,0.1)",
         }}
         variants={containerVariants}
         initial="hidden"
@@ -98,49 +115,66 @@ const ThankYouSection = () => {
         viewport={{ once: true }}
       >
         <motion.div variants={slideUp}>
-          <h2 style={{ 
-            fontSize: "2rem",
-            fontWeight: "500",
-            marginBottom: "20px",
-            letterSpacing: "1px",
-            fontFamily: "'Playfair Display', serif",
-          }}>
+          <h2
+            style={{
+              fontSize: isMobile ? "1.8rem" : "2.4rem",
+              fontWeight: "500",
+              marginBottom: "20px",
+              letterSpacing: "1px",
+              fontFamily: "'Playfair Display', serif",
+            }}
+          >
             Thank You
           </h2>
-          
-          <p style={{
-            fontSize: "1rem",
-            lineHeight: "1.6",
-            marginBottom: "30px",
-            maxWidth: "500px",
-            fontWeight: 300
-          }}>
-            Atas kehadiran dan doa restunya, kami mengucapkan terima kasih yang sebesar-besarnya. Semoga kebahagiaan ini menjadi berkah bagi kita semua.
+
+          <p
+            style={{
+              fontSize: isMobile ? "0.95rem" : "1.05rem",
+              lineHeight: "1.6",
+              marginBottom: "30px",
+              maxWidth: "500px",
+              fontWeight: 300,
+            }}
+          >
+            Atas kehadiran dan doa restunya, kami mengucapkan terima kasih yang
+            sebesar-besarnya. Semoga kebahagiaan ini menjadi berkah bagi kita
+            semua.
           </p>
 
           {/* Made by text */}
-          <p style={{
-            fontSize: "0.8rem",
-            color: "rgba(0,0,0,0.6)",
-            marginTop: "40px",
-            fontStyle: "italic"
-          }}>
+          <p
+            style={{
+              fontSize: "0.8rem",
+              color: "rgba(0,0,0,0.6)",
+              marginTop: "40px",
+              fontStyle: "italic",
+            }}
+          >
             Made by Momento • All rights reserved
           </p>
-          
-          {/* Added icon below the text */}
-        <div style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}>
-        <div style={{
-            width: "100px", // ✅ diperbesar dari 40px
-            height: "100px", // ✅ diperbesar dari 40px
-            backgroundImage: `url(${invitationData.icon})`,
-            backgroundSize: "contain",
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "center",
-            opacity: 0.7
-        }} />
-        </div>
 
+          {/* Icon */}
+          <motion.div
+            whileHover={{ scale: 1.05, opacity: 0.9 }}
+            transition={{ duration: 0.3 }}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: "10px",
+            }}
+          >
+            <div
+              style={{
+                width: "100px",
+                height: "100px",
+                backgroundImage: `url(${invitationData.icon})`,
+                backgroundSize: "contain",
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: "center",
+                opacity: 0.75,
+              }}
+            />
+          </motion.div>
         </motion.div>
       </motion.div>
     </motion.section>

@@ -1,11 +1,9 @@
 import { useRoutes, Navigate } from 'react-router-dom';
 import { useState } from 'react';
 import MainLayout from '../layouts/MainLayout';
-import IntroLayout from '../layouts/IntroLayout';
 import HomePage from '../pages/Home';
 import WeddingPage from '../pages/WeddingPage';
 import invitationData from '../data/invitationData';
-import IntroScreen from '../components/IntroScreen';
 import AudioPlayer from '../components/AudioPlayer';
 
 export default function AppRouter() {
@@ -14,26 +12,15 @@ export default function AppRouter() {
   const routes = useRoutes([
     {
       path: '/',
-      element: <Navigate to="/intro" replace />,
-    },
-    {
-      path: '/intro',
-      element: <IntroLayout />,
-      children: [
-        {
-          path: '',
-          element: <IntroScreen 
-            {...invitationData} 
-            onOpenInvitation={() => setIsAudioPlaying(true)}
-          />,
-        },
-      ],
+      element: <Navigate to="/home" replace />,
     },
     {
       path: '/home',
       element: (
         <MainLayout>
-          <HomePage />
+          <HomePage 
+            onOpenInvitation={() => setIsAudioPlaying(true)}
+          />
         </MainLayout>
       ),
     },
@@ -47,7 +34,7 @@ export default function AppRouter() {
     },
     {
       path: '*',
-      element: <Navigate to="/intro" replace />,
+      element: <Navigate to="/home" replace />,
     }
   ]);
 

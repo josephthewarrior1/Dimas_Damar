@@ -27,7 +27,7 @@ const TimeLocationSection = () => {
     img.onload = () => setImageLoaded(true);
 
     const calculateTimeLeft = () => {
-      const eventDate = new Date('2025-09-01T10:00:00');
+      const eventDate = new Date('2025-11-09T10:00:00');
       const currentDate = new Date();
       const difference = eventDate - currentDate;
 
@@ -91,9 +91,11 @@ const TimeLocationSection = () => {
         textAlign: "center",
         overflow: "hidden",
         backgroundColor: "#000",
-        backgroundImage: imageLoaded ? `url(${invitationData.dateTimeImage})` : "none",
+        backgroundImage: imageLoaded ? `url(${invitationData.imagetime})` : "none",
+
         backgroundSize: isMobile ? "cover" : "auto 160%",
-        backgroundPosition: "center",
+        backgroundPosition: isMobile ? "20% 30%" : "50% 50%",
+
         backgroundAttachment: isMobile ? "fixed" : "local",
         transition: "opacity 0.8s ease",
         opacity: imageLoaded ? 1 : 0.9,
@@ -129,14 +131,25 @@ const TimeLocationSection = () => {
         {/* Countdown Section */}
         <motion.div variants={slideUp}>
           <h2 style={{ 
-            fontSize: "2.8rem", 
-            fontWeight: "600", 
+            fontSize: "0.8rem", 
+            fontWeight: "400", 
             marginBottom: "50px",
-            letterSpacing: "2px",
-            fontStyle: "normal",
-            fontFamily: "'Playfair Display', serif",
+            letterSpacing: "1px",
+            fontStyle: "italic",
+            fontFamily: "'Cormorant Garamond', serif",
+            lineHeight: "1.5"
           }}>
-            Save The Date
+            "Demikianlah mereka bukan lagi dua, melainkan satu. <br />
+            Karena itu, apa yang telah dipersatukan Allah, <br />
+            tidak boleh diceraikan manusia." <br />
+            <span style={{ 
+              fontSize: "1rem", 
+              display: "block", 
+              marginTop: "10px",
+              fontStyle: "normal"
+            }}>
+              Matius 19:6
+            </span>
           </h2>
           
           <div style={{ 

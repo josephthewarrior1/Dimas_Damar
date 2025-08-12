@@ -24,3 +24,27 @@
     font-style: normal;
     font-display: swap;
 }
+
+@font-face {
+    font-family: 'Kopitha';
+    src: url('../assets/fonts/Kopitha-ExtraBold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'wano-quin';
+    src: url('../assets/fonts/wano-quin.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'catavalo';
+    src: url('../assets/fonts/Catavalo-Light.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}

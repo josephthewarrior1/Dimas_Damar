@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { FaInstagram } from "react-icons/fa";
 import invitationData from "../data/invitationData";
-import { containerVariants, slideUp } from "./animations";
+import { containerVariants, slideUp, fadeIn } from "./animations";
 import { useState, useEffect } from "react";
 
 const GroomSection = () => {
@@ -13,10 +13,9 @@ const GroomSection = () => {
     };
 
     checkIfMobile();
-    window.addEventListener('resize', checkIfMobile);
-
+    window.addEventListener("resize", checkIfMobile);
     return () => {
-      window.removeEventListener('resize', checkIfMobile);
+      window.removeEventListener("resize", checkIfMobile);
     };
   }, []);
 
@@ -34,139 +33,261 @@ const GroomSection = () => {
         fontFamily: "'Playfair Display', serif",
         willChange: "transform",
         overflow: "hidden",
+        background: "linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)",
       }}
     >
-      {/* Main Background */}
-      <img
-        src={invitationData.backgroundImageGroom}
-        alt="Groom background"
+      {/* Background blur */}
+      <div
         style={{
           position: "absolute",
           top: 0,
           left: 0,
           width: "100%",
           height: "100%",
-          objectFit: "cover",
           zIndex: -2,
+          background: `url(${invitationData.backgroundImageGroom}) center/cover no-repeat`,
+          filter: "blur(2px)",
         }}
       />
 
-<motion.img
-      src={invitationData.backgroundImageGroom}
-      alt="Groom center"
-      initial={{ opacity: 0, scale: 0.8 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true }}
-      transition={{
-        type: "spring",
-        stiffness: 50,
-        damping: 12,
-        delay: 0.3
-      }}
-      style={{
-        position: "absolute",
-        width: "370px",
-        height: "370px",
-        objectFit: "cover",
-        objectPosition: "center 10%",
-        borderRadius: "8px",
-        border: "4px solid white",
-        boxShadow: "0 6px 30px rgba(0,0,0,0.4)",
-        zIndex: 1,
-        top: "16%",
-        transform: "translateX(-50%)",
-      }}
-    />
-
-      {/* Dark Overlay */}
+      {/* Overlay gradient */}
       <div
         style={{
           position: "absolute",
-          inset: 0,
-          background: "linear-gradient(to top, rgba(0,0,0,0.7), rgba(100,100,100,0.3))",
-          zIndex: 0,
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          background:
+            "linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.6) 100%)",
+          zIndex: -1,
         }}
       />
 
-      {/* TEXT CONTAINER - ONLY THIS PART IS CONDITIONAL */}
+      {/* Ornamen bunga */}
       <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 0.1, y: 0 }}
+        transition={{ delay: 0.5, duration: 1 }}
         style={{
-          position: "relative",
-          zIndex: 1,
-          maxWidth: "500px",
-          marginTop: isMobile ? "370px" : "450px", // Only this line changes
+          position: "absolute",
+          top: "10%",
+          left: "5%",
+          fontSize: "5rem",
+          color: "rgba(255,255,255,0.1)",
+          zIndex: 0,
+          rotate: "-15deg",
         }}
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
       >
-        <motion.p
-          variants={slideUp}
+        ❀
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 0.1, y: 0 }}
+        transition={{ delay: 0.7, duration: 1 }}
+        style={{
+          position: "absolute",
+          bottom: "15%",
+          right: "5%",
+          fontSize: "5rem",
+          color: "rgba(255,255,255,0.1)",
+          zIndex: 0,
+          rotate: "15deg",
+        }}
+      >
+        ❀
+      </motion.div>
+
+      {/* Konten utama */}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "2rem",
+          width: "100%",
+          maxWidth: "1200px",
+        }}
+      >
+        {/* Foto mempelai pria */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{
+            type: "spring",
+            stiffness: 50,
+            damping: 12,
+            delay: 0.3,
+          }}
           style={{
-            fontSize: "1rem",
-            marginBottom: "6px",
-            opacity: 0.85,
-            letterSpacing: "1.8px",
+            position: "relative",
+            width: isMobile ? "280px" : "350px",
+            height: isMobile ? "280px" : "350px",
+            borderRadius: "50%",
+            border: "8px solid white",
+            boxShadow: "0 15px 50px rgba(0,0,0,0.3)",
+            overflow: "hidden",
+            zIndex: 1,
           }}
         >
-          GROOM
-        </motion.p>
-
-        <motion.h2
-          variants={slideUp}
-          style={{
-            fontSize: "2.25rem",
-            margin: "0 0 16px",
-            fontWeight: "600",
-            letterSpacing: "1px",
-          }}
-        >
-          {invitationData.groom || "TEOSANER YUTANESY IMAN"}
-        </motion.h2>
-
-        <motion.p
-          variants={slideUp}
-          style={{
-            fontSize: "1rem",
-            marginBottom: "6px",
-            letterSpacing: "1.5px",
-            opacity: 0.8,
-          }}
-        >
-          SON OF
-        </motion.p>
-
-        <motion.div variants={slideUp} style={{ marginBottom: "12px", lineHeight: "1.4" }}>
-          <p style={{ margin: "4px 0", fontSize: "1.05rem" }}>Mr. Andreas Yutanesy</p>
-          <p style={{ margin: "4px 0", fontSize: "1.05rem" }}>Mrs. Elisabeth Noya</p>
+          <img
+            src={invitationData.backgroundImageGroom}
+            alt="Groom"
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              objectPosition: "center top",
+            }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              right: 0,
+              padding: "1rem",
+              background:
+                "linear-gradient(to top, rgba(0,0,0,0.7), transparent)",
+              textAlign: "center",
+            }}
+          >
+          
+          </div>
         </motion.div>
 
-        <motion.a
-          href="https://www.instagram.com/teosaner" 
-          target="_blank"
-          rel="noopener noreferrer"
-          variants={slideUp}
+        {/* Teks deskripsi */}
+        <motion.div
           style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "8px",
-            fontSize: "1rem",
-            backgroundColor: "rgba(255,255,255,0.2)",
-            padding: "8px 16px",
-            borderRadius: "24px",
-            backdropFilter: "blur(4px)",
-            marginTop: "12px",
-            color: "white",
-            textDecoration: "none",
+            position: "relative",
+            zIndex: 1,
+            maxWidth: "600px",
+            textAlign: "center",
           }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
         >
-          <FaInstagram style={{ width: "18px", height: "18px" }} />
-          <span style={{ fontWeight: "500" }}>NathanaelEriskon</span>
-        </motion.a>
-      </motion.div>
+          <motion.div variants={fadeIn}>
+          
+
+            <h2
+              style={{
+                fontSize: isMobile ? "2.5rem" : "3.5rem",
+                margin: "0 0 1rem",
+                fontWeight: "600",
+                letterSpacing: "1px",
+                lineHeight: "1.1",
+                color: "white",
+                textShadow: "0 2px 4px rgba(0,0,0,0.3)",
+                position: "relative",
+                display: "inline-block",
+              }}
+            >
+              {invitationData.groom || "TEOSANER YUTANESY IMAN"}
+            </h2>
+          </motion.div>
+
+          <motion.div variants={slideUp}>
+            <p
+              style={{
+                fontSize: "1rem",
+                marginBottom: "1.5rem",
+                letterSpacing: "1px",
+                opacity: 0.9,
+                lineHeight: "1.6",
+                fontStyle: "italic",
+              }}
+            >
+              "Love is not about how many days, months, or years you have been
+              together. It's all about how much you love each other every day."
+            </p>
+          </motion.div>
+
+          <motion.div
+            variants={slideUp}
+            style={{
+              marginBottom: "1.5rem",
+              textAlign: "center",
+              position: "relative",
+            }}
+          >
+            <p
+              style={{
+                fontSize: "0.9rem",
+                marginBottom: "0.5rem",
+                letterSpacing: "2px",
+                textTransform: "uppercase",
+                opacity: 0.8,
+              }}
+            >
+              Son of
+            </p>
+
+            <div
+              style={{
+                display: "inline-block",
+                borderLeft: "2px solid rgba(255,255,255,0.3)",
+                paddingLeft: "1rem",
+                textAlign: "left",
+              }}
+            >
+              <p
+                style={{
+                  margin: "0.5rem 0",
+                  fontSize: "1.1rem",
+                  fontWeight: "500",
+                }}
+              >
+                Mr. Andreas Yutanesy
+              </p>
+              <p
+                style={{
+                  margin: "0.5rem 0",
+                  fontSize: "1.1rem",
+                  fontWeight: "500",
+                }}
+              >
+                Mrs. Elisabeth Noya
+              </p>
+            </div>
+          </motion.div>
+
+          <motion.a
+            href="https://www.instagram.com/teosaner"
+            target="_blank"
+            rel="noopener noreferrer"
+            variants={slideUp}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "10px",
+              fontSize: "1rem",
+              backgroundColor: "rgba(255,255,255,0.15)",
+              padding: "12px 24px",
+              borderRadius: "30px",
+              backdropFilter: "blur(5px)",
+              marginTop: "1rem",
+              color: "white",
+              textDecoration: "none",
+              border: "1px solid rgba(255,255,255,0.2)",
+              transition: "all 0.3s ease",
+            }}
+            whileHover={{
+              scale: 1.05,
+              backgroundColor: "rgba(255,255,255,0.25)",
+            }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <FaInstagram style={{ width: "20px", height: "20px" }} />
+            <span style={{ fontWeight: "500" }}>@Romeo_Nathan</span>
+          </motion.a>
+        </motion.div>
+      </div>
     </section>
   );
 };

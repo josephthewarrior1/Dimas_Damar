@@ -20,6 +20,16 @@ const RsvpWishSection = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState(null);
   const [alreadySubmitted, setAlreadySubmitted] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // 1. Cari data tamu berdasarkan guestCode
   useEffect(() => {
@@ -126,47 +136,103 @@ const RsvpWishSection = () => {
     <section
       style={{
         width: '100%',
-        padding: '60px 20px',
-        backgroundColor: '#ffffff',
+        padding: isMobile ? '80px 15px 40px' : '100px 20px 60px',
+        backgroundColor: '#000000',
         margin: '-10px auto',
         textAlign: 'center',
         fontFamily: '"Cormorant Garamond", serif',
         boxSizing: 'border-box',
         position: 'relative',
-        color: '#000000',
-        minHeight: '70vh'
+        color: '#ffffff',
+        minHeight: '70vh',
+        overflow: 'hidden'
       }}
     >
-      {/* Floral Ornament - Top Left */}
-      <div style={{
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        width: '120px',
-        height: '120px',
-        backgroundImage: `url(${invitationData.bunga})`,
-        backgroundSize: 'contain',
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'left top',
-        opacity: 0.2,
-        
-      }}></div>
+      {/* Top Left Ornament - Mobile */}
+      {isMobile && (
+        <div style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "90px",
+          height: "auto",
+          opacity: 0.8,
+          transform: "rotate(180deg)"
+        }}>
+          <img 
+            src={invitationData.ornamenImage1} 
+            alt="Ornament" 
+            style={{ 
+              width: "100%", 
+              height: "auto",
+            }} 
+          />
+        </div>
+      )}
 
-      {/* Floral Ornament - Top Right */}
-      <div style={{
-        position: 'absolute',
-        top: '0',
-        right: '0',
-        width: '120px',
-        height: '120px',
-        backgroundImage: `url(${invitationData.bunga})`,
-        backgroundSize: 'contain',
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'right top',
-        opacity: 0.2,
-        transform: 'rotate(180deg)'
-      }}></div>
+      {/* Top Right Ornament - Mobile */}
+      {isMobile && (
+        <div style={{
+          position: "absolute",
+          top: 0,
+          right: 0,
+          width: "90px",
+          height: "auto",
+          opacity: 0.8,
+        }}>
+          <img 
+            src={invitationData.ornamenImage1} 
+            alt="Ornament" 
+            style={{ 
+              width: "100%", 
+              height: "auto",
+            }} 
+          />
+        </div>
+      )}
 
+      {/* Top Left Ornament - Desktop */}
+      {!isMobile && (
+        <div style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "90px",
+          height: "auto",
+          opacity: 0.8,
+          transform: "rotate(180deg)"
+        }}>
+          <img 
+            src={invitationData.ornamenImage1} 
+            alt="Ornament" 
+            style={{ 
+              width: "100%", 
+              height: "auto",
+            }} 
+          />
+        </div>
+      )}
+
+      {/* Top Right Ornament - Desktop */}
+      {!isMobile && (
+        <div style={{
+          position: "absolute",
+          top: 0,
+          right: 0,
+          width: "90px",
+          height: "auto",
+          opacity: 0.8,
+        }}>
+          <img 
+            src={invitationData.ornamenImage1} 
+            alt="Ornament" 
+            style={{ 
+              width: "100%", 
+              height: "auto",
+            }} 
+          />
+        </div>
+      )}
 
       <div
         style={{
@@ -185,19 +251,20 @@ const RsvpWishSection = () => {
           style={{
             maxWidth: "600px",
             width: "100%",
-            marginBottom: '30px'
+            marginBottom: isMobile ? '20px' : '30px',
+            padding: isMobile ? '0 10px' : '0'
           }}
         >
           <motion.h2
             variants={slideUp}
             style={{
               textAlign: "center",
-              fontSize: "1.8rem",
+              fontSize: isMobile ? "1.5rem" : "1.8rem",
               fontWeight: 500,
               letterSpacing: '1px',
               margin: 0,
               lineHeight: '1.1',
-              color: '#000000',
+              color: "#BFA980",
               fontFamily: "'Playfair Display', serif",
             }}
           >
@@ -207,9 +274,9 @@ const RsvpWishSection = () => {
             variants={slideUp}
             style={{
               textAlign: "center",
-              fontSize: "0.95rem",
+              fontSize: isMobile ? "0.85rem" : "0.95rem",
               lineHeight: '1.5',
-              color: 'rgba(0,0,0,0.8)',
+              color: 'rgba(255,255,255,0.8)',
               marginTop: '10px'
             }}
           >
@@ -225,15 +292,16 @@ const RsvpWishSection = () => {
           style={{
             width: "100%",
             maxWidth: "600px",
-            height: wishes.length > 0 ? "60vh" : "auto",
+            height: wishes.length > 0 ? (isMobile ? "50vh" : "60vh") : "auto",
             overflowY: wishes.length > 0 ? "auto" : "visible",
-            padding: "20px",
-            backgroundColor: "#ffffff",
+            padding: isMobile ? "15px" : "20px",
+            backgroundColor: "#111111",
             borderRadius: "12px",
-            border: "1px solid rgba(0, 0, 0, 0.2)",
-            boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
+            border: "1px solid rgba(255, 255, 255, 0.2)",
+            boxShadow: "0 4px 20px rgba(255, 255, 255, 0.1)",
             scrollbarWidth: "thin",
-            scrollbarColor: "#555555 rgba(0,0,0,0.1)",
+            scrollbarColor: "#BFA980 rgba(255,255,255,0.1)",
+            margin: isMobile ? '0 10px' : '0'
           }}
         >
           {submitError && !guestId && (
@@ -241,7 +309,7 @@ const RsvpWishSection = () => {
               variants={slideUp}
               style={{
                 background: "rgba(255, 0, 0, 0.1)",
-                color: "#cc0000",
+                color: "#ff9999",
                 padding: "10px",
                 borderRadius: "8px",
                 border: "1px solid rgba(255, 0, 0, 0.3)",
@@ -261,7 +329,7 @@ const RsvpWishSection = () => {
                   display: "flex",
                   flexDirection: "column",
                   gap: "12px",
-                  marginBottom: "30px",
+                  marginBottom: isMobile ? "20px" : "30px",
                 }}
               >
                 {submitError && (
@@ -269,7 +337,7 @@ const RsvpWishSection = () => {
                     variants={slideUp}
                     style={{
                       background: "rgba(255, 0, 0, 0.1)",
-                      color: "#cc0000",
+                      color: "#ff9999",
                       padding: "10px",
                       borderRadius: "8px",
                       border: "1px solid rgba(255, 0, 0, 0.3)"
@@ -287,14 +355,17 @@ const RsvpWishSection = () => {
                   rows={3}
                   disabled={alreadySubmitted}
                   style={{
-                    padding: "15px",
+                    padding: isMobile ? "12px" : "15px",
                     borderRadius: "8px",
                     fontFamily: '"Cormorant Garamond", serif',
-                    border: "1px solid rgba(0,0,0,0.3)",
-                    background: "rgba(255,255,255,0.9)",
-                    color: "#000000",
-                    fontSize: "0.95rem",
+                    border: "1px solid rgba(255,255,255,0.3)",
+                    background: "rgba(0,0,0,0.5)",
+                    color: "#ffffff",
+                    fontSize: isMobile ? "0.9rem" : "0.95rem",
                     resize: "none",
+                    '&::placeholder': {
+                      color: 'rgba(255,255,255,0.5)'
+                    }
                   }}
                 />
 
@@ -303,18 +374,18 @@ const RsvpWishSection = () => {
                   type="submit"
                   disabled={isSubmitting || alreadySubmitted}
                   style={{
-                    backgroundColor: alreadySubmitted ? "#cccccc" : "#BFA980",
+                    backgroundColor: alreadySubmitted ? "#555555" : "#BFA980",
                     color: "white",
                     border: "none",
-                    padding: "12px 25px",
-                    fontSize: "0.95rem",
+                    padding: isMobile ? "10px 20px" : "12px 25px",
+                    fontSize: isMobile ? "0.9rem" : "0.95rem",
                     borderRadius: "30px",
                     cursor: alreadySubmitted ? "not-allowed" : "pointer",
                     transition: "all 0.3s ease",
                     fontFamily: '"Cormorant Garamond", serif',
                     letterSpacing: "1px",
                     margin: "0 auto",
-                    width: "80%",
+                    width: isMobile ? "90%" : "80%",
                   }}
                   whileHover={!alreadySubmitted && !isSubmitting ? { scale: 1.02 } : {}}
                 >
@@ -330,9 +401,9 @@ const RsvpWishSection = () => {
                     variants={slideUp}
                     style={{
                       textAlign: "center",
-                      color: "#555555",
+                      color: "rgba(255,255,255,0.7)",
                       marginTop: "10px",
-                      fontSize: "0.9rem"
+                      fontSize: isMobile ? "0.85rem" : "0.9rem"
                     }}
                   >
                     Terima kasih atas ucapan dan doanya
@@ -350,9 +421,10 @@ const RsvpWishSection = () => {
                 {wishes.length === 0 ? (
                   <p style={{ 
                     textAlign: "center", 
-                    color: "rgba(0,0,0,0.7)",
+                    color: "rgba(255,255,255,0.7)",
                     fontStyle: "italic",
-                    margin: 0
+                    margin: 0,
+                    fontSize: isMobile ? "0.85rem" : "0.9rem"
                   }}>
                     Belum ada ucapan yang ditulis.
                   </p>
@@ -361,12 +433,12 @@ const RsvpWishSection = () => {
                     <div
                       key={item.id}
                       style={{
-                        background: "rgba(255,255,255,0.9)",
+                        background: "rgba(0,0,0,0.5)",
                         borderRadius: "8px",
-                        padding: "16px",
+                        padding: isMobile ? "12px" : "16px",
                         marginBottom: "12px",
-                        border: "1px solid rgba(0,0,0,0.1)",
-                        color: "#000000",
+                        border: "1px solid rgba(255,255,255,0.1)",
+                        color: "#ffffff",
                       }}
                     >
                       <div
@@ -381,14 +453,15 @@ const RsvpWishSection = () => {
                             backgroundColor: "#BFA980",
                             color: "#fff",
                             fontWeight: "bold",
-                            width: "36px",
-                            height: "36px",
+                            width: isMobile ? "32px" : "36px",
+                            height: isMobile ? "32px" : "36px",
                             borderRadius: "50%",
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
                             marginRight: "10px",
-                            fontFamily: '"Cormorant Garamond", serif'
+                            fontFamily: '"Cormorant Garamond", serif',
+                            fontSize: isMobile ? "0.8rem" : "0.9rem"
                           }}
                         >
                           {item.name.slice(0, 2).toUpperCase()}
@@ -398,15 +471,15 @@ const RsvpWishSection = () => {
                             style={{
                               fontWeight: "bold",
                               marginBottom: "4px",
-                              color: "#000000",
-                              fontSize: "1rem"
+                              color: "#ffffff",
+                              fontSize: isMobile ? "0.95rem" : "1rem"
                             }}
                           >
                             {item.name}
                           </div>
                           <div style={{ 
-                            fontSize: "0.9rem", 
-                            color: "rgba(0,0,0,0.8)",
+                            fontSize: isMobile ? "0.85rem" : "0.9rem", 
+                            color: "rgba(255,255,255,0.8)",
                             lineHeight: "1.5",
                             marginBottom: "6px"
                           }}>
@@ -414,8 +487,8 @@ const RsvpWishSection = () => {
                           </div>
                           <div
                             style={{
-                              fontSize: "0.75rem",
-                              color: "rgba(0,0,0,0.5)",
+                              fontSize: isMobile ? "0.7rem" : "0.75rem",
+                              color: "rgba(255,255,255,0.5)",
                             }}
                           >
                             {formatDate(item.createdAt)}

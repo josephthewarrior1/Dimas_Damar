@@ -1,17 +1,52 @@
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import invitationData from "../data/invitationData";
 import { containerVariants, slideUp } from "./animations";
+import CountUp from 'react-countup';
 
 const WeddingEventSection = () => {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [startCount, setStartCount] = useState(false);
+  const [daysLeft, setDaysLeft] = useState(0);
+  const sectionRef = useRef(null);
 
   useEffect(() => {
     setTimeout(() => setIsLoaded(true), 100);
+
+    // Calculate days until September 9, 2025
+    const calculateDaysLeft = () => {
+      const weddingDate = new Date(2025, 10, 9); // 10 = November (0-indexed)
+      const today = new Date();
+      const diffTime = weddingDate - today;
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      setDaysLeft(diffDays > 0 ? diffDays : 0);
+    };
+
+    calculateDaysLeft();
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setStartCount(true);
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
   }, []);
 
   return (
     <motion.section
+      ref={sectionRef}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
@@ -20,8 +55,8 @@ const WeddingEventSection = () => {
         minHeight: "100vh",
         padding: "60px 20px",
         fontFamily: "'Cormorant Garamond', serif",
-        color: "#2E2E2E",
-        background: "linear-gradient(to bottom, #ffffff 0%, #f0f0f0 100%)",
+        color: "#ffffff",
+        background: "#000000",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -30,6 +65,50 @@ const WeddingEventSection = () => {
         transition: "opacity 0.8s ease",
       }}
     >
+
+       {/* Top Left Ornament */}
+       <div style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "90px",
+        height: "auto",
+        opacity: 0.8,
+        transform: "rotate(180deg)"
+      }}>
+        <img 
+          src={invitationData.ornamenImage1} 
+          alt="Ornament" 
+          style={{ 
+            width: "100%", 
+            height: "auto",
+         
+          }} 
+        />
+      </div>
+
+      {/* Top Right Ornament */}
+      <div style={{
+        position: "absolute",
+        top: 0,
+        right: 0,
+        width: "90px",
+        height: "auto",
+        opacity: 0.8,
+        
+
+      }}>
+        <img 
+          src={invitationData.ornamenImage1} 
+          alt="Ornament" 
+          style={{ 
+            width: "100%", 
+            height: "auto",
+         
+          }} 
+        />
+      </div>
+
       <motion.div
         style={{
           position: "relative",
@@ -48,30 +127,74 @@ const WeddingEventSection = () => {
         whileInView="visible"
         viewport={{ once: true }}
       >
+        {/* Countdown Timer */}
+        <motion.div 
+          variants={slideUp}
+          style={{
+            marginBottom: "40px",
+            position: "relative"
+          }}
+        >
+          <div style={{
+            fontSize: "5rem",
+            fontWeight: "300",
+            fontFamily: "'Playfair Display', serif",
+            lineHeight: 1,
+            color: "rgba(255,255,255,0.9)",
+            marginBottom: "10px"
+          }}>
+            {startCount && (
+              <CountUp
+                start={daysLeft + 10} // Start from higher number for countdown effect
+                end={daysLeft}
+                duration={2.5}
+                separator=""
+                delay={0}
+                style={{ fontFamily: "'Playfair Display', serif" }}
+              />
+            )}
+          </div>
+          <p style={{
+            fontSize: "1rem",
+            letterSpacing: "2px",
+            color: "rgba(255,255,255,0.7)",
+            marginBottom: "20px"
+          }}>
+            DAYS TO GO
+          </p>
+          <div style={{
+            width: "100px",
+            height: "1px",
+            backgroundColor: "rgba(255,255,255,0.3)",
+            margin: "0 auto"
+          }} />
+        </motion.div>
+
         <motion.div variants={slideUp}>
-          <p style={{ fontSize: "1rem", lineHeight: 2, fontWeight: 300, opacity: 0.9 }}>
+          <p style={{ fontSize: "1rem", lineHeight: 2, fontWeight: 300, opacity: 0.8 }}>
             Together with joyful hearts and the grace of God, we cordially request the honor of your presence at our wedding celebration:
           </p>
         </motion.div>
 
         {/* Date */}
         <motion.div variants={slideUp}>
-          <p style={{ fontSize: "0.9rem", letterSpacing: "2px", marginBottom: "5px", color: "#A0A0A0" }}>
+          <p style={{ fontSize: "0.9rem", letterSpacing: "2px", marginBottom: "5px", color: "rgba(255,255,255,0.6)" }}>
             DATE
           </p>
           <h2 style={{ 
             fontSize: "1.6rem", 
             fontWeight: "500", 
             margin: "10px 0",
-            fontFamily: "'Playfair Display', serif"
+            fontFamily: "'Playfair Display', serif",
+            color: "rgba(255,255,255,0.9)"
           }}>
-            Monday, 1 September 2025
+            Sunday, 09 November 2025
           </h2>
 
           <div style={{ 
             height: "50px",
             width: "2px",
-            backgroundColor: "#C0C0C0",
+            backgroundColor: "rgba(255,255,255,0.3)",
             margin: "30px auto 0",
             opacity: 0.5
           }} />
@@ -87,7 +210,8 @@ const WeddingEventSection = () => {
                 width: "100%",
                 height: "100%",
                 objectFit: "contain",
-                opacity: 0.8
+                opacity: 0.8,
+              
               }}
               whileHover={{ rotate: 15, scale: 1.1 }}
               transition={{ type: "spring", stiffness: 300, damping: 10 }}
@@ -97,19 +221,19 @@ const WeddingEventSection = () => {
 
         {/* Holy Matrimony */}
         <motion.div variants={slideUp}>
-          <p style={{ fontSize: "0.9rem", letterSpacing: "2px", marginBottom: "5px", color: "#A0A0A0" }}>
+          <p style={{ fontSize: "0.9rem", letterSpacing: "2px", marginBottom: "5px", color: "rgba(255,255,255,0.6)" }}>
             HOLY MATRIMONY
           </p>
-          <p style={{ fontSize: "1.1rem", margin: "10px 0" }}>
+          <p style={{ fontSize: "1.1rem", margin: "10px 0", color: "rgba(255,255,255,0.9)" }}>
             10.00 WIB
           </p>
-          <p style={{ fontSize: "1rem", lineHeight: 1.6, marginBottom: "10px" }}>
+          <p style={{ fontSize: "1rem", lineHeight: 1.6, marginBottom: "10px", opacity: 0.8 }}>
             {invitationData.locationAddress.split('\n')[0]}
           </p>
           <div style={{ 
             height: "50px", 
             width: "2px", 
-            backgroundColor: "#C0C0C0",
+            backgroundColor: "rgba(255,255,255,0.3)",
             margin: "30px auto 0",
             opacity: 0.5
           }} />
@@ -124,7 +248,8 @@ const WeddingEventSection = () => {
                 width: "100%",
                 height: "100%",
                 objectFit: "contain",
-                opacity: 0.8
+                opacity: 0.8,
+            
               }}
               whileHover={{ rotate: -15, scale: 1.1 }}
               transition={{ type: "spring", stiffness: 300, damping: 10 }}
@@ -134,13 +259,13 @@ const WeddingEventSection = () => {
 
         {/* Reception */}
         <motion.div variants={slideUp}>
-          <p style={{ fontSize: "0.9rem", letterSpacing: "2px", marginBottom: "5px", color: "#A0A0A0" }}>
+          <p style={{ fontSize: "0.9rem", letterSpacing: "2px", marginBottom: "5px", color: "rgba(255,255,255,0.6)" }}>
             WEDDING RECEPTION
           </p>
-          <p style={{ fontSize: "1.1rem", margin: "10px 0" }}>
+          <p style={{ fontSize: "1.1rem", margin: "10px 0", color: "rgba(255,255,255,0.9)" }}>
             12.00 WIB
           </p>
-          <p style={{ fontSize: "1rem", lineHeight: 1.6 }}>
+          <p style={{ fontSize: "1rem", lineHeight: 1.6, opacity: 0.8 }}>
             {invitationData.locationAddress.split('\n')[0]}
           </p>
         </motion.div>
@@ -154,8 +279,8 @@ const WeddingEventSection = () => {
             style={{
               display: "inline-block",
               padding: "12px 30px",
-              backgroundColor: "#BFA980",
-              border: "1px solid #BFA980",
+              backgroundColor: "transparent",
+              border: "1px solid rgba(255,255,255,0.5)",
               borderRadius: "30px",
               fontSize: "0.9rem",
               textDecoration: "none",
@@ -166,8 +291,9 @@ const WeddingEventSection = () => {
               fontWeight: "400"
             }}
             whileHover={{ 
-              backgroundColor: "#D4C2A6",
-              scale: 1.05
+              backgroundColor: "rgba(255,255,255,0.1)",
+              scale: 1.05,
+              borderColor: "rgba(255,255,255,0.8)"
             }}
             whileTap={{ scale: 0.95 }}
           >
