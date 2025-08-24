@@ -273,7 +273,7 @@ const BrideSection = () => {
           </motion.div>
 
           <motion.a
-            href="https://www.instagram.com/sherinangelina"
+            href="https://www.instagram.com/juliettevcnz/"
             target="_blank"
             rel="noopener noreferrer"
             variants={slideUp}

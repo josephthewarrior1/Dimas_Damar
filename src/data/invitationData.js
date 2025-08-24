@@ -30,7 +30,7 @@ const invitationData = {
   location: "Hotel Grand Indonesia",
   locationAddress: "Gereja Sidang Jemaat Kristus\nJl. Raya Darmo Permai III\nSurabaya, Jawa Timur\n60239",
   dateTimeImage: assetPath('test10.png'),
-  mapsLink: "https://maps.app.goo.gl/QAcpiFfeWeyWbKsbA",
+  mapsLink: "https://maps.app.goo.gl/hrsEuRxabUe5R8g1A",
   zoomLink: "https://zoom.us/your-meeting-link",
   youtubeLink: "https://youtube.com/your-livestream-link",
   galleryImages: [

@@ -258,7 +258,7 @@ const GroomSection = () => {
           </motion.div>
 
           <motion.a
-            href="https://www.instagram.com/teosaner"
+            href="https://www.instagram.com/romeo.nathann/"
             target="_blank"
             rel="noopener noreferrer"
             variants={slideUp}
