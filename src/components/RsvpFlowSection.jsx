@@ -119,7 +119,7 @@ const RsvpWishGiftSection = () => {
     }
   };
 
-  const handleRsvpSubmit = (e) => {
+  const handleRsvpSubmit = async (e) => {
     e.preventDefault();
 
     if (attending === null) {
@@ -132,9 +132,23 @@ const RsvpWishGiftSection = () => {
       return;
     }
 
-    setRsvpError(null);
-    setIsRsvpSubmitted(true);
-    setActiveSection('wish');
+    try {
+      // Update status tamu di Firebase
+      const status = attending === "yes" ? "ACCEPTED" : "REJECTED";
+      
+      await update(ref(db, `couples/${coupleId}/guests/${guestId}`), {
+        status,
+        ...(attending === "yes" && { pax }),
+        updatedAt: Date.now()
+      });
+
+      setRsvpError(null);
+      setIsRsvpSubmitted(true);
+      setActiveSection('wish');
+    } catch (error) {
+      console.error("Error updating RSVP:", error);
+      setRsvpError("Gagal mengkonfirmasi kehadiran");
+    }
   };
 
   // Handle Wish Submission
@@ -682,6 +696,7 @@ const RsvpWishGiftSection = () => {
                   maxWidth: '500px',
                   margin: '0 auto',
                   padding: '25px',
+                  
                   borderRadius: '12px',
                   background: 'rgba(20, 20, 20, 0.8)',
                   boxShadow: '0 10px 30px rgba(0,0,0,0.3)',
@@ -698,38 +713,42 @@ const RsvpWishGiftSection = () => {
                         color: '#ff9999',
                         padding: '10px',
                         borderRadius: '8px',
+                        
                         border: '1px solid rgba(255, 0, 0, 0.3)',
                         marginBottom: '20px',
                         fontSize: '0.9rem'
+                        
                       }}
                     >
                       {submitError}
                     </motion.div>
                   )}
 
-                  <div style={{ marginBottom: '20px' }}>
-                    <textarea
-                      placeholder="Tulis ucapan dan doa Anda disini"
-                      value={wish}
-                      onChange={(e) => setWish(e.target.value)}
-                      rows={4}
-                      disabled={alreadySubmitted}
-                      style={{
-                        width: '100%',
-                       
-                        borderRadius: '8px',
-                        fontFamily: '"Cormorant Garamond", serif',
-                        border: '1px solid rgba(255,255,255,0.3)',
-                        background: 'rgba(0,0,0,0.5)',
-                        color: '#ffffff',
-                        fontSize: '1rem',
-                        resize: 'none',
-                        '::placeholder': {
-                          color: 'rgba(255,255,255,0.5)'
-                        }
-                      }}
-                    />
-                  </div>
+<div style={{ marginBottom: '20px' }}>
+  <textarea
+    placeholder="Tulis ucapan dan doa Anda disini"
+    value={wish}
+    onChange={(e) => setWish(e.target.value)}
+    rows={4}
+    disabled={alreadySubmitted}
+    style={{
+      width: '100%',
+      padding: '12px',
+      borderRadius: '8px',
+      fontFamily: '"Cormorant Garamond", serif',
+      border: '1px solid rgba(255,255,255,0.3)',
+      background: 'rgba(0,0,0,0.5)',
+      color: '#ffffff',
+      fontSize: '1rem',
+      resize: 'none',
+      boxSizing: 'border-box', // Tambahkan ini
+      maxWidth: '100%', // Tambahkan ini
+      '::placeholder': {
+        color: 'rgba(255,255,255,0.5)'
+      }
+    }}
+  />
+</div>
 
                   <motion.div
                     whileHover={{ scale: 1.02 }}
