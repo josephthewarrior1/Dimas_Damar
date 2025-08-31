@@ -46,14 +46,14 @@ export default function IntroScreen({ onOpenInvitation, guestName: guestNameProp
 
   const handleOpenInvitation = () => {
     setIsLoading(true);
-    setTimeout(() => onOpenInvitation(), 800);
+    setTimeout(() => onOpenInvitation(), 5000);
   };
 
   return (
     <motion.div
       key="intro-content"
       initial={{ y: 0 }}
-      exit={{ y: "-100%" }} // full keluar layar
+      exit={{ y: "-100%" }}
       transition={{ duration: 0.8, ease: "easeInOut" }}
       style={{
         position: "absolute",
@@ -61,7 +61,7 @@ export default function IntroScreen({ onOpenInvitation, guestName: guestNameProp
         height: "100vh",
         backgroundImage: `url(${invitationData.backgroundImage2})`,
         backgroundSize: "cover",
-        backgroundPosition: isMobile ? "50% center" : "70% center",
+        backgroundPosition: isMobile ? "50% center" : "50% center",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -82,16 +82,21 @@ export default function IntroScreen({ onOpenInvitation, guestName: guestNameProp
           zIndex: 0,
         }}
       />
-      <div style={{ position: "relative", zIndex: 1, maxWidth: "600px" }}>
+      <div style={{ 
+        position: "relative", 
+        zIndex: 1, 
+        maxWidth: "600px",
+        marginTop: isMobile ? "100px" : "100px" // Ditambahkan untuk menurunkan posisi
+      }}>
         <div style={{ marginBottom: "10px" }}>
           <h2 style={{
-            fontSize: isMobile ? "120px" : "100px",
+            fontSize: isMobile ? "200px" : "200px",
             fontWeight: "normal",
             margin: "0",
             fontFamily: "'wano-quin', cursive",
             lineHeight: "0.8"
           }}>
-            RJ
+            CY
           </h2>
         </div>
         <div>

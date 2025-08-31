@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { FaInstagram } from "react-icons/fa";
 import invitationData from "../data/invitationData";
-import { containerVariants, slideUp, fadeIn } from "./animations";
+import { containerVariants, slideUp, fadeIn, slideInRight } from "./animations";
 import { useState, useEffect } from "react";
 
 const GroomSection = () => {
@@ -111,24 +111,16 @@ const GroomSection = () => {
           maxWidth: "1200px",
         }}
       >
-        {/* Foto mempelai pria */}
+        {/* Foto mempelai pria - Animasi dari kanan */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
+          variants={slideInRight}
+          initial="hidden"
+          whileInView="visible"
           viewport={{ once: true }}
-          transition={{
-            type: "spring",
-            stiffness: 50,
-            damping: 12,
-            delay: 0.3,
-          }}
           style={{
             position: "relative",
             width: isMobile ? "280px" : "350px",
             height: isMobile ? "280px" : "350px",
-            borderRadius: "50%",
-            border: "8px solid white",
-            boxShadow: "0 15px 50px rgba(0,0,0,0.3)",
             overflow: "hidden",
             zIndex: 1,
           }}
@@ -150,8 +142,6 @@ const GroomSection = () => {
               left: 0,
               right: 0,
               padding: "1rem",
-              background:
-                "linear-gradient(to top, rgba(0,0,0,0.7), transparent)",
               textAlign: "center",
             }}
           >
@@ -173,8 +163,6 @@ const GroomSection = () => {
           viewport={{ once: true }}
         >
           <motion.div variants={fadeIn}>
-          
-
             <h2
               style={{
                 fontSize: isMobile ? "2.5rem" : "3.5rem",
@@ -190,22 +178,6 @@ const GroomSection = () => {
             >
               {invitationData.groom || "TEOSANER YUTANESY IMAN"}
             </h2>
-          </motion.div>
-
-          <motion.div variants={slideUp}>
-            <p
-              style={{
-                fontSize: "1rem",
-                marginBottom: "1.5rem",
-                letterSpacing: "1px",
-                opacity: 0.9,
-                lineHeight: "1.6",
-                fontStyle: "italic",
-              }}
-            >
-              "Love is not about how many days, months, or years you have been
-              together. It's all about how much you love each other every day."
-            </p>
           </motion.div>
 
           <motion.div
@@ -258,7 +230,7 @@ const GroomSection = () => {
           </motion.div>
 
           <motion.a
-            href="https://www.instagram.com/romeo.nathann/"
+            href="https://www.instagram.com/christiannathanael_/"
             target="_blank"
             rel="noopener noreferrer"
             variants={slideUp}
@@ -284,7 +256,7 @@ const GroomSection = () => {
             whileTap={{ scale: 0.95 }}
           >
             <FaInstagram style={{ width: "20px", height: "20px" }} />
-            <span style={{ fontWeight: "500" }}>@Romeo_Nathan</span>
+            <span style={{ fontWeight: "500" }}>@christiannathanael_</span>
           </motion.a>
         </motion.div>
       </div>

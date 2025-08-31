@@ -8,6 +8,7 @@ const ThankYouSection = () => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    // cek device
     const checkIfMobile = () => {
       const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
         navigator.userAgent
@@ -18,13 +19,16 @@ const ThankYouSection = () => {
     checkIfMobile();
     window.addEventListener("resize", checkIfMobile);
 
-    const img = new Image();
-    img.src = invitationData.dateTimeImage;
-    img.onload = () => setImageLoaded(true);
+    // preload background image
+    if (invitationData.backgroundImage2) {
+      const img = new Image();
+      img.src = invitationData.backgroundImage2;
+      img.onload = () => setImageLoaded(true);
+    } else {
+      setImageLoaded(true); // langsung true kalau gambar tidak ada
+    }
 
-    return () => {
-      window.removeEventListener("resize", checkIfMobile);
-    };
+    return () => window.removeEventListener("resize", checkIfMobile);
   }, []);
 
   return (
@@ -45,51 +49,27 @@ const ThankYouSection = () => {
         textAlign: "center",
         overflow: "hidden",
         backgroundColor: "white",
-        backgroundImage: `url(${invitationData.dateTimeImage})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundAttachment: isMobile ? "scroll" : "fixed",
-        transition: "opacity 0.8s ease",
-        opacity: imageLoaded ? 1 : 0,
-        backgroundRepeat: "no-repeat",
       }}
     >
-      {/* Ornamen Bunga - Kiri Atas */}
+      {/* Background Image */}
       <motion.div
-        initial={{ opacity: 0, y: -30 }}
-        animate={{ opacity: 0.5, y: 0 }}
-        transition={{ duration: 1, delay: 0.3 }}
         style={{
           position: "absolute",
-          top: "0",
-          left: "0",
-          width: "120px",
-          height: "120px",
-          backgroundImage: `url(${invitationData.bunga})`,
-          backgroundSize: "contain",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "left top",
-          pointerEvents: "none",
-        }}
-      />
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          backgroundImage: invitationData.thanks
+            ? `url(${invitationData.thanks})`
+            : "none",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundPosition: "40% center",
 
-      {/* Ornamen Bunga - Kanan Atas */}
-      <motion.div
-        initial={{ opacity: 0, y: -30 }}
-        animate={{ opacity: 0.5, y: 0 }}
-        transition={{ duration: 1, delay: 0.3 }}
-        style={{
-          position: "absolute",
-          top: "0",
-          right: "0",
-          width: "120px",
-          height: "120px",
-          backgroundImage: `url(${invitationData.bunga})`,
-          backgroundSize: "contain",
+          backgroundAttachment: isMobile ? "scroll" : "fixed",
           backgroundRepeat: "no-repeat",
-          backgroundPosition: "right top",
-          transform: "rotate(180deg)",
-          pointerEvents: "none",
+          opacity: imageLoaded ? 1 : 0,
+          transition: "opacity 0.8s ease",
         }}
       />
 
@@ -150,7 +130,7 @@ const ThankYouSection = () => {
               fontStyle: "italic",
             }}
           >
-            Made by Momento • All rights reserved
+            Made by ClickNikah • All rights reserved
           </p>
 
           {/* Icon */}

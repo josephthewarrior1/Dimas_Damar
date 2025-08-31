@@ -1,217 +1,264 @@
-import { motion, useAnimation } from "framer-motion";
-import { useState, useEffect } from "react";
-import invitationData from "../data/invitationData";
-import { containerVariants, slideUp } from "./animations";
+import { useState, useEffect, useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
+import invitationData from '../data/invitationData';
 
-const TimeLocationSection = () => {
+const TimeSection = () => {
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
     hours: 0,
     minutes: 0,
     seconds: 0
   });
-  const [imageLoaded, setImageLoaded] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const controls = useAnimation();
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: '-100px' });
 
+  // Check mobile view
   useEffect(() => {
-    const checkIfMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
+    const checkIfMobile = () => setIsMobile(window.innerWidth < 768);
     checkIfMobile();
     window.addEventListener('resize', checkIfMobile);
+    return () => window.removeEventListener('resize', checkIfMobile);
+  }, []);
 
-    const img = new Image();
-    img.src = invitationData.dateTimeImage;
-    img.onload = () => setImageLoaded(true);
+  // Calculate time remaining
+  useEffect(() => {
+    const weddingDate = new Date(invitationData.eventDate);
+    const isValidDate = !isNaN(weddingDate.getTime());
+
+    if (!isValidDate) {
+      console.error('Invalid wedding date:', invitationData.eventDate);
+      return;
+    }
 
     const calculateTimeLeft = () => {
-      const eventDate = new Date('2025-11-09T10:00:00');
-      const currentDate = new Date();
-      const difference = eventDate - currentDate;
+      const now = new Date();
+      const difference = weddingDate - now;
 
       if (difference > 0) {
-        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
-        const minutes = Math.floor((difference / 1000 / 60) % 60);
-        const seconds = Math.floor((difference / 1000) % 60);
-
-        setTimeLeft({ days, hours, minutes, seconds });
+        setTimeLeft({
+          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+          minutes: Math.floor((difference / 1000 / 60) % 60),
+          seconds: Math.floor((difference / 1000) % 60)
+        });
       } else {
-        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+        setTimeLeft({
+          days: 0,
+          hours: 0,
+          minutes: 0,
+          seconds: 0
+        });
       }
     };
 
     calculateTimeLeft();
     const timer = setInterval(calculateTimeLeft, 1000);
 
-    // Animate count-up when component mounts
-    controls.start({
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.5 }
-    });
+    return () => clearInterval(timer);
+  }, []);
 
-    return () => {
-      clearInterval(timer);
-      window.removeEventListener('resize', checkIfMobile);
-    };
-  }, [controls]);
-
-  // Animation variants for count-up effect
-  const countUpVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: (i) => ({
-      opacity: 1,
-      y: 0,
-      transition: {
-        delay: i * 0.1,
-        duration: 0.8,
-        ease: "easeOut"
-      }
-    })
+  const handleAddToCalendar = () => {
+    window.open(invitationData.calendarLink, '_blank');
   };
 
   return (
-    <motion.section
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-100px" }}
+    <section
+      ref={ref}
       style={{
-        position: "relative",
-        minHeight: "100vh",
-        minHeight: "-webkit-fill-available",
-        padding: "60px 20px",
+        position: 'relative',
+        width: '100%',
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
         fontFamily: "'Cormorant Garamond', serif",
-        color: "white",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        textAlign: "center",
-        overflow: "hidden",
-        backgroundColor: "#000",
-        backgroundImage: imageLoaded ? `url(${invitationData.imagetime})` : "none",
-
-        backgroundSize: isMobile ? "cover" : "auto 160%",
-        backgroundPosition: isMobile ? "20% 30%" : "50% 50%",
-
-        backgroundAttachment: isMobile ? "fixed" : "local",
-        transition: "opacity 0.8s ease",
-        opacity: imageLoaded ? 1 : 0.9,
-        backgroundRepeat: "no-repeat"
+        color: 'white',
+        overflow: 'hidden'
       }}
     >
-      {/* Dark Overlay */}
+      {/* Background Image */}
       <div
         style={{
-          position: "absolute",
-          inset: 0,
-          backgroundColor: "rgba(0,0,0,0.5)",
-          zIndex: 0,
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundImage: `url(${invitationData.backgroundImage2})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          zIndex: 0
         }}
       />
 
+      {/* Overlay */}
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          zIndex: 1
+        }}
+      />
+
+      {/* Main Content */}
       <motion.div
         style={{
-          position: "relative",
-          zIndex: 1,
-          maxWidth: "700px",
-          width: "100%",
-          display: "flex",
-          flexDirection: "column",
-          gap: "40px",
-          alignItems: "center",
+          position: 'relative',
+          zIndex: 2,
+          width: '100%',
+          maxWidth: '800px',
+          padding: isMobile ? '20px' : '30px',
+          textAlign: 'center'
         }}
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
+        initial={{ opacity: 0 }}
+        animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+        transition={{ duration: 1 }}
       >
-        {/* Countdown Section */}
-        <motion.div variants={slideUp}>
-          <h2 style={{ 
-            fontSize: "0.8rem", 
-            fontWeight: "400", 
-            marginBottom: "50px",
-            letterSpacing: "1px",
-            fontStyle: "italic",
-            fontFamily: "'Cormorant Garamond', serif",
-            lineHeight: "1.5"
-          }}>
-            "Demikianlah mereka bukan lagi dua, melainkan satu. <br />
-            Karena itu, apa yang telah dipersatukan Allah, <br />
-            tidak boleh diceraikan manusia." <br />
-            <span style={{ 
-              fontSize: "1rem", 
-              display: "block", 
-              marginTop: "10px",
-              fontStyle: "normal"
-            }}>
-              Matius 19:6
-            </span>
-          </h2>
-          
-          <div style={{ 
-            display: "flex", 
-            justifyContent: "center", 
-            gap: "10px",
-            marginBottom: "40px",
-            flexWrap: "wrap"
-          }}>
-            {Object.entries(timeLeft).map(([unit, value], index) => (
-              <motion.div 
-                key={unit}
-                custom={index}
-                initial="hidden"
-                animate="visible"
-                variants={countUpVariants}
-                style={{ minWidth: "70px" }}
-              >
-                <div style={{ 
-                  fontSize: "2rem", 
-                  fontWeight: "500", 
-                  fontFamily: "'Montserrat', sans-serif",
-                  minHeight: "2.5rem"
-                }}>
-                  {value.toString().padStart(2, '0')}
-                </div>
-                <div style={{ fontSize: "0.8rem", opacity: 0.8, letterSpacing: "1px" }}>
-                  {unit.toUpperCase()}
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          <motion.a
-            href={invitationData.calendarLink}
-            target="_blank"
-            rel="noopener noreferrer"
+        {/* Gambar tengah dengan animasi fade in on scroll */}
+        <motion.div
+          style={{
+            width: isMobile ? '150px' : '160px',
+            height: isMobile ? '150px' : '160px',
+            margin: isMobile ? '0 auto 30px' : '0 auto 20px',
+            borderRadius: '5px',
+            overflow: 'hidden',
+            boxShadow: '0 5px 15px rgba(0,0,0,0.3)',
+            border: '1px solid rgba(255,255,255,0.2)',
+            position: 'relative'
+          }}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+          transition={{ duration: 1, delay: 0.3 }}
+        >
+          <img
+            src={invitationData.timeImage}
+            alt="Couple"
             style={{
-              display: "inline-block",
-              padding: "12px 30px",
-              border: "1px solid white",
-              borderRadius: "30px",
-              fontSize: "0.9rem",
-              textDecoration: "none",
-              color: "white",
-              transition: "all 0.3s ease",
-              letterSpacing: "1px",
-              fontFamily: "'Playfair Display', serif",
-              fontWeight: "400"
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              transform: 'scale(1.2)',
+              transformOrigin: 'center'
             }}
-            whileHover={{ 
-              backgroundColor: "rgba(255,255,255,0.2)",
-              scale: 1.05
-            }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Add to Calendar
-          </motion.a>
+          />
         </motion.div>
+
+        {/* Title - Modified to two lines */}
+        <motion.div
+          style={{
+            marginBottom: isMobile ? '10px' : '8px'
+          }}
+          initial={{ y: -20, opacity: 0 }}
+          animate={isInView ? { y: 0, opacity: 1 } : { y: -20, opacity: 0 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
+        >
+          <div style={{
+            fontSize: isMobile ? '1rem' : '1rem',
+            fontWeight: 300,
+            letterSpacing: '3px',
+            textTransform: 'uppercase',
+            color: 'rgba(255,255,255,0.7)',
+            fontFamily: "'Cormorant Garamond', serif",
+            lineHeight: '1.5'
+          }}>
+            Countdown to
+          </div>
+          <div style={{
+            fontSize: isMobile ? '1rem' : '1rem',
+            fontWeight: 300,
+            letterSpacing: '3px',
+            textTransform: 'uppercase',
+            color: 'rgba(255,255,255,0.7)',
+            fontFamily: "'Cormorant Garamond', serif",
+            lineHeight: '1.5'
+          }}>
+            our wedding
+          </div>
+        </motion.div>
+
+        {/* Countdown Timer */}
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            gap: isMobile ? '10px' : '15px',
+            marginBottom: isMobile ? '30px' : '20px',
+            flexWrap: 'wrap'
+          }}
+        >
+          {Object.entries(timeLeft).map(([unit, value], index) => (
+            <motion.div
+              key={unit}
+              style={{
+                textAlign: 'center',
+                minWidth: isMobile ? '70px' : '75px'
+              }}
+              initial={{ scale: 0, opacity: 0 }}
+              animate={isInView ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
+              transition={{ duration: 0.5, delay: 0.7 + (index * 0.1) }}
+            >
+              <div
+                style={{
+                  fontSize: isMobile ? '2rem' : '2.2rem',
+                  fontWeight: 500,
+                  lineHeight: 1,
+                  fontFamily: "'Cormorant Garamond', serif"
+                }}
+              >
+                {value.toString().padStart(2, '0')}
+              </div>
+              <div
+                style={{
+                  fontSize: isMobile ? '0.7rem' : '0.65rem',
+                  textTransform: 'uppercase',
+                  letterSpacing: '1px',
+                  marginTop: '5px',
+                  color: 'rgba(255,255,255,0.7)',
+                  fontFamily: "'Cormorant Garamond', serif"
+                }}
+              >
+                {unit}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Remind Me Button */}
+        <motion.button
+          style={{
+            background: 'transparent',
+            color: 'white',
+            border: '1px solid rgba(255,255,255,0.3)',
+            padding: isMobile ? '10px 20px' : '8px 16px',
+            borderRadius: '4px',
+            fontSize: isMobile ? '1rem' : '1rem',
+            letterSpacing: '1px',
+            cursor: 'pointer',
+            marginBottom: isMobile ? '25px' : '20px',
+            transition: 'all 0.3s ease',
+            fontFamily: "'Cormorant Garamond', serif",
+            fontWeight: 500
+          }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.5, delay: 1.2 }}
+          whileHover={{ 
+            backgroundColor: 'rgba(255,255,255,0.1)',
+            borderColor: 'rgba(255,255,255,0.5)'
+          }}
+          whileTap={{ scale: 0.95 }}
+          onClick={handleAddToCalendar}
+        >
+          Save The Date
+        </motion.button>
       </motion.div>
-    </motion.section>
+    </section>
   );
 };
 
-export default TimeLocationSection;
+export default TimeSection;

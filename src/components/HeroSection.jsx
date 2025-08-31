@@ -55,7 +55,7 @@ const HeroSection = ({ guestName }) => {
           ? `url(${invitationData.weddingImage})`
           : "none",
         backgroundSize: "cover",
-        backgroundPosition: isMobile ? "58% center" : "70% center", // Only mobile-dependent style
+        backgroundPosition: isMobile ? "58% center" : "70% center",
         backgroundRepeat: "no-repeat",
         opacity: isLoaded ? 1 : 0.99,
         transition: "opacity 1s ease-in-out",
@@ -73,13 +73,13 @@ const HeroSection = ({ guestName }) => {
         zIndex: 0,
       }}></div>
 
-      {/* Main Content Container */}
+      {/* Main Content Container - Diubah untuk posisi lebih tinggi */}
       <div 
         style={{ 
           padding: "0 20px",
           width: "100%",
           maxWidth: "500px",
-          margin: "300px auto 0", // Kept your exact margin
+          margin: "-160px auto 0", // Diubah dari 300px ke 150px agar lebih tinggi
           opacity: isContentVisible ? 1 : 0,
           transform: isContentVisible ? "translateY(0)" : "translateY(20px)",
           transition: "opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1)",
@@ -106,7 +106,7 @@ const HeroSection = ({ guestName }) => {
         {/* Couple Name */}
         <h1
           style={{
-            fontSize: "90px", // Kept your exact size
+            fontSize: "90px",
             margin: "0 0 16px",
             fontWeight: 400,
             lineHeight: 1,
@@ -116,13 +116,13 @@ const HeroSection = ({ guestName }) => {
             textShadow: "0 2px 8px rgba(0,0,0,0.5)",
           }}
         >
-          ROMEO<br />JULIET
+          CHRIS<br />YOAN
         </h1>
 
         {/* Wedding Date */}
         <p
           style={{ 
-            fontSize: "20px", // Kept your exact size
+            fontSize: "20px",
             marginBottom: "24px",
             letterSpacing: "1px",
             textShadow: "0 1px 3px rgba(0,0,0,0.5)",

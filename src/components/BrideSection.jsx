@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { FaInstagram, FaHeart } from "react-icons/fa";
 import invitationData from "../data/invitationData";
-import { containerVariants, slideUp, fadeIn } from "./animations";
+import { containerVariants, slideUp, fadeIn, slideInLeft } from "./animations";
 import { useEffect, useState } from "react";
 
 const BrideSection = () => {
@@ -104,7 +104,7 @@ const BrideSection = () => {
       <div
         style={{
           display: "flex",
-          flexDirection: "column", // Selalu column, baik mobile maupun PC
+          flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
           gap: "2rem",
@@ -112,30 +112,22 @@ const BrideSection = () => {
           maxWidth: "1200px",
         }}
       >
-        {/* Foto mempelai */}
+        {/* Foto mempelai - Animasi dari kiri */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
+          variants={slideInLeft}
+          initial="hidden"
+          whileInView="visible"
           viewport={{ once: true }}
-          transition={{
-            type: "spring",
-            stiffness: 50,
-            damping: 12,
-            delay: 0.3,
-          }}
           style={{
             position: "relative",
             width: isMobile ? "280px" : "350px",
             height: isMobile ? "280px" : "350px",
-            borderRadius: "50%",
-            border: "8px solid white",
-            boxShadow: "0 15px 50px rgba(0,0,0,0.3)",
             overflow: "hidden",
             zIndex: 1,
           }}
         >
           <img
-            src={invitationData.backgroundImageBride}
+            src={invitationData.brideimages}
             alt="Bride"
             style={{
               width: "100%",
@@ -151,12 +143,9 @@ const BrideSection = () => {
               left: 0,
               right: 0,
               padding: "1rem",
-              background:
-                "linear-gradient(to top, rgba(0,0,0,0.7), transparent)",
               textAlign: "center",
             }}
           >
-          
           </div>
         </motion.div>
 
@@ -166,7 +155,7 @@ const BrideSection = () => {
             position: "relative",
             zIndex: 1,
             maxWidth: "600px",
-            textAlign: "center", // Selalu center di PC & mobile
+            textAlign: "center",
           }}
           variants={containerVariants}
           initial="hidden"
@@ -174,8 +163,6 @@ const BrideSection = () => {
           viewport={{ once: true }}
         >
           <motion.div variants={fadeIn}>
-           
-
             <h2
               style={{
                 fontSize: isMobile ? "2.5rem" : "3.5rem",
@@ -202,25 +189,8 @@ const BrideSection = () => {
                   fontSize: "1.5rem",
                 }}
               >
-                
               </motion.span>
             </h2>
-          </motion.div>
-
-          <motion.div variants={slideUp}>
-            <p
-              style={{
-                fontSize: "1rem",
-                marginBottom: "1.5rem",
-                letterSpacing: "1px",
-                opacity: 0.9,
-                lineHeight: "1.6",
-                fontStyle: "italic",
-              }}
-            >
-              "Love is not about how many days, months, or years you have been
-              together. It's all about how much you love each other every day."
-            </p>
           </motion.div>
 
           <motion.div
@@ -273,7 +243,7 @@ const BrideSection = () => {
           </motion.div>
 
           <motion.a
-            href="https://www.instagram.com/juliettevcnz/"
+            href="https://www.instagram.com/angelaylnd/"
             target="_blank"
             rel="noopener noreferrer"
             variants={slideUp}
@@ -299,7 +269,7 @@ const BrideSection = () => {
             whileTap={{ scale: 0.95 }}
           >
             <FaInstagram style={{ width: "20px", height: "20px" }} />
-            <span style={{ fontWeight: "500" }}>@julieta_margaretha</span>
+            <span style={{ fontWeight: "500" }}>@Yoandangel</span>
           </motion.a>
         </motion.div>
       </div>

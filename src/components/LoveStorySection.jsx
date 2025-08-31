@@ -24,14 +24,14 @@ const LoveStorySection = () => {
       title: "First Date",
       date: "July 2018",
       description: "Our first date at the beach watching the sunset together.",
-      imagePosition: "center 35%"
+      imagePosition: "center 70%"
     },
     {
       image: invitationData.galleryImages[2],
       title: "Official Couple",
       date: "August 2018",
       description: "We made it official after a month of getting to know each other.",
-      imagePosition: "center 25%"
+      imagePosition: "center 70%"
     },
     {
       image: invitationData.galleryImages[3],
@@ -45,7 +45,7 @@ const LoveStorySection = () => {
       title: "The Proposal",
       date: "February 2024",
       description: "Nathan proposed during a romantic dinner by the lake.",
-      imagePosition: "center 35%"
+      imagePosition: "center 60%"
     }
   ];
 

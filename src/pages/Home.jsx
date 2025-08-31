@@ -52,7 +52,6 @@ export default function HomePage() {
           transition={{ duration: 0.8 }}
         >
           <HeroSection guestName={guestName} />
-          <GreetingSection />
           <TimeLocationSection />
           <BrideSection />
           <GroomSection />
