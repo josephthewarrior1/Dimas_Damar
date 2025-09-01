@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useContext } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import IntroScreen from '../components/IntroScreen';
@@ -13,12 +13,14 @@ import LoveStorySection from '../components/LoveStorySection';
 import RsvpFlow from '../components/RsvpFlowSection';
 import ThankYouSection from '../components/ThankyouSection';
 import GuestInvitationPage from '../components/GuessInvitation';
+import { AudioContext } from '../routes'; // Import context
 
 export default function HomePage() {
   const homeRef = useRef(null);
   const [params] = useSearchParams();
   const [guestName, setGuestName] = useState("Tamu Undangan");
   const [showContent, setShowContent] = useState(false);
+  const { setIsAudioPlaying } = useContext(AudioContext); // Gunakan context
 
   useEffect(() => {
     const nameFromUrl = params.get("to");
@@ -32,6 +34,7 @@ export default function HomePage() {
 
   const handleOpenInvitation = () => {
     setShowContent(true);
+    setIsAudioPlaying(true); // Mulai musik
   };
 
   return (

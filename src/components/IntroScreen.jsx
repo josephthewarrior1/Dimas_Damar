@@ -67,11 +67,11 @@ export default function IntroScreen({ onOpenInvitation, guestName: guestNameProp
 
   const handleOpenInvitation = () => {
     setIsLoading(true);
-    // Memutar musik setelah 5 detik (setelah loading selesai)
+    // Memutar musik setelah 5 detik
     setTimeout(() => {
       playMusic();
-      onOpenInvitation();
     }, 5000);
+    setTimeout(() => onOpenInvitation(), 5000);
   };
 
   return (
