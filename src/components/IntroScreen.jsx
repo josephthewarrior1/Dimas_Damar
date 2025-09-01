@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useSearchParams } from 'react-router-dom';
 import { db } from '../config/firebaseConfig';
@@ -10,9 +10,30 @@ export default function IntroScreen({ onOpenInvitation, guestName: guestNameProp
   const [isMobile, setIsMobile] = useState(false);
   const [guestName, setGuestName] = useState(guestNameProp || "Tamu Undangan");
   const [params] = useSearchParams();
+  const audioRef = useRef(null);
 
   const fullParam = params.get("to") || "";
   const [coupleId, guestCode] = fullParam.split('_');
+
+  // Fungsi untuk memutar musik
+  const playMusic = () => {
+    if (audioRef.current) {
+      audioRef.current.volume = 0.5; // Atur volume (0.0 - 1.0)
+      audioRef.current.loop = true; // Putar berulang
+      const playPromise = audioRef.current.play();
+      
+      if (playPromise !== undefined) {
+        playPromise.catch(error => {
+          console.log("Autoplay prevented:", error);
+          // Fallback: mulai musik setelah interaksi pengguna
+          document.addEventListener('click', function handler() {
+            audioRef.current.play();
+            document.removeEventListener('click', handler);
+          });
+        });
+      }
+    }
+  };
 
   useEffect(() => {
     const checkIfMobile = () => setIsMobile(window.innerWidth <= 768);
@@ -46,7 +67,11 @@ export default function IntroScreen({ onOpenInvitation, guestName: guestNameProp
 
   const handleOpenInvitation = () => {
     setIsLoading(true);
-    setTimeout(() => onOpenInvitation(), 5000);
+    // Memutar musik setelah 5 detik (setelah loading selesai)
+    setTimeout(() => {
+      playMusic();
+      onOpenInvitation();
+    }, 5000);
   };
 
   return (
@@ -74,6 +99,9 @@ export default function IntroScreen({ onOpenInvitation, guestName: guestNameProp
         zIndex: 10
       }}
     >
+      {/* Elemen audio tersembunyi */}
+      <audio ref={audioRef} src="/public/assets/music.mp3" preload="auto" />
+      
       <div
         style={{
           position: "absolute",
@@ -86,7 +114,7 @@ export default function IntroScreen({ onOpenInvitation, guestName: guestNameProp
         position: "relative", 
         zIndex: 1, 
         maxWidth: "600px",
-        marginTop: isMobile ? "100px" : "100px" // Ditambahkan untuk menurunkan posisi
+        marginTop: isMobile ? "100px" : "100px"
       }}>
         <div style={{ marginBottom: "10px" }}>
           <h2 style={{
