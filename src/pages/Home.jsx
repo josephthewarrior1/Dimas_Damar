@@ -6,6 +6,7 @@ import HeroSection from '../components/HeroSection';
 import GreetingSection from '../components/GreetingSection';
 import BrideSection from '../components/BrideSection';
 import GroomSection from '../components/GroomSection';
+import GallerySection from '../components/GallerySection';
 import GalleryBigSection from '../components/GalleryBigSection';
 import WeddingEventSection from '../components/WeddingEvent';
 import TimeLocationSection from '../components/TimeLocationSection';
@@ -55,9 +56,10 @@ export default function HomePage() {
           transition={{ duration: 0.8 }}
         >
           <HeroSection guestName={guestName} />
-          <TimeLocationSection />
-          <BrideSection />
+          <GallerySection />
           <GroomSection />
+          <BrideSection />
+          
           <GalleryBigSection />
           <WeddingEventSection />
           <LoveStorySection />

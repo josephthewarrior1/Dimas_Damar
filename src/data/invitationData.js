@@ -4,17 +4,19 @@ import { assetPath } from './assetPath';
 
 const invitationData = {
   coupleName: "Chris & Yoanda",
-  groom: "Christian Nathan",
-  bride: "Yoanda Angela",
-  backgroundImage: assetPath('1.jpeg'),
-  backgroundImage2: assetPath('krisyoan1.webp'),
-  thanks:assetPath('krisyoan3.webp'),
+  groom: "Joshia Tjhai",
+  bride: "Vinny Wijaya",
+  backgroundImage: assetPath('putih.webp'),
+  putih : assetPath('putih.webp'),
+  background: assetPath('background.png'),
+  backgroundImage2: assetPath('joshvin6.webp'),
+  thanks:assetPath('joshvin5.webp'),
   backgroundImageGroom: assetPath('groomsbackground.webp'),
   backgroundImageBride: assetPath('bridesbackground.webp'),
-  weddingImage: assetPath('krisyoan2.webp'),
-  timeImage: assetPath('krisyoan3.webp'),
-  brideimages: assetPath('brides.webp'),
-  groomimages: assetPath('grooms.webp'),
+  weddingImage: assetPath('joshvin4.webp'),
+  timeImage: assetPath('krisyoan4.webp'),
+  brideimages: assetPath('framebunga.png'),
+  groomimages: assetPath('framebunga1.png'),
   frame: assetPath('photoFrame.png'),
   SaveTheDate: assetPath('save.png'),
   rsvpImage: assetPath('test9.jpg'),
@@ -30,6 +32,7 @@ const invitationData = {
   cincin : assetPath('cincin.png'),
   gelas : assetPath('gelas.png'),
   bunga : assetPath('bunga.png'),
+  bunga1 : assetPath('bunga1.png'),
   gift : assetPath('gift.png'),
   icon : assetPath('icon.png'),
   time: "10.00 - 12.00 WIB",
@@ -40,11 +43,11 @@ const invitationData = {
   zoomLink: "https://zoom.us/your-meeting-link",
   youtubeLink: "https://youtube.com/your-livestream-link",
   galleryImages: [
-    assetPath('krisyoan5.webp'),
-    assetPath('krisyoan2.webp'),
-    assetPath('krisyoan3.webp'),
-    assetPath('krisyoan4.webp'),
-    assetPath('krisyoan6.webp')
+    assetPath('joshvin1.webp'),
+    assetPath('joshvin2.webp'),
+    assetPath('joshvin3.webp'),
+    assetPath('joshvin4.webp'),
+    assetPath('joshvin5.webp')
   ],
   get calendarLink() {
     return generateCalendarLink({

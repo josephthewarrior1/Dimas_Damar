@@ -18,14 +18,13 @@ export default function IntroScreen({ onOpenInvitation, guestName: guestNameProp
   // Fungsi untuk memutar musik
   const playMusic = () => {
     if (audioRef.current) {
-      audioRef.current.volume = 0.5; // Atur volume (0.0 - 1.0)
-      audioRef.current.loop = true; // Putar berulang
+      audioRef.current.volume = 0.5;
+      audioRef.current.loop = true;
       const playPromise = audioRef.current.play();
       
       if (playPromise !== undefined) {
         playPromise.catch(error => {
           console.log("Autoplay prevented:", error);
-          // Fallback: mulai musik setelah interaksi pengguna
           document.addEventListener('click', function handler() {
             audioRef.current.play();
             document.removeEventListener('click', handler);
@@ -67,7 +66,6 @@ export default function IntroScreen({ onOpenInvitation, guestName: guestNameProp
 
   const handleOpenInvitation = () => {
     setIsLoading(true);
-    // Memutar musik setelah 5 detik
     setTimeout(() => {
       playMusic();
     }, 5000);
@@ -114,7 +112,7 @@ export default function IntroScreen({ onOpenInvitation, guestName: guestNameProp
         position: "relative", 
         zIndex: 1, 
         maxWidth: "600px",
-        marginTop: isMobile ? "100px" : "100px"
+        transform: "translateY(80px)" // geser turun semua tulisan
       }}>
         <div style={{ marginBottom: "10px" }}>
           <h2 style={{
@@ -124,7 +122,7 @@ export default function IntroScreen({ onOpenInvitation, guestName: guestNameProp
             fontFamily: "'wano-quin', cursive",
             lineHeight: "0.8"
           }}>
-            CY
+            JV
           </h2>
         </div>
         <div>

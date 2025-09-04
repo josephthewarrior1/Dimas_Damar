@@ -40,46 +40,35 @@ const HeroSection = ({ guestName }) => {
     <section 
       style={{
         position: "relative",
-        height: "100vh",
+        minheight: "100vh",
         minHeight: "-webkit-fill-available",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        color: "white",
+        color: "black",
         textAlign: "center",
         fontFamily: "'Cormorant Garamond', serif",
         overflow: "hidden",
         backgroundColor: "#f9f5f0",
         backgroundImage: isLoaded 
-          ? `url(${invitationData.weddingImage})`
+          ? `url(${invitationData.backgroundImage})`
           : "none",
         backgroundSize: "cover",
-        backgroundPosition: isMobile ? "58% center" : "70% center",
+        backgroundPosition: isMobile ? "50% center" : "70% center",
         backgroundRepeat: "no-repeat",
         opacity: isLoaded ? 1 : 0.99,
         transition: "opacity 1s ease-in-out",
         willChange: "opacity"
       }}
     >
-      {/* Overlay */}
-      <div style={{
-        position: "absolute",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor: "rgba(0, 0, 0, 0.4)",
-        zIndex: 0,
-      }}></div>
-
-      {/* Main Content Container - Diubah untuk posisi lebih tinggi */}
+      {/* Main Content Container */}
       <div 
         style={{ 
           padding: "0 20px",
           width: "100%",
           maxWidth: "500px",
-          margin: "-160px auto 0", // Diubah dari 300px ke 150px agar lebih tinggi
+          margin: isMobile ? "0 auto" : "0 auto",
           opacity: isContentVisible ? 1 : 0,
           transform: isContentVisible ? "translateY(0)" : "translateY(20px)",
           transition: "opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1)",
@@ -89,15 +78,34 @@ const HeroSection = ({ guestName }) => {
           boxSizing: "border-box"
         }}
       >
+        {/* Bunga Ornament */}
+        <div
+          style={{
+            marginBottom: "16px",
+            display: "flex",
+            justifyContent: "center"
+          }}
+        >
+          <img 
+            src={invitationData.bunga} 
+            alt="Bunga Ornamen" 
+            style={{
+              height: "60px",
+              width: "auto",
+              objectFit: "contain"
+            }}
+          />
+        </div>
+
         {/* Wedding Title */}
         <h2
           style={{
             fontSize: "clamp(16px, 3vw, 20px)",
             fontWeight: 300,
             letterSpacing: "2px",
-            marginBottom: "24px",
+            marginBottom: "16px",
             textTransform: "uppercase",
-            textShadow: "0 1px 3px rgba(0,0,0,0.5)",
+            color: "#000000",
           }}
         >
           THE WEDDING OF
@@ -106,31 +114,55 @@ const HeroSection = ({ guestName }) => {
         {/* Couple Name */}
         <h1
           style={{
-            fontSize: "90px",
-            margin: "0 0 16px",
+            fontSize: "42px",
+            margin: "0 0 20px",
             fontWeight: 400,
-            lineHeight: 1,
+            lineHeight: 1.1,
             letterSpacing: "1px",
-            fontFamily: "'wano-quin', cursive",
-            color: "#ffffff",
-            textShadow: "0 2px 8px rgba(0,0,0,0.5)",
+            fontFamily: "'Great Vibes', cursive",
+            color: "#000000",
           }}
         >
-          CHRIS<br />YOAN
+          Joshia & Vinny
         </h1>
 
-        {/* Wedding Date */}
-        <p
-          style={{ 
-            fontSize: "20px",
-            marginBottom: "24px",
-            letterSpacing: "1px",
-            textShadow: "0 1px 3px rgba(0,0,0,0.5)",
-            translate: "0 -20px",
-            fontWeight: 300,
+        {/* Wedding Image Box */}
+        <div
+          style={{
+            width: "250px",
+            height: "250px",
+            margin: "0 auto 20px",
+            overflow: "hidden",
           }}
         >
-          Saturday, 09 November 2025
+          <img 
+            src={invitationData.weddingImage} 
+            alt="Joshia & Vinny" 
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover"
+            }}
+          />
+        </div>
+
+        {/* Bible Verse */}
+        <p
+          style={{ 
+            fontSize: "16px",
+            fontStyle: "italic",
+            margin: "20px 0",
+            lineHeight: 1.4,
+            color: "#000000",
+            fontWeight: 300,
+            maxWidth: "300px",
+            marginLeft: "auto",
+            marginRight: "auto"
+          }}
+        >
+          "Demikianlah mereka bukan lagi dua, melainkan satu. Karena itu, apa yang telah dipersatukan Allah, tidak boleh diceraikan manusia."
+          <br/>
+          <span style={{fontSize: "14px"}}>Matius 19:6</span>
         </p>
       </div>
     </section>

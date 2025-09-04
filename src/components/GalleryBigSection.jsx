@@ -66,7 +66,10 @@ const GalleryWithScrollAnimation = () => {
     <section style={{
       width: '100%',
       padding: '40px 20px',
-      backgroundColor: '#000000',
+      backgroundImage: `url(${invitationData.backgroundImage})`, // 🔥 pake background dari data
+      backgroundSize: 'cover',   // biar nutup full layar
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
       margin: '0 auto',
       textAlign: 'center',
       fontFamily: '"Cormorant Garamond", serif',
@@ -75,6 +78,7 @@ const GalleryWithScrollAnimation = () => {
       color: 'white',
       overflow: 'hidden'
     }}>
+    
       {/* Header Text */}
       <motion.div 
         initial="hidden"
@@ -122,7 +126,7 @@ const GalleryWithScrollAnimation = () => {
               fontWeight: 400,
               letterSpacing: '1px',
               marginBottom: '4px',
-              color: 'rgba(255,255,255,0.8)'
+              color: '#000000'
             }}
           >
             A PORTRAIT OF
@@ -141,7 +145,7 @@ const GalleryWithScrollAnimation = () => {
               lineHeight: '1.1'
             }}
           >
-            CHRIS & YOAN
+            JOSHIA & VINNY
           </motion.h2>
         </div>
         <motion.p 
@@ -154,7 +158,7 @@ const GalleryWithScrollAnimation = () => {
             fontSize: '1rem',
             fontStyle: 'italic',
             marginBottom: '15px',
-            color: 'rgba(255,255,255,0.7)',
+            color: '#000000',
             position: 'relative',
             zIndex: 2
           }}
@@ -169,7 +173,7 @@ const GalleryWithScrollAnimation = () => {
           transition={{ delay: 0.6 }}
           style={{
             fontSize: '0.8rem',
-            color: 'rgba(255,255,255,0.6)',
+            color: '#000000',
             position: 'relative',
             zIndex: 2
           }}

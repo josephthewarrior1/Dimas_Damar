@@ -1,0 +1,361 @@
+.rsvp-container {
+    width: 100%;
+    min-height: 100vh;
+    padding: 60px 20px;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+    margin: 0 auto;
+    text-align: center;
+    font-family: "Cormorant Garamond", serif;
+    box-sizing: border-box;
+    color: #ffffff;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .progress-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+    position: relative;
+  }
+  
+  .progress-inner {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 500px;
+  }
+  
+  .progress-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    cursor: pointer;
+  }
+  
+  .progress-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+    border: 1px solid #ffffff;
+    color: #0a0a0a;
+    font-weight: bold;
+  }
+  
+  .progress-circle.active {
+    background: #ffffff;
+  }
+  
+  .progress-circle.inactive {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  
+  .progress-circle.disabled {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.3);
+  }
+  
+  .progress-label {
+    font-size: 0.9rem;
+  }
+  
+  .progress-label.active {
+    color: #ffffff;
+  }
+  
+  .progress-label.inactive {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  
+  .progress-label.disabled {
+    color: rgba(255, 255, 255, 0.3);
+  }
+  
+  .progress-line {
+    height: 1px;
+    flex: 1;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.1));
+    margin: 0 5px;
+  }
+  
+  .content-container {
+    position: relative;
+    z-index: 2;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .section-title {
+    font-size: 2.2rem;
+    font-weight: 400;
+    letter-spacing: 1px;
+    margin: 0 0 10px 0;
+    font-family: "Playfair Display", serif;
+    color: #ffffff;
+  }
+  
+  .section-divider {
+    width: 60px;
+    height: 2px;
+    background: #ffffff;
+    margin: 0 auto;
+    opacity: 0.6;
+  }
+  
+  .section-description {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 20px;
+  }
+  
+  .form-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 25px;
+    border-radius: 12px;
+    background: rgba(20, 20, 20, 0.8);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+  
+  .form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+  }
+  
+  .form-input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(20, 20, 20, 0.8);
+    color: #ffffff;
+    font-size: 0.95rem;
+    box-sizing: border-box;
+    font-family: "Cormorant Garamond", serif;
+  }
+  
+  .form-input:focus {
+    outline: none;
+    border-color: #ffffff;
+  }
+  
+  .form-select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(20, 20, 20, 0.8);
+    color: #ffffff;
+    font-size: 0.95rem;
+    appearance: none;
+    cursor: pointer;
+  }
+  
+  .select-wrapper {
+    position: relative;
+  }
+  
+  .select-arrow {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+  
+  .option-button {
+    padding: 10px 20px;
+    border-radius: 50px;
+    background: transparent;
+    color: #ffffff;
+    border: 1px solid #ffffff;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-family: "Cormorant Garamond", serif;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    min-width: 110px;
+  }
+  
+  .option-button.selected {
+    background: #ffffff;
+    color: #111;
+  }
+  
+  .submit-button {
+    padding: 12px 30px;
+    border-radius: 50px;
+    background: #ffffff;
+    border: none;
+    color: #111;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: "Cormorant Garamond", serif;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+  }
+  
+  .nav-button {
+    background: transparent;
+    color: #ffffff;
+    border: 1px solid #ffffff;
+    padding: 10px 25px;
+    font-size: 0.95rem;
+    border-radius: 30px;
+    cursor: pointer;
+    font-family: "Cormorant Garamond", serif;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+  }
+  
+  .nav-button:hover {
+    background: #ffffff;
+    color: #111;
+  }
+  
+  .wish-textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    font-family: "Cormorant Garamond", serif;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(0, 0, 0, 0.5);
+    color: #ffffff;
+    font-size: 1rem;
+    resize: none;
+    box-sizing: border-box;
+  }
+  
+  .wish-textarea::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+  
+  .wish-item {
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+  }
+  
+  .wish-avatar {
+    background-color: #ffffff;
+    color: #111;
+    font-weight: bold;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;      /* center secara vertical */
+    justify-content: center;  /* center secara horizontal */
+    margin-right: 10px;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 0.9rem;
+  }
+  
+  
+  .wish-list {
+    max-height: 300px;
+    overflow-y: auto;
+    padding-right: 10px;
+  }
+  
+  .bank-account {
+    margin-bottom: 25px;
+    text-align: left;
+    position: relative;
+  }
+  
+  .bank-label {
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    background-color: #0a0a0a;
+    padding: 0 10px;
+    z-index: 1;
+    color: #ffffff;
+    font-size: 0.9rem;
+  }
+  
+  .bank-details {
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+  }
+  
+  .bank-info {
+    margin: 8px 0;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  .bank-field {
+    color: #ffffff;
+    min-width: 80px;
+    display: inline-block;
+  }
+  
+  .copy-button {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    background: transparent;
+    border: 1px solid #ffffff;
+    border-radius: 4px;
+    padding: 5px 10px;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-family: "Cormorant Garamond", serif;
+    transition: all 0.3s ease;
+  }
+  
+  .copy-button:hover {
+    background: #ffffff;
+    color: #111;
+  }
+  
+  .status-message {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+  }
+  
+  .error-message {
+    background: rgba(255, 0, 0, 0.1);
+    color: #ff9999;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 0, 0, 0.3);
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+  }
+  
+  .name-display {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    font-size: 1rem;
+    text-align: center;
+  }
