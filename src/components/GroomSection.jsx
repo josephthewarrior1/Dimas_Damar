@@ -234,7 +234,7 @@ const GroomSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.0, duration: 0.8 }}
-          href="https://www.instagram.com/christiannathanael_/"
+          href="https://www.instagram.com/joshtjhai//"
           target="_blank"
           rel="noopener noreferrer"
           style={{
@@ -258,7 +258,7 @@ const GroomSection = () => {
           whileTap={{ scale: 0.95 }}
         >
           <FaInstagram style={{ width: "20px", height: "20px" }} />
-          <span style={{ fontWeight: "500" }}>@christiannathanael_</span>
+          <span style={{ fontWeight: "500" }}>@JoshiaTjhai</span>
         </motion.a>
       </div>
     </section>
