@@ -1,113 +1,100 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from "react";
 import invitationData from "../data/invitationData";
 
-const SaveTheDateSection = ({ guestName }) => {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [isContentVisible, setIsContentVisible] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-
+const SaveTheDateSection = () => {
   useEffect(() => {
-    // Check if mobile device (only used for background positioning)
-    const checkIfMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
+    // Inject CSS media query untuk berbagai ukuran layar
+    const styleTag = document.createElement("style");
+    styleTag.innerHTML = `
+      @media (max-width: 375px) {
+        .date-background {
+          width: 140px !important;
+          top: 50px !important;
+          right: 15px !important;
+        }
+      }
+      
+      @media (max-width: 320px) {
+        .date-background {
+          width: 120px !important;
+          top: 40px !important;
+          right: 10px !important;
+        }
+      }
+      
+      /* Untuk layar yang lebih besar tetap normal */
+      @media (min-width: 376px) {
+        .date-background {
+          width: 260px !important;
+          top: 40px !important;
+          right: 20px !important;
+        }
+      }
+    `;
+    document.head.appendChild(styleTag);
+    return () => {
+      document.head.removeChild(styleTag);
     };
-    
-    checkIfMobile();
-    window.addEventListener('resize', checkIfMobile);
-    
-    return () => window.removeEventListener('resize', checkIfMobile);
-  }, []);
-
-  useEffect(() => {
-    // Preload the background image
-    const loadImage = async () => {
-      const img = new Image();
-      img.src = invitationData.weddingImage;
-      img.onload = () => {
-        setIsLoaded(true);
-        setTimeout(() => setIsContentVisible(true), 300);
-      };
-      img.onerror = () => {
-        setIsLoaded(true);
-        setIsContentVisible(true);
-      };
-    };
-
-    loadImage();
   }, []);
 
   return (
-    <section 
+    <section
       style={{
         position: "relative",
-        height: "100vh",
-        minHeight: "-webkit-fill-available",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        color: "white",
-        textAlign: "center",
-        fontFamily: "'Cormorant Garamond', serif",
-        overflow: "hidden",
-        backgroundColor: "#f9f5f0",
-        backgroundImage: isLoaded 
-          ? `url(${invitationData.weddingImage})`
-          : "none",
+        width: "100%",
+        minHeight: "100vh",
+        backgroundImage: `url(${invitationData.SaveTheDate})`,
         backgroundSize: "cover",
-        backgroundPosition: isMobile ? "58% center" : "70% center",
+        backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-        opacity: isLoaded ? 1 : 0.99,
-        transition: "opacity 1s ease-in-out",
-        willChange: "opacity"
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        overflow: "hidden",
       }}
     >
-      {/* Overlay */}
-      <div style={{
-        position: "absolute",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor: "rgba(0, 0, 0, 0.4)",
-        zIndex: 0,
-      }}></div>
-
-      {/* Main Content Container */}
-      <div 
-        style={{ 
-          padding: "0 20px",
-          width: "100%",
-          maxWidth: "500px",
-          margin: "300px auto 0",
-          opacity: isContentVisible ? 1 : 0,
-          transform: isContentVisible ? "translateY(0)" : "translateY(20px)",
-          transition: "opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1)",
-          willChange: "opacity, transform",
+      {/* Overlay gradient atas */}
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          height: "25%",
+          background: "linear-gradient(to bottom, white 40%, transparent 100%)",
           zIndex: 1,
-          position: "relative",
-          boxSizing: "border-box"
         }}
-      >
-       
+      />
 
-        {/* Save The Date Text */}
-        <h1
-          style={{
-            fontSize: "90px",
-            margin: "0 0 16px",
-            fontWeight: 400,
-            lineHeight: 1,
-            letterSpacing: "1px",
-            
-            color: "#ffffff",
-            textShadow: "0 2px 8px rgba(0,0,0,0.5)",
-          }}
-        >
-          SAVE<br />THE<br />DATE
-        </h1>
+      {/* Garis elegan di atas */}
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: "10%",
+          right: "10%",
+          height: "2px",
+          backgroundColor: "#aaa",
+          borderRadius: "2px",
+          zIndex: 2,
+        }}
+      />
 
-      </div>
+      {/* Gambar tanggal di kanan atas */}
+      <img
+        src={invitationData.DateBackground}
+        alt="Tanggal Pernikahan"
+        className="date-background"
+        style={{
+          position: "absolute",
+          top: "40px",
+          right: "20px",
+          width: "260px",
+          height: "auto",
+          zIndex: 3,
+          // Default style untuk fallback
+        }}
+      />
     </section>
   );
 };

@@ -1,30 +1,35 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useSearchParams } from 'react-router-dom';
-import { db } from '../config/firebaseConfig';
-import { ref, query, orderByChild, equalTo, onValue } from 'firebase/database';
 import invitationData from '../data/invitationData';
 
 export default function IntroScreen({ onOpenInvitation, guestName: guestNameProp }) {
   const [isLoading, setIsLoading] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [guestName, setGuestName] = useState(guestNameProp || "Tamu Undangan");
+  const [guestName, setGuestName] = useState(guestNameProp || 'Nama Tamu');
   const [params] = useSearchParams();
   const audioRef = useRef(null);
 
-  const fullParam = params.get("to") || "";
-  const [coupleId, guestCode] = fullParam.split('_');
+  const fullParam = params.get('to') || '';
 
-  // Fungsi untuk memutar musik
+  // Fungsi untuk decode nama dari parameter
+  const decodeGuestName = (param) => {
+    if (!param) return 'Nama Tamu';
+    const decoded = decodeURIComponent(param);
+    const name = decoded
+      .split('_')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' ');
+    return name;
+  };
+
   const playMusic = () => {
     if (audioRef.current) {
       audioRef.current.volume = 0.5;
       audioRef.current.loop = true;
       const playPromise = audioRef.current.play();
-      
       if (playPromise !== undefined) {
-        playPromise.catch(error => {
-          console.log("Autoplay prevented:", error);
+        playPromise.catch(() => {
           document.addEventListener('click', function handler() {
             audioRef.current.play();
             document.removeEventListener('click', handler);
@@ -42,127 +47,121 @@ export default function IntroScreen({ onOpenInvitation, guestName: guestNameProp
   }, []);
 
   useEffect(() => {
-    if (!coupleId || !guestCode) return;
-    const guestRef = query(
-      ref(db, `couples/${coupleId}/guests`),
-      orderByChild('code'),
-      equalTo(guestCode)
-    );
-    const unsubscribe = onValue(guestRef, (snapshot) => {
-      if (snapshot.exists()) {
-        const guests = snapshot.val();
-        const [_, guestData] = Object.entries(guests)[0];
-        setGuestName(guestData.name || "Tamu Undangan");
+    let nameFromParam = decodeGuestName(fullParam);
+
+    // Cek juga hash kalau query string kosong
+    if (!nameFromParam || nameFromParam === 'Nama Tamu') {
+      const hash = window.location.hash; // "#to=kevin"
+      if (hash.startsWith("#to=")) {
+        const hashName = hash.replace("#to=", "");
+        nameFromParam = decodeGuestName(hashName);
       }
-    });
-    return () => unsubscribe();
-  }, [coupleId, guestCode]);
+    }
+
+    setGuestName(nameFromParam || 'Nama Tamu');
+  }, [fullParam]);
 
   const capitalized = guestName
     .toLowerCase()
-    .split(" ")
-    .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
-    .join(" ");
+    .split(' ')
+    .map(s => s.charAt(0).toUpperCase() + s.slice(1))
+    .join(' ');
 
   const handleOpenInvitation = () => {
     setIsLoading(true);
+    playMusic();
     setTimeout(() => {
-      playMusic();
-    }, 5000);
-    setTimeout(() => onOpenInvitation(), 5000);
+      onOpenInvitation();
+    }, 2000);
   };
 
   return (
     <motion.div
       key="intro-content"
-      initial={{ y: 0 }}
-      exit={{ y: "-100%" }}
-      transition={{ duration: 0.8, ease: "easeInOut" }}
+      initial={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.8, ease: 'easeInOut' }}
       style={{
-        position: "absolute",
+        position: 'absolute',
         inset: 0,
-        height: "100vh",
+        height: '100vh',
         backgroundImage: `url(${invitationData.backgroundImage2})`,
-        backgroundSize: "cover",
-        backgroundPosition: isMobile ? "50% center" : "50% center",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        textAlign: "center",
-        color: "white",
-        padding: "0 20px",
-        fontFamily: "poppins",
-        overflow: "hidden",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        textAlign: 'center',
+        color: 'white',
+        padding: '0 20px',
+        fontFamily: 'poppins',
+        overflow: 'hidden',
         zIndex: 10
       }}
     >
-      {/* Elemen audio tersembunyi */}
-      <audio ref={audioRef} src="/public/assets/music.mp3" preload="auto" />
-      
+      <audio ref={audioRef} src="/assets/music.mp3" preload="auto" />
+
+      {/* Overlay gelap */}
       <div
         style={{
-          position: "absolute",
+          position: 'absolute',
           inset: 0,
-          backgroundColor: "rgba(0, 0, 0, 0.4)",
-          zIndex: 0,
+          backgroundColor: 'rgba(0,0,0,0.35)',
+          zIndex: 0
         }}
       />
-      <div style={{ 
-        position: "relative", 
-        zIndex: 1, 
-        maxWidth: "600px",
-        transform: "translateY(80px)" // geser turun semua tulisan
-      }}>
-        <div style={{ marginBottom: "10px" }}>
-          <h2 style={{
-            fontSize: isMobile ? "200px" : "200px",
-            fontWeight: "normal",
-            margin: "0",
-            fontFamily: "'wano-quin', cursive",
-            lineHeight: "0.8"
-          }}>
-            JV
-          </h2>
-        </div>
-        <div>
-          <h2 style={{
-            fontSize: "16px",
-            fontWeight: "300",
-            margin: "10px 0 5px",
-            fontStyle: "italic"
-          }}>
-            Dear
-          </h2>
-          <h2 style={{
-            fontSize: "20px",
-            fontWeight: "500",
-            margin: "0 0 15px"
-          }}>
-            {capitalized}
-          </h2>
-        </div>
+
+      {/* Atas */}
+      <div style={{ position: 'relative', zIndex: 1, marginTop: '30px' }}>
+        <p style={{
+          fontSize: isMobile ? '14px' : '16px',
+          marginBottom: '6px',
+          fontWeight: '300'
+        }}>The Wedding of</p>
+        <h1 style={{
+          fontSize: isMobile ? '36px' : '48px',
+          fontWeight: '600',
+          letterSpacing: '1px',
+          margin: '0',
+          fontFamily: "'Playfair Display', serif",
+          lineHeight: '1.2'
+        }}>
+          DAMAR<br />&amp; DIMAS
+        </h1>
+      </div>
+
+      {/* Bawah */}
+      <div style={{ position: 'relative', zIndex: 1, marginBottom: isMobile ? '80px' : '100px' }}>
+        <h2 style={{
+          fontSize: '14px',
+          fontWeight: '300',
+          margin: '0 0 5px',
+          fontStyle: 'italic'
+        }}>Dear</h2>
+        <h2 style={{
+          fontSize: '18px',
+          fontWeight: '500',
+          margin: '0 0 20px'
+        }}>{capitalized}</h2>
+
         <motion.button
           onClick={handleOpenInvitation}
           disabled={isLoading}
           whileTap={{ scale: 0.95 }}
           style={{
-            padding: "10px 25px",
-            borderRadius: "4px",
-            border: "1px solid rgba(255,255,255,0.5)",
-            background: "transparent",
-            color: "white",
-            cursor: "pointer",
-            fontSize: "13px",
-            fontWeight: "500",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            margin: "15px auto 0",
-            backdropFilter: "blur(4px)",
-            minWidth: "180px",
-            textTransform: "uppercase",
-            letterSpacing: "1px",
+            padding: '12px 30px',
+            borderRadius: '4px',
+            border: '1px solid rgba(255,255,255,0.5)',
+            background: 'rgba(255,255,255,0.1)',
+            color: 'white',
+            cursor: isLoading ? 'default' : 'pointer',
+            fontSize: '13px',
+            fontWeight: '500',
+            minWidth: '180px',
+            textTransform: 'uppercase',
+            letterSpacing: '1px',
+            backdropFilter: 'blur(4px)',
             opacity: isLoading ? 0.7 : 1
           }}
         >
@@ -174,20 +173,17 @@ export default function IntroScreen({ onOpenInvitation, guestName: guestNameProp
               border: '2px solid rgba(255,255,255,0.3)',
               borderRadius: '50%',
               borderTopColor: 'white',
-              animation: 'spin 1s linear infinite',
+              animation: 'spin 1s linear infinite'
             }}></div>
-          ) : (
-            'OPEN INVITATION'
-          )}
+          ) : 'OPEN INVITATION'}
         </motion.button>
       </div>
-      <style>
-        {`
-          @keyframes spin {
-            to { transform: rotate(360deg); }
-          }
-        `}
-      </style>
+
+      <style>{`
+        @keyframes spin { 
+          to { transform: rotate(360deg); } 
+        }
+      `}</style>
     </motion.div>
   );
 }

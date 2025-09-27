@@ -8,7 +8,6 @@ const ThankYouSection = () => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    // cek device
     const checkIfMobile = () => {
       const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
         navigator.userAgent
@@ -19,13 +18,12 @@ const ThankYouSection = () => {
     checkIfMobile();
     window.addEventListener("resize", checkIfMobile);
 
-    // preload background image
-    if (invitationData.backgroundImage2) {
+    if (invitationData.thanks) {
       const img = new Image();
-      img.src = invitationData.backgroundImage2;
+      img.src = invitationData.thanks;
       img.onload = () => setImageLoaded(true);
     } else {
-      setImageLoaded(true); // langsung true kalau gambar tidak ada
+      setImageLoaded(true);
     }
 
     return () => window.removeEventListener("resize", checkIfMobile);
@@ -38,38 +36,68 @@ const ThankYouSection = () => {
       viewport={{ once: true, margin: "-100px" }}
       style={{
         position: "relative",
-        minHeight: "100vh",
+        minHeight: "150vh",
         minHeight: "-webkit-fill-available",
-        padding: "60px 20px",
+        padding: "140px 20px",
         fontFamily: "'Cormorant Garamond', serif",
-        color: "black",
+        color: "white",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         textAlign: "center",
         overflow: "hidden",
-        backgroundColor: "white",
       }}
     >
-      {/* Background Image */}
-      <motion.div
+      {/* Background Image dengan SOLUSI FIXED */}
+      {invitationData.thanks ? (
+        <motion.img
+          src={invitationData.thanks}
+          alt="Background"
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: isMobile ? "100%" : "100%",
+            height: isMobile ? "100%" : "100%",
+            objectFit: "cover",
+            objectPosition: "center",
+            opacity: imageLoaded ? 1 : 0,
+            transition: "opacity 0.8s ease",
+            zIndex: 0,
+            // Prevent excessive zoom on PC
+            minWidth: "100%",
+            minHeight: "100%",
+            maxWidth: "none",
+            ...(isMobile ? {} : {
+              width: "100%",
+              height: "auto",
+              minHeight: "100%"
+            })
+          }}
+          onLoad={() => setImageLoaded(true)}
+        />
+      ) : (
+        <motion.div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "#f0f0f0",
+            zIndex: 0,
+          }}
+        />
+      )}
+
+      {/* Overlay gelap */}
+      <div
         style={{
           position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          backgroundImage: invitationData.thanks
-            ? `url(${invitationData.thanks})`
-            : "none",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundPosition: "40% center",
-
-          backgroundAttachment: isMobile ? "scroll" : "fixed",
-          backgroundRepeat: "no-repeat",
-          opacity: imageLoaded ? 1 : 0,
-          transition: "opacity 0.8s ease",
+          inset: 0,
+          background: "rgba(0,0,0,0.4)",
+          zIndex: 1,
         }}
       />
 
@@ -77,17 +105,14 @@ const ThankYouSection = () => {
       <motion.div
         style={{
           position: "relative",
-          zIndex: 1,
-          maxWidth: "600px",
-          width: "100%",
+          zIndex: 2,
+          maxWidth: "700px",
+          padding: "20px",
           display: "flex",
           flexDirection: "column",
-          gap: "30px",
+          gap: "20px",
           alignItems: "center",
-          padding: "20px",
-          backgroundColor: "rgba(255, 255, 255, 0.85)",
-          borderRadius: "12px",
-          boxShadow: "0 8px 30px rgba(0,0,0,0.1)",
+          transform: "translateY(150px)",
         }}
         variants={containerVariants}
         initial="hidden"
@@ -95,66 +120,43 @@ const ThankYouSection = () => {
         viewport={{ once: true }}
       >
         <motion.div variants={slideUp}>
+          <p
+            style={{
+              fontSize: isMobile ? "1rem" : "1.2rem",
+              lineHeight: "1.6",
+              marginBottom: "10px",
+              fontWeight: 300,
+              textShadow: "0 2px 4px rgba(0,0,0,0.5)",
+            }}
+          >
+            Our happiness will be complete with your presence and blessing in
+            this celebration of love. Thank you for your kind wishes, prayers,
+            love, and attention given.
+          </p>
+
+          <p
+            style={{
+              fontSize: isMobile ? "1rem" : "1.2rem",
+              marginTop: "20px",
+              fontWeight: 500,
+              textShadow: "0 2px 4px rgba(0,0,0,0.5)",
+            }}
+          >
+            See you on our wedding day!
+          </p>
+
           <h2
             style={{
-              fontSize: isMobile ? "1.8rem" : "2.4rem",
-              fontWeight: "500",
-              marginBottom: "20px",
-              letterSpacing: "1px",
+              fontSize: isMobile ? "2rem" : "2.8rem",
+              fontWeight: "600",
               fontFamily: "'Playfair Display', serif",
-            }}
-          >
-            Thank You
-          </h2>
-
-          <p
-            style={{
-              fontSize: isMobile ? "0.95rem" : "1.05rem",
-              lineHeight: "1.6",
-              marginBottom: "30px",
-              maxWidth: "500px",
-              fontWeight: 300,
-            }}
-          >
-            Atas kehadiran dan doa restunya, kami mengucapkan terima kasih yang
-            sebesar-besarnya. Semoga kebahagiaan ini menjadi berkah bagi kita
-            semua.
-          </p>
-
-          {/* Made by text */}
-          <p
-            style={{
-              fontSize: "0.8rem",
-              color: "rgba(0,0,0,0.6)",
-              marginTop: "40px",
-              fontStyle: "italic",
-            }}
-          >
-            Made by ClickNikah • All rights reserved
-          </p>
-
-          {/* Icon */}
-          <motion.div
-            whileHover={{ scale: 1.05, opacity: 0.9 }}
-            transition={{ duration: 0.3 }}
-            style={{
-              display: "flex",
-              justifyContent: "center",
               marginTop: "10px",
+              textShadow: "0 2px 8px rgba(0,0,0,0.7)",
+              letterSpacing: "0.05em",
             }}
           >
-            <div
-              style={{
-                width: "100px",
-                height: "100px",
-                backgroundImage: `url(${invitationData.icon})`,
-                backgroundSize: "contain",
-                backgroundRepeat: "no-repeat",
-                backgroundPosition: "center",
-                opacity: 0.75,
-              }}
-            />
-          </motion.div>
+            Dimas & Damar
+          </h2>
         </motion.div>
       </motion.div>
     </motion.section>

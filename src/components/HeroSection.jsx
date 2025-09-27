@@ -1,169 +1,108 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import invitationData from "../data/invitationData";
 
-const HeroSection = ({ guestName }) => {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [isContentVisible, setIsContentVisible] = useState(false);
+const HeroSection = () => {
   const [isMobile, setIsMobile] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
+  const images = [
+    invitationData.weddingImage,
+    invitationData.weddingImage1,
+    invitationData.weddingImage2,
+  ];
+
+  // Cek device
   useEffect(() => {
-    // Check if mobile device (only used for background positioning)
     const checkIfMobile = () => {
       setIsMobile(window.innerWidth <= 768);
     };
-    
     checkIfMobile();
-    window.addEventListener('resize', checkIfMobile);
-    
-    return () => window.removeEventListener('resize', checkIfMobile);
+    window.addEventListener("resize", checkIfMobile);
+    return () => window.removeEventListener("resize", checkIfMobile);
   }, []);
 
+  // Ganti gambar tiap 5 detik
   useEffect(() => {
-    // Preload the background image
-    const loadImage = async () => {
-      const img = new Image();
-      img.src = invitationData.weddingImage;
-      img.onload = () => {
-        setIsLoaded(true);
-        setTimeout(() => setIsContentVisible(true), 300);
-      };
-      img.onerror = () => {
-        setIsLoaded(true);
-        setIsContentVisible(true);
-      };
-    };
-
-    loadImage();
-  }, []);
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [images.length]);
 
   return (
-    <section 
+    <section
       style={{
         position: "relative",
-        minheight: "100vh",
-        minHeight: "-webkit-fill-available",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        color: "black",
-        textAlign: "center",
-        fontFamily: "'Cormorant Garamond', serif",
-        overflow: "hidden",
-        backgroundColor: "#f9f5f0",
-        backgroundImage: isLoaded 
-          ? `url(${invitationData.backgroundImage})`
-          : "none",
+        width: "100%",
+        minHeight: "100vh",
+        backgroundImage: `url(${images[currentImageIndex]})`,
         backgroundSize: "cover",
-        backgroundPosition: isMobile ? "50% center" : "70% center",
+        backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-        opacity: isLoaded ? 1 : 0.99,
-        transition: "opacity 1s ease-in-out",
-        willChange: "opacity"
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "flex-end",
+        overflow: "hidden",
+        transition: "background-image 1s ease-in-out",
       }}
     >
-      {/* Main Content Container */}
-      <div 
-        style={{ 
-          padding: "0 20px",
-          width: "100%",
-          maxWidth: "500px",
-          margin: isMobile ? "0 auto" : "0 auto",
-          opacity: isContentVisible ? 1 : 0,
-          transform: isContentVisible ? "translateY(0)" : "translateY(20px)",
-          transition: "opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1)",
-          willChange: "opacity, transform",
+      {/* Overlay gradient bawah */}
+      <div
+        style={{
+          position: "absolute",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: "50%",
+          background: "linear-gradient(to top, white 25%, transparent 100%)",
           zIndex: 1,
-          position: "relative",
-          boxSizing: "border-box"
+        }}
+      />
+
+      {/* Text kecil atas kanan */}
+      <div
+        style={{
+          position: "absolute",
+          top: isMobile ? "15px" : "30px",
+          right: isMobile ? "15px" : "40px",
+          zIndex: 3,
+          textAlign: "right",
+          maxWidth: isMobile ? "60%" : "40%",
         }}
       >
-        {/* Bunga Ornament */}
-        <div
-          style={{
-            marginBottom: "16px",
-            display: "flex",
-            justifyContent: "center"
-          }}
-        >
-          <img 
-            src={invitationData.bunga} 
-            alt="Bunga Ornamen" 
-            style={{
-              height: "60px",
-              width: "auto",
-              objectFit: "contain"
-            }}
-          />
-        </div>
-
-        {/* Wedding Title */}
-        <h2
-          style={{
-            fontSize: "clamp(16px, 3vw, 20px)",
-            fontWeight: 300,
-            letterSpacing: "2px",
-            marginBottom: "16px",
-            textTransform: "uppercase",
-            color: "#000000",
-          }}
-        >
-          THE WEDDING OF
-        </h2>
-
-        {/* Couple Name */}
-        <h1
-          style={{
-            fontSize: "42px",
-            margin: "0 0 20px",
-            fontWeight: 400,
-            lineHeight: 1.1,
-            letterSpacing: "1px",
-            fontFamily: "'Great Vibes', cursive",
-            color: "#000000",
-          }}
-        >
-          Joshia & Vinny
-        </h1>
-
-        {/* Wedding Image Box */}
-        <div
-          style={{
-            width: "250px",
-            height: "250px",
-            margin: "0 auto 20px",
-            overflow: "hidden",
-          }}
-        >
-          <img 
-            src={invitationData.weddingImage} 
-            alt="Joshia & Vinny" 
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover"
-            }}
-          />
-        </div>
-
-        {/* Bible Verse */}
         <p
-          style={{ 
-            fontSize: "16px",
+          style={{
+            fontSize: isMobile ? "12px" : "18px",
+            fontFamily: "'Playfair Display', serif",
             fontStyle: "italic",
-            margin: "20px 0",
-            lineHeight: 1.4,
-            color: "#000000",
-            fontWeight: 300,
-            maxWidth: "300px",
-            marginLeft: "auto",
-            marginRight: "auto"
+            color: "white",
+            textShadow: "0 2px 6px rgba(0,0,0,0.5)",
+            margin: 0,
           }}
         >
-          "Demikianlah mereka bukan lagi dua, melainkan satu. Karena itu, apa yang telah dipersatukan Allah, tidak boleh diceraikan manusia."
-          <br/>
-          <span style={{fontSize: "14px"}}>Matius 19:6</span>
+          You're Cordially Invited <br />
+          to the Wedding of
         </p>
+      </div>
+
+      {/* Gambar tulisan pasangan */}
+      <div
+        style={{
+          position: "absolute",
+          bottom: isMobile ? "20px" : "40px",
+          right: isMobile ? "20px" : "60px",
+          zIndex: 3,
+        }}
+      >
+        <img
+          src={invitationData.tulisan}
+          alt="Couple Names"
+          style={{
+            width: isMobile ? "220px" : "clamp(180px, 15vw, 250px)", // ukuran responsive desktop
+            height: "auto",
+            transition: "width 0.3s ease-in-out",
+          }}
+        />
       </div>
     </section>
   );

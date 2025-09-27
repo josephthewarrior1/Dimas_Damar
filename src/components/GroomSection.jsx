@@ -1,266 +1,108 @@
-import { motion } from "framer-motion";
 import { FaInstagram } from "react-icons/fa";
+import { motion } from "framer-motion";
 import invitationData from "../data/invitationData";
-import { useState, useEffect } from "react";
 
 const GroomSection = () => {
-  const [isMobile, setIsMobile] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [isContentVisible, setIsContentVisible] = useState(false);
-
-  useEffect(() => {
-    const checkIfMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    checkIfMobile();
-    window.addEventListener("resize", checkIfMobile);
-    return () => {
-      window.removeEventListener("resize", checkIfMobile);
-    };
-  }, []);
-
-  useEffect(() => {
-    // Preload the background image (same as HeroSection and BrideSection)
-    const loadImage = async () => {
-      const img = new Image();
-      img.src = invitationData.weddingImage;
-      img.onload = () => {
-        setIsLoaded(true);
-        setTimeout(() => setIsContentVisible(true), 300);
-      };
-      img.onerror = () => {
-        setIsLoaded(true);
-        setIsContentVisible(true);
-      };
-    };
-
-    loadImage();
-  }, []);
-
   return (
     <section
       style={{
-        position: "relative",
         minHeight: "100vh",
-        minHeight: "-webkit-fill-available",
         display: "flex",
-        flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        color: "black",
-        textAlign: "center",
-        fontFamily: "'Cormorant Garamond', serif",
-        overflow: "hidden",
-        backgroundColor: "#f9f5f0",
-        backgroundImage: isLoaded 
-          ? `url(${invitationData.backgroundImage})`
-          : "none",
-        backgroundSize: "cover",
-        backgroundPosition: isMobile ? "50% center" : "70% center",
-        backgroundRepeat: "no-repeat",
-        opacity: isLoaded ? 1 : 0.99,
-        transition: "opacity 1s ease-in-out",
-        willChange: "opacity",
-        padding: "40px 20px"
+        backgroundColor: "#fff",
+        padding: "40px 20px",
+        fontFamily: "'Times New Roman', serif",
       }}
     >
-      {/* Main Content Container */}
-      <div 
-        style={{ 
-          padding: "0 20px",
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+        style={{
+          background: "#fff",
+          borderRadius: "20px",
+          boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
+          maxWidth: "400px",
           width: "100%",
-          maxWidth: "500px",
-          margin: isMobile ? "0 auto" : "0 auto",
-          opacity: isContentVisible ? 1 : 0,
-          transform: isContentVisible ? "translateY(0)" : "translateY(20px)",
-          transition: "opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1)",
-          willChange: "opacity, transform",
-          zIndex: 1,
-          position: "relative",
-          boxSizing: "border-box"
+          textAlign: "center",
+          overflow: "hidden",
         }}
       >
-        {/* Bunga Ornament */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 1 }}
-          style={{
-            marginBottom: "16px",
-            display: "flex",
-            justifyContent: "center"
-          }}
-        >
-          <img 
-            src={invitationData.bunga} 
-            alt="Bunga Ornamen" 
-            style={{
-              height: "60px",
-              width: "auto",
-              objectFit: "contain"
-            }}
-          />
-        </motion.div>
-
-        {/* Groom Title */}
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6, duration: 0.8 }}
-          style={{
-            fontSize: "clamp(16px, 3vw, 20px)",
-            fontWeight: 300,
-            letterSpacing: "2px",
-            marginBottom: "16px",
-            textTransform: "uppercase",
-            color: "#000000",
-          }}
-        >
-          THE GROOM
-        </motion.h2>
-
-        {/* Groom Name */}
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7, duration: 0.8 }}
-          style={{
-            fontSize: "42px",
-            margin: "0 0 20px",
-            fontWeight: 400,
-            lineHeight: 1.1,
-            letterSpacing: "1px",
-            fontFamily: "'Great Vibes', cursive",
-            color: "#000000",
-          }}
-        >
-          {invitationData.groom || "Christian Nathan"}
-        </motion.h1>
-
-        {/* Groom Image Container */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.8, duration: 0.8 }}
+        {/* Foto mempelai */}
+        <img
+          src={invitationData.groomimages}
+          alt="Groom"
           style={{
             width: "100%",
-            maxWidth: "350px",
             height: "auto",
-            margin: "0 auto 20px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            background: "transparent",
-            border: "none",
-            outline: "none",
+            objectFit: "cover",
+            borderTopLeftRadius: "20px",
+            borderTopRightRadius: "20px",
           }}
-        >
-          <img 
-            src={invitationData.groomimages} 
-            alt="Groom" 
-            style={{
-              width: "100%",
-              height: "auto",
-              maxHeight: "400px",
-              objectFit: "contain",
-              display: "block",
-              background: "transparent",
-              border: "none",
-              outline: "none",
-            }}
-            onError={(e) => {
-              e.target.style.display = 'none';
-            }}
-          />
-        </motion.div>
+        />
 
-        {/* Parents Information */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.9, duration: 0.8 }}
-          style={{
-            marginBottom: "1.5rem",
-            textAlign: "center",
-          }}
-        >
+        <div style={{ padding: "20px" }}>
+          {/* Subtitle */}
           <p
             style={{
-              fontSize: "0.9rem",
-              marginBottom: "0.5rem",
-              letterSpacing: "2px",
+              fontSize: "14px",
+              letterSpacing: "1px",
               textTransform: "uppercase",
               opacity: 0.8,
-              color: "#000000",
+              marginBottom: "8px",
             }}
           >
-            Son of
+            The Groom
           </p>
 
-          <div
+          {/* Nama */}
+          <h1
             style={{
-              display: "inline-block",
-              borderLeft: "2px solid rgba(0,0,0,0.3)",
-              paddingLeft: "1rem",
-              textAlign: "left",
+              fontSize: "28px",
+              fontWeight: 600,
+              margin: "0 0 8px",
             }}
           >
-            <p
-              style={{
-                margin: "0.5rem 0",
-                fontSize: "1.1rem",
-                fontWeight: "500",
-                color: "#000000",
-              }}
-            >
-              Mr. Christiano Nathanael
-            </p>
-            <p
-              style={{
-                margin: "0.5rem 0",
-                fontSize: "1.1rem",
-                fontWeight: "500",
-                color: "#000000",
-              }}
-            >
-              Mrs. Elisabeth Darti
-            </p>
-          </div>
-        </motion.div>
+            {invitationData.groomName || "Dimas Bayu Nugroho"}
+          </h1>
 
-        {/* Instagram Link */}
-        <motion.a
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.0, duration: 0.8 }}
-          href="https://www.instagram.com/joshtjhai//"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "10px",
-            fontSize: "1rem",
-            backgroundColor: "rgba(0,0,0,0.05)",
-            padding: "12px 24px",
-            borderRadius: "30px",
-            marginTop: "1rem",
-            color: "#000000",
-            textDecoration: "none",
-            border: "1px solid rgba(0,0,0,0.1)",
-            transition: "all 0.3s ease",
-          }}
-          whileHover={{
-            scale: 1.05,
-            backgroundColor: "rgba(0,0,0,0.1)",
-          }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <FaInstagram style={{ width: "20px", height: "20px" }} />
-          <span style={{ fontWeight: "500" }}>@JoshiaTjhai</span>
-        </motion.a>
-      </div>
+          {/* Info anak & orang tua */}
+          <p
+            style={{
+              fontSize: "16px",
+              marginBottom: "20px",
+              opacity: 0.8,
+              lineHeight: "1.6",
+            }}
+          >
+            Anak ke-1 dari pasangan <br />
+            {invitationData.groomFather || "Alm. Suparno"} &{" "}
+            {invitationData.groomMother || "Ina Maria Kristanti"}
+          </p>
+
+          {/* Instagram */}
+          <a
+            href="https://www.instagram.com/dimasksp/"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "8px",
+              fontSize: "14px",
+              textDecoration: "none",
+              color: "#000",
+              background: "#f5f5f5",
+              padding: "10px 18px",
+              borderRadius: "30px",
+              transition: "all 0.3s ease",
+            }}
+          >
+            <FaInstagram /> dimasksp
+          </a>
+        </div>
+      </motion.div>
     </section>
   );
 };

@@ -115,7 +115,7 @@ const LoveStorySection = () => {
         color: "#fff",
         fontFamily: "'Cormorant Garamond', serif",
         overflow: "hidden",
-        backgroundImage: `url(${invitationData.backgroundImage2})`,
+        backgroundImage: `url(${invitationData.background})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundAttachment: "fixed",

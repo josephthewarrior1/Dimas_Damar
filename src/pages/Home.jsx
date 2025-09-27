@@ -9,11 +9,14 @@ import GroomSection from '../components/GroomSection';
 import GallerySection from '../components/GallerySection';
 import GalleryBigSection from '../components/GalleryBigSection';
 import WeddingEventSection from '../components/WeddingEvent';
+import SeperationSection from '../components/SeperationSection';
 import TimeLocationSection from '../components/TimeLocationSection';
 import LoveStorySection from '../components/LoveStorySection';
+import SaveTheDateSection from '../components/SaveTheDateSection';
 import RsvpFlow from '../components/RsvpFlowSection';
 import ThankYouSection from '../components/ThankyouSection';
 import GuestInvitationPage from '../components/GuessInvitation';
+import RsvpWishViaWhatsApp from '../components/RsvpWishViaWhatsApp';
 import { AudioContext } from '../routes'; // Import context
 
 export default function HomePage() {
@@ -56,14 +59,15 @@ export default function HomePage() {
           transition={{ duration: 0.8 }}
         >
           <HeroSection guestName={guestName} />
+          <SaveTheDateSection />
           <GallerySection />
           <GroomSection />
+          <SeperationSection />
           <BrideSection />
-          
-          <GalleryBigSection />
           <WeddingEventSection />
+          <GalleryBigSection />
           <LoveStorySection />
-          <RsvpFlow />
+          <RsvpWishViaWhatsApp />
           <ThankYouSection />
           <GuestInvitationPage />
         </motion.div>
