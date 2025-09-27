@@ -10,9 +10,9 @@ const HorizontalGallery = () => {
     seconds: 0
   });
 
-  // Detect mobile
+  // Detect mobile dengan breakpoint yang lebih tepat
   useEffect(() => {
-    const checkIfMobile = () => setIsMobile(window.innerWidth < 768);
+    const checkIfMobile = () => setIsMobile(window.innerWidth < 1024); // Changed to 1024 for better tablet support
     checkIfMobile();
     window.addEventListener('resize', checkIfMobile);
     return () => window.removeEventListener('resize', checkIfMobile);
@@ -50,6 +50,7 @@ const HorizontalGallery = () => {
   return (
     <section style={{
       width: '100%',
+      maxWidth: '1200px', // Added max-width untuk batasi di desktop
       padding: '25px 15px',
       margin: '0 auto',
       textAlign: 'center',
@@ -61,15 +62,15 @@ const HorizontalGallery = () => {
       flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center',
-      minHeight: isMobile ? 'auto' : 'auto',
+      minHeight: 'auto',
       paddingBottom: isMobile ? '20px' : '30px'
     }}>
       {/* Countdown Image di kanan atas */}
       <div style={{
         position: 'absolute',
-        top: isMobile ? '30px' : '10px',
-        right: isMobile ? '15px' : '10px',
-        width:'250px',
+        top: isMobile ? '30px' : '20px',
+        right: isMobile ? '15px' : '20px',
+        width: isMobile ? '200px' : '250px', // Responsive width
         maxWidth: '90%',
         zIndex: 2
       }}>
@@ -85,33 +86,38 @@ const HorizontalGallery = () => {
         />
       </div>
 
-      {/* Countdown Timer */}
+      {/* Countdown Timer Container */}
       <div style={{
+        width: '100%',
+        maxWidth: isMobile ? '100%' : '900px', // Batasi lebar maksimum di desktop
         display: 'flex',
         justifyContent: 'center',
-        gap: isMobile ? '15px' : '25px', // lebih lega
-        marginTop: isMobile ? '70px' : '120px', // lebih ke bawah biar nggak nabrak gambar
-        flexWrap: 'wrap',
+        gap: isMobile ? '15px' : '20px', // Reduced gap untuk desktop
+        marginTop: isMobile ? '70px' : '100px', // Adjusted margin
+        flexWrap: 'nowrap', // Pastikan tidak wrap
         position: 'relative',
         zIndex: 1
       }}>
         {Object.entries(timeLeft).map(([unit, value]) => (
           <div key={unit} style={{ 
-            textAlign: 'center'
+            textAlign: 'center',
+            flex: '1', // Membuat semua item memiliki lebar yang sama
+            minWidth: '0' // Important untuk flexbox truncation
           }}>
             <div style={{
-              fontSize: isMobile ? '3rem' : '5rem', // super gede
+              fontSize: isMobile ? '3rem' : '4rem', // Reduced desktop size
               fontWeight: 700,
               lineHeight: 1,
               fontFamily: "'Cormorant Garamond', serif",
-              color: unit === 'seconds' ? 'red' : '#000' // seconds merah
+              color: unit === 'seconds' ? 'red' : '#000',
+              wordBreak: 'keep-all' // Prevent text breaking
             }}>
               {value.toString().padStart(2, '0')}
             </div>
             <div style={{
-              fontSize: isMobile ? '1rem' : '1.2rem',
+              fontSize: isMobile ? '1rem' : '1.1rem', // Reduced desktop size
               textTransform: 'uppercase',
-              letterSpacing: '1.5px',
+              letterSpacing: '1px', // Reduced letter spacing
               marginTop: '5px',
               color: '#000',
               fontFamily: "'Cormorant Garamond', serif",

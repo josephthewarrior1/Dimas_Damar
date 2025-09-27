@@ -6,28 +6,64 @@ const SaveTheDateSection = () => {
     // Inject CSS media query untuk berbagai ukuran layar
     const styleTag = document.createElement("style");
     styleTag.innerHTML = `
-      @media (max-width: 375px) {
-        .date-background {
-          width: 140px !important;
-          top: 50px !important;
-          right: 15px !important;
-        }
+      /* Default untuk mobile - gambar sedang */
+      .date-background {
+        width: 200px !important;
+        top: 40px !important;
+        right: 15px !important;
       }
       
+      /* HP sangat kecil */
       @media (max-width: 320px) {
         .date-background {
-          width: 120px !important;
-          top: 40px !important;
+          width: 160px !important;
+          top: 30px !important;
           right: 10px !important;
         }
       }
       
-      /* Untuk layar yang lebih besar tetap normal */
-      @media (min-width: 376px) {
+      /* HP medium */
+      @media (min-width: 321px) and (max-width: 375px) {
         .date-background {
-          width: 260px !important;
-          top: 40px !important;
-          right: 20px !important;
+          width: 180px !important;
+          top: 35px !important;
+          right: 12px !important;
+        }
+      }
+      
+      /* Tablet */
+      @media (min-width: 376px) and (max-width: 768px) {
+        .date-background {
+          width: 220px !important;
+          top: 50px !important;
+          right: 25px !important;
+        }
+      }
+      
+      /* PC kecil */
+      @media (min-width: 769px) and (max-width: 1024px) {
+        .date-background {
+          width: 180px !important;
+          top: 60px !important;
+          right: 40px !important;
+        }
+      }
+      
+      /* PC medium */
+      @media (min-width: 1025px) and (max-width: 1440px) {
+        .date-background {
+          width: 150px !important;
+          top: 70px !important;
+          right: 60px !important;
+        }
+      }
+      
+      /* PC besar */
+      @media (min-width: 1441px) {
+        .date-background {
+          width: 180px !important;
+          top: 60px !important;
+          right: 30px !important;
         }
       }
     `;
@@ -88,11 +124,11 @@ const SaveTheDateSection = () => {
         style={{
           position: "absolute",
           top: "40px",
-          right: "20px",
-          width: "260px",
+          right: "15px",
+          width: "200px",
           height: "auto",
           zIndex: 3,
-          // Default style untuk fallback
+          transition: "all 0.3s ease-in-out",
         }}
       />
     </section>

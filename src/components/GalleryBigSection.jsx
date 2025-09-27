@@ -21,9 +21,7 @@ const GalleryWithScrollAnimation = () => {
   const navigateImages = (direction) => {
     if (selectedImageIndex === null) return;
     if (direction === "prev") {
-      setSelectedImageIndex(
-        (prev) => (prev - 1 + photos.length) % photos.length
-      );
+      setSelectedImageIndex((prev) => (prev - 1 + photos.length) % photos.length);
     } else {
       setSelectedImageIndex((prev) => (prev + 1) % photos.length);
     }
@@ -58,7 +56,7 @@ const GalleryWithScrollAnimation = () => {
       <motion.h2
         initial={{ opacity: 0, y: -20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: 0.6 }}
         style={{
           fontSize: "4rem",
@@ -69,8 +67,8 @@ const GalleryWithScrollAnimation = () => {
         Gallery
       </motion.h2>
 
-      {/* Grid Gallery with random span */}
-      <div
+      {/* === Grid gallery (layout tidak diubah) === */}
+      <motion.div
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
@@ -79,17 +77,32 @@ const GalleryWithScrollAnimation = () => {
           maxWidth: "1000px",
           margin: "0 auto",
         }}
+        variants={{
+          hidden: { opacity: 0 },
+          show: {
+            opacity: 1,
+            transition: { staggerChildren: 0.15 },
+          },
+        }}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.2 }}
       >
         {photos.map((photo, index) => {
-          // Randomize size
-          const isLarge = index % 5 === 0; // tiap 5 gambar bikin gede
-          const isTall = index % 7 === 0; // tiap 7 gambar bikin tinggi
+          const isLarge = index % 5 === 0; // ukuran grid tetap
+          const isTall = index % 7 === 0;
 
           return (
             <motion.img
               key={index}
               src={photo}
               alt={`Gallery ${index + 1}`}
+              variants={{
+                hidden: { opacity: 0, scale: 0.85, y: 20 },
+                show: { opacity: 1, scale: 1, y: 0 },
+              }}
+              transition={{ type: "spring", stiffness: 60, damping: 15 }}
+              whileHover={{ scale: 1.05 }}
               style={{
                 width: "100%",
                 height: "100%",
@@ -100,13 +113,11 @@ const GalleryWithScrollAnimation = () => {
                 gridRow: isTall ? "span 2" : "span 1",
                 boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
               }}
-              whileHover={{ scale: 1.03 }}
-              transition={{ duration: 0.3 }}
               onClick={() => handleImageClick(index)}
             />
           );
         })}
-      </div>
+      </motion.div>
 
       {/* Modal */}
       {isModalOpen && selectedImageIndex !== null && (
@@ -142,7 +153,6 @@ const GalleryWithScrollAnimation = () => {
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Prev Btn */}
             <button
               onClick={(e) => {
                 e.stopPropagation();
@@ -168,7 +178,6 @@ const GalleryWithScrollAnimation = () => {
               }}
             />
 
-            {/* Next Btn */}
             <button
               onClick={(e) => {
                 e.stopPropagation();
@@ -179,7 +188,6 @@ const GalleryWithScrollAnimation = () => {
               ❯
             </button>
 
-            {/* Close Btn */}
             <button
               onClick={closeModal}
               style={{
