@@ -48,7 +48,7 @@ const ThankYouSection = () => {
         overflow: "hidden",
       }}
     >
-      {/* Background Image dengan SOLUSI FIXED */}
+      {/* Background Image */}
       {invitationData.thanks ? (
         <motion.img
           src={invitationData.thanks}
@@ -65,7 +65,6 @@ const ThankYouSection = () => {
             opacity: imageLoaded ? 1 : 0,
             transition: "opacity 0.8s ease",
             zIndex: 0,
-            // Prevent excessive zoom on PC
             minWidth: "100%",
             minHeight: "100%",
             maxWidth: "none",
@@ -91,7 +90,7 @@ const ThankYouSection = () => {
         />
       )}
 
-      {/* Overlay gelap */}
+      {/* Overlay gelap seluruh layar */}
       <div
         style={{
           position: "absolute",
@@ -101,11 +100,24 @@ const ThankYouSection = () => {
         }}
       />
 
+      {/* Gradient hitam di bagian bawah */}
+      <div
+        style={{
+          position: "absolute",
+          bottom: 0,
+          left: 0,
+          width: "100%",
+          height: "35%", // tinggi gradient bawah
+          background: "linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0))",
+          zIndex: 2,
+        }}
+      />
+
       {/* Konten Utama */}
       <motion.div
         style={{
           position: "relative",
-          zIndex: 2,
+          zIndex: 3,
           maxWidth: "700px",
           padding: "20px",
           display: "flex",
@@ -113,6 +125,7 @@ const ThankYouSection = () => {
           gap: "20px",
           alignItems: "center",
           transform: "translateY(150px)",
+          marginBottom: "60px", // jarak tambahan agar tidak nabrak footer
         }}
         variants={containerVariants}
         initial="hidden"
@@ -159,6 +172,25 @@ const ThankYouSection = () => {
           </h2>
         </motion.div>
       </motion.div>
+
+      {/* Footer Powered by Momento */}
+      <div
+        style={{
+          position: "absolute",
+          bottom: 0,
+          left: 0,
+          width: "100%",
+          padding: "10px 0 20px",
+          background: "rgba(0,0,0,0.6)",
+          textAlign: "center",
+          color: "white",
+          fontSize: "0.75rem",
+          letterSpacing: "0.5px",
+          zIndex: 4,
+        }}
+      >
+        Powered by Momento
+      </div>
     </motion.section>
   );
 };
