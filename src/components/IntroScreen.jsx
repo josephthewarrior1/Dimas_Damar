@@ -127,7 +127,7 @@ export default function IntroScreen({ onOpenInvitation, guestName: guestNameProp
           fontFamily: "'Playfair Display', serif",
           lineHeight: '1.2'
         }}>
-          DAMAR<br />&amp; DIMAS
+          DIMAS<br />&amp; DAMAR
         </h1>
       </div>
 

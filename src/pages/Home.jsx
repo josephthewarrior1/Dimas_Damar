@@ -17,7 +17,10 @@ import RsvpFlow from '../components/RsvpFlowSection';
 import ThankYouSection from '../components/ThankyouSection';
 import GuestInvitationPage from '../components/GuessInvitation';
 import RsvpWishViaWhatsApp from '../components/RsvpWishViaWhatsApp';
+import RsvpSection from '../components/RsvpSection';
+import WeddingGift from '../components/WeddingGift';
 import { AudioContext } from '../routes'; // Import context
+import RsvpWishSection from '../components/RsvpWishViaWhatsApp';
 
 export default function HomePage() {
   const homeRef = useRef(null);
@@ -65,8 +68,10 @@ export default function HomePage() {
           <SeperationSection />
           <BrideSection />
           <WeddingEventSection />
+          <RsvpSection />
           <GalleryBigSection />
           <LoveStorySection />
+          <WeddingGift />
           <RsvpWishViaWhatsApp />
           <ThankYouSection />
           <GuestInvitationPage />

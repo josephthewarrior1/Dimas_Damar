@@ -15,28 +15,23 @@ const RsvpWishSection = () => {
   const [submitError, setSubmitError] = useState(null);
   const [alreadySubmitted, setAlreadySubmitted] = useState(false);
 
-  // Fungsi decode nama
   const decodeGuestName = (param) => {
-    if (!param) return '';
+    if (!param) return "";
     const decoded = decodeURIComponent(param);
     return decoded
-      .split('_')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-      .join(' ');
+      .split("_")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(" ");
   };
 
   useEffect(() => {
-    // Coba ambil dari query string dulu
     let nameFromParam = params.get("to");
-    
-    // Jika tidak ada di query string, cek hash
     if (!nameFromParam) {
       const hash = window.location.hash;
       if (hash.startsWith("#to=")) {
         nameFromParam = hash.replace("#to=", "");
       }
     }
-    
     setGuestName(decodeGuestName(nameFromParam) || "");
   }, [params]);
 
@@ -46,7 +41,6 @@ const RsvpWishSection = () => {
       setSubmitError("Ucapan harus diisi");
       return;
     }
-
     if (alreadySubmitted) {
       setSubmitError("Anda sudah mengisi ucapan sebelumnya.");
       return;
@@ -74,15 +68,11 @@ const RsvpWishSection = () => {
 
   useEffect(() => {
     const rsvpRef = ref(db, "rsvp");
-
     const unsubscribe = onValue(rsvpRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
         const loadedWishes = Object.entries(data)
-          .map(([id, value]) => ({
-            id,
-            ...value,
-          }))
+          .map(([id, value]) => ({ id, ...value }))
           .sort((a, b) => b.createdAt - a.createdAt);
 
         setWishes(loadedWishes);
@@ -134,70 +124,106 @@ const RsvpWishSection = () => {
           alignItems: "center",
         }}
       >
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
+        {/* Image + gradient */}
+        <div
           style={{
-            maxWidth: "600px",
+            position: "relative",
             width: "100%",
-            marginBottom: "30px",
+            maxWidth: "600px",
+            overflow: "hidden",
+            marginBottom: "-20px",
           }}
         >
-          <motion.h2
-            variants={slideUp}
+          <img
+            src={invitationData.wish}
+            alt="Background"
             style={{
-              textAlign: "center",
-              fontSize: "1.8rem",
-              fontWeight: 600,
-              letterSpacing: "1px",
-              margin: 0,
-              lineHeight: "1.2",
-              color: "#000",
-              fontFamily: "'Playfair Display', serif", // 👉 ubah font jadi Playfair Display
+              width: "100%",
+              height: "auto",
+              display: "block",
+            }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: "30%",
+              background:
+                "linear-gradient(to top, rgba(255,255,255,1), rgba(255,255,255,0))",
+            }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              top: "20px",
+              right: "30px",
+              textAlign: "right",
+              zIndex: 3,
             }}
           >
-            WEDDING WISH
-          </motion.h2>
-          <motion.p
-            variants={slideUp}
-            style={{
-              textAlign: "center",
-              fontSize: "0.95rem",
-              lineHeight: "1.5",
-              color: "rgba(0,0,0,0.7)",
-              marginTop: "10px",
-            }}
-          >
-            Send Prayers & Best Wishes to the Bride and Groom
-          </motion.p>
-        </motion.div>
+            <h2
+              style={{
+                fontSize: "2rem",
+                fontWeight: "600",
+                letterSpacing: "2px",
+                margin: "0 0 5px 0",
+                fontFamily: "'Playfair Display', serif",
+                color: "#fff",
+              }}
+            >
+              WISHES
+            </h2>
+            <p
+              style={{
+                fontSize: "1.2rem",
+                fontWeight: "300",
+                letterSpacing: "1px",
+                margin: 0,
+                fontFamily: "'Cormorant Garamond', serif",
+                color: "#fff",
+                opacity: 0.9,
+              }}
+            >
+              & PRAYER
+            </p>
+          </div>
+        </div>
 
-        {/* Scrollable Container */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
           style={{
-            width: "100%",
             maxWidth: "600px",
+            width: "100%",
+            marginTop: "30px",
+          }}
+        ></motion.div>
+
+        {/* Chrome-style form + wishes */}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          style={{
+            width: "85%",
+            maxWidth: "400px",
             height: wishes.length > 0 ? "60vh" : "auto",
             overflowY: wishes.length > 0 ? "auto" : "visible",
             padding: "20px",
-            backgroundImage: `linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)), url(${invitationData.backgroundDesign})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-            borderRadius: "12px",
-            border: "1px solid rgba(0,0,0,0.2)",
-            boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
-            scrollbarWidth: "thin",
-            scrollbarColor: "#000 rgba(0,0,0,0.1)",
+            background:
+              "linear-gradient(145deg, #f0f0f0 0%, #d9d9d9 50%, #f0f0f0 100%)", // << chrome effect
+            borderRadius: "20px",
+            border: "1px solid #bfbfbf",
+            boxShadow:
+              "inset 1px 1px 4px rgba(255,255,255,0.6), inset -1px -1px 4px rgba(0,0,0,0.1), 0 4px 20px rgba(0,0,0,0.1)",
+            marginTop: "20px",
           }}
         >
-          {/* Form Section */}
           <motion.form
             onSubmit={handleSubmit}
             variants={slideUp}
@@ -213,10 +239,10 @@ const RsvpWishSection = () => {
                 variants={slideUp}
                 style={{
                   background: "rgba(0,0,0,0.05)",
-                  color: "#000",
+                  color: "#333",
                   padding: "10px",
                   borderRadius: "8px",
-                  border: "1px solid rgba(0,0,0,0.2)",
+                  border: "1px solid #aaa",
                 }}
               >
                 {submitError}
@@ -232,13 +258,16 @@ const RsvpWishSection = () => {
               disabled={alreadySubmitted}
               style={{
                 padding: "15px",
-                borderRadius: "8px",
+                borderRadius: "12px",
                 fontFamily: '"Cormorant Garamond", serif',
-                border: "1px solid rgba(0,0,0,0.3)",
-                background: "rgba(255,255,255,0.7)",
+                border: "1px solid #bfbfbf",
+                background:
+                  "linear-gradient(145deg, #e5e5e5 0%, #f8f8f8 100%)", // << chrome textarea
                 color: "#000",
                 fontSize: "0.95rem",
                 resize: "none",
+                boxShadow:
+                  "inset 1px 1px 3px rgba(255,255,255,0.7), inset -1px -1px 3px rgba(0,0,0,0.1)",
               }}
             />
 
@@ -247,9 +276,10 @@ const RsvpWishSection = () => {
               type="submit"
               disabled={isSubmitting || alreadySubmitted}
               style={{
-                backgroundColor: alreadySubmitted ? "#ccc" : "#000",
-                color: "#fff",
-                border: "none",
+                background:
+                  "linear-gradient(145deg, #c0c0c0 0%, #a6a6a6 50%, #c0c0c0 100%)", // << chrome button
+                color: "#000",
+                border: "1px solid #8c8c8c",
                 padding: "12px 25px",
                 fontSize: "0.95rem",
                 borderRadius: "30px",
@@ -259,6 +289,8 @@ const RsvpWishSection = () => {
                 letterSpacing: "1px",
                 margin: "0 auto",
                 width: "80%",
+                boxShadow:
+                  "0 2px 5px rgba(0,0,0,0.2), inset 0 1px 2px rgba(255,255,255,0.5)",
               }}
             >
               {alreadySubmitted
@@ -283,7 +315,6 @@ const RsvpWishSection = () => {
             )}
           </motion.form>
 
-          {/* Wishes Section */}
           <motion.div
             variants={slideUp}
             style={{
@@ -307,12 +338,15 @@ const RsvpWishSection = () => {
                 <div
                   key={item.id}
                   style={{
-                    background: "rgba(0,0,0,0.05)",
-                    borderRadius: "8px",
+                    background:
+                      "linear-gradient(145deg, #ededed 0%, #f9f9f9 100%)",
+                    borderRadius: "12px",
                     padding: "16px",
                     marginBottom: "12px",
-                    border: "1px solid rgba(0,0,0,0.1)",
+                    border: "1px solid #bfbfbf",
                     color: "#000",
+                    boxShadow:
+                      "inset 1px 1px 3px rgba(255,255,255,0.6), inset -1px -1px 3px rgba(0,0,0,0.1)",
                   }}
                 >
                   <div
@@ -324,7 +358,8 @@ const RsvpWishSection = () => {
                   >
                     <div
                       style={{
-                        backgroundColor: "#847346",
+                        background:
+                          "linear-gradient(145deg, #a6a6a6 0%, #c0c0c0 100%)",
                         color: "#fff",
                         fontWeight: "bold",
                         width: "36px",
@@ -335,6 +370,8 @@ const RsvpWishSection = () => {
                         justifyContent: "center",
                         marginRight: "10px",
                         fontFamily: '"Cormorant Garamond", serif',
+                        boxShadow:
+                          "0 1px 3px rgba(0,0,0,0.2), inset 0 1px 2px rgba(255,255,255,0.5)",
                       }}
                     >
                       {item.name.slice(0, 2).toUpperCase()}

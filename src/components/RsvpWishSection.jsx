@@ -1,246 +1,101 @@
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { motion } from "framer-motion";
 import { containerVariants, slideUp } from "./animations";
-import { db } from "../config/firebaseConfig";
-import { ref, query, orderByChild, equalTo, onValue, update } from "firebase/database";
 import invitationData from "../data/invitationData";
 
-const RsvpWishSection = () => {
+const RsvpWishViaWhatsApp = () => {
   const [params] = useSearchParams();
-  const fullParam = params.get("to") || "";
-  
-  // Pisahkan parameter menjadi coupleId dan guestCode
-  const [coupleId, guestCode] = fullParam.split('_');
-  
-  const [guestName, setGuestName] = useState("Tamu Undangan");
-  const [guestId, setGuestId] = useState("");
-  const [wish, setWish] = useState("");
-  const [wishes, setWishes] = useState([]);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState(null);
-  const [alreadySubmitted, setAlreadySubmitted] = useState(false);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const defaultName = params.get("to") || "";
+  const [name, setName] = useState(defaultName);
+  const [attending, setAttending] = useState("yes");
+  const [pax, setPax] = useState("");
+  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
+  const whatsappNumber = "628119660089"; // ganti dengan nomor WA aktif
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  // 1. Cari data tamu berdasarkan guestCode
-  useEffect(() => {
-    if (!coupleId || !guestCode) {
-      setSubmitError("Link undangan tidak valid");
-      return;
-    }
-
-    const guestRef = query(
-      ref(db, `couples/${coupleId}/guests`),
-      orderByChild('code'),
-      equalTo(guestCode)
-    );
-
-    const unsubscribe = onValue(guestRef, (snapshot) => {
-      if (snapshot.exists()) {
-        const guests = snapshot.val();
-        const [foundGuestId, guestData] = Object.entries(guests)[0];
-        setGuestName(guestData.name || "Tamu Undangan");
-        setGuestId(foundGuestId);
-        setAlreadySubmitted(!!guestData.wish);
-        setSubmitError(null);
-      } else {
-        setSubmitError("Tamu tidak ditemukan");
-      }
-    });
-
-    return () => unsubscribe();
-  }, [coupleId, guestCode]);
-
-  // 2. Load semua wishes yang sudah diisi
-  useEffect(() => {
-    if (!coupleId) return;
-
-    const guestsRef = ref(db, `couples/${coupleId}/guests`);
-    
-    const unsubscribe = onValue(guestsRef, (snapshot) => {
-      const guests = snapshot.val();
-      if (!guests) {
-        setWishes([]);
-        return;
-      }
-
-      const loadedWishes = Object.entries(guests)
-        .filter(([_, guest]) => guest.wish) // Hanya ambil yang punya wish
-        .map(([id, guest]) => ({
-          id,
-          name: guest.name,
-          wish: guest.wish,
-          createdAt: guest.createdAt
-        }))
-        .sort((a, b) => b.createdAt - a.createdAt); // Urutkan terbaru dulu
-
-      setWishes(loadedWishes);
-    });
-
-    return () => unsubscribe();
-  }, [coupleId]);
-
-  // 3. Handle submit wish
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!wish.trim()) {
-      setSubmitError("Ucapan harus diisi");
+    if (!name.trim()) {
+      setError("Harap isi nama Anda");
       return;
     }
 
-    if (alreadySubmitted) {
-      setSubmitError("Anda sudah mengisi ucapan sebelumnya");
+    if (!pax && attending === "yes") {
+      setError("Harap isi jumlah orang yang hadir");
       return;
     }
 
-    setIsSubmitting(true);
-    setSubmitError(null);
+    const finalPax = attending === "yes" ? pax : "0";
 
-    try {
-      await update(ref(db, `couples/${coupleId}/guests/${guestId}`), {
-        wish,
-        createdAt: Date.now()
-      });
+    const message = `Halo, saya *${name}* ingin RSVP:\n\nStatus: ${
+      attending === "yes" ? "Hadir" : "Tidak Hadir"
+    }\n${attending === "yes" ? `Jumlah orang: ${finalPax} pax` : ""}\n\nTerima kasih 🙏🏻`;
 
-      setWish("");
-      setAlreadySubmitted(true);
-    } catch (error) {
-      console.error("Error submitting wish:", error);
-      setSubmitError("Gagal mengirim ucapan");
-    } finally {
-      setIsSubmitting(false);
-    }
+    const url = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(
+      message
+    )}`;
+    window.location.href = url;
   };
-
-  const formatDate = (timestamp) =>
-    new Date(timestamp).toLocaleString("id-ID", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-
 
   return (
     <section
       style={{
-        width: '100%',
-        padding: isMobile ? '80px 15px 40px' : '100px 20px 60px',
-        backgroundColor: '#000000',
-        margin: '-10px auto',
-        textAlign: 'center',
-        fontFamily: '"Cormorant Garamond", serif',
-        boxSizing: 'border-box',
-        position: 'relative',
-        color: '#ffffff',
-        minHeight: '70vh',
-        overflow: 'hidden'
+        position: "relative",
+        minHeight: "60vh",
+        overflow: "hidden",
+        fontFamily: "Poppins, sans-serif",
+        color: "#000", // teks default hitam
+        background: "linear-gradient(to bottom, #ffffff, #d9d9d9)", // putih ke silver
       }}
     >
-      {/* Top Left Ornament - Mobile */}
-      {isMobile && (
-        <div style={{
+      {/* Ornamen kiri */}
+      <div
+        style={{
           position: "absolute",
           top: 0,
           left: 0,
           width: "90px",
-          height: "auto",
           opacity: 0.8,
-          transform: "rotate(180deg)"
-        }}>
-          <img 
-            src={invitationData.ornamenImage1} 
-            alt="Ornament" 
-            style={{ 
-              width: "100%", 
-              height: "auto",
-            }} 
-          />
-        </div>
-      )}
+          transform: "rotate(180deg)",
+        }}
+      >
+        <img
+          src={invitationData.ornamenImage1}
+          alt="Ornament"
+          style={{ width: "100%", height: "auto" }}
+        />
+      </div>
 
-      {/* Top Right Ornament - Mobile */}
-      {isMobile && (
-        <div style={{
+      {/* Ornamen kanan */}
+      <div
+        style={{
           position: "absolute",
           top: 0,
           right: 0,
           width: "90px",
-          height: "auto",
           opacity: 0.8,
-        }}>
-          <img 
-            src={invitationData.ornamenImage1} 
-            alt="Ornament" 
-            style={{ 
-              width: "100%", 
-              height: "auto",
-            }} 
-          />
-        </div>
-      )}
-
-      {/* Top Left Ornament - Desktop */}
-      {!isMobile && (
-        <div style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "90px",
-          height: "auto",
-          opacity: 0.8,
-          transform: "rotate(180deg)"
-        }}>
-          <img 
-            src={invitationData.ornamenImage1} 
-            alt="Ornament" 
-            style={{ 
-              width: "100%", 
-              height: "auto",
-            }} 
-          />
-        </div>
-      )}
-
-      {/* Top Right Ornament - Desktop */}
-      {!isMobile && (
-        <div style={{
-          position: "absolute",
-          top: 0,
-          right: 0,
-          width: "90px",
-          height: "auto",
-          opacity: 0.8,
-        }}>
-          <img 
-            src={invitationData.ornamenImage1} 
-            alt="Ornament" 
-            style={{ 
-              width: "100%", 
-              height: "auto",
-            }} 
-          />
-        </div>
-      )}
+        }}
+      >
+        <img
+          src={invitationData.ornamenImage1}
+          alt="Ornament"
+          style={{ width: "100%", height: "auto" }}
+        />
+      </div>
 
       <div
         style={{
           position: "relative",
           zIndex: 2,
+          padding: "40px 20px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          justifyContent: "center",
+          maxWidth: "400px",
+          margin: "0 auto",
         }}
       >
         <motion.div
@@ -248,263 +103,221 @@ const RsvpWishSection = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          style={{
-            maxWidth: "600px",
-            width: "100%",
-            marginBottom: isMobile ? '20px' : '30px',
-            padding: isMobile ? '0 10px' : '0'
-          }}
+          style={{ width: "100%", textAlign: "center" }}
         >
           <motion.h2
             variants={slideUp}
             style={{
-              textAlign: "center",
-              fontSize: isMobile ? "1.5rem" : "1.8rem",
-              fontWeight: 500,
-              letterSpacing: '1px',
-              margin: 0,
-              lineHeight: '1.1',
-              color: "#BFA980",
-              fontFamily: "'Playfair Display', serif",
+              fontSize: "3rem",
+              fontFamily: "'Cormorant Garamond', serif",
+              marginBottom: "20px",
+              color: "#000",
             }}
           >
-            WEDDING WISH
+            RSVP
           </motion.h2>
+
           <motion.p
             variants={slideUp}
             style={{
-              textAlign: "center",
-              fontSize: isMobile ? "0.85rem" : "0.95rem",
-              lineHeight: '1.5',
-              color: 'rgba(255,255,255,0.8)',
-              marginTop: '10px'
+              fontSize: "1rem",
+              lineHeight: 1.8,
+              fontWeight: 300,
+              fontFamily: "'Cormorant Garamond', serif",
+              color: "#333",
             }}
           >
-            {guestName}, kirimkan doa dan ucapan untuk mempelai
+            We'd love to hear from you!
+            <br />
+            Please fill out the confirmation below:
           </motion.p>
         </motion.div>
 
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
+        <motion.form
+          onSubmit={handleSubmit}
+          variants={slideUp}
           style={{
-            width: "100%",
-            maxWidth: "600px",
-            height: wishes.length > 0 ? (isMobile ? "50vh" : "60vh") : "auto",
-            overflowY: wishes.length > 0 ? "auto" : "visible",
-            padding: isMobile ? "15px" : "20px",
-            backgroundColor: "#111111",
+            display: "flex",
+            flexDirection: "column",
+            gap: "28px",
+            background:
+              "linear-gradient(to bottom, rgba(255,255,255,0.95), rgba(230,230,230,0.95))",
+            border: "1px solid #bbb",
             borderRadius: "12px",
-            border: "1px solid rgba(255, 255, 255, 0.2)",
-            boxShadow: "0 4px 20px rgba(255, 255, 255, 0.1)",
-            scrollbarWidth: "thin",
-            scrollbarColor: "#BFA980 rgba(255,255,255,0.1)",
-            margin: isMobile ? '0 10px' : '0'
+            padding: "24px",
+            width: "100%",
+            maxWidth: "320px",
+            marginTop: "30px",
           }}
         >
-          {submitError && !guestId && (
-            <motion.div
-              variants={slideUp}
+          {error && (
+            <div
               style={{
-                background: "rgba(255, 0, 0, 0.1)",
-                color: "#ff9999",
-                padding: "10px",
-                borderRadius: "8px",
-                border: "1px solid rgba(255, 0, 0, 0.3)",
-                marginBottom: "20px"
+                backgroundColor: "rgba(0,0,0,0.05)",
+                color: "#b00000",
+                padding: "8px",
+                borderRadius: "6px",
+                border: "1px solid #ccc",
+                fontSize: "0.85rem",
               }}
             >
-              {submitError}
-            </motion.div>
+              {error}
+            </div>
           )}
 
-          {guestId && (
-            <>
-              <motion.form
-                onSubmit={handleSubmit}
-                variants={slideUp}
+          {/* Name */}
+          <div>
+            <label
+              htmlFor="nameInput"
+              style={{
+                display: "block",
+                marginBottom: "6px",
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: "1rem",
+                color: "#000",
+                fontWeight: 400,
+              }}
+            >
+              Name
+            </label>
+            <input
+              id="nameInput"
+              type="text"
+              value={name}
+              placeholder="Nama Anda"
+              onChange={(e) => setName(e.target.value)}
+              style={{
+                width: "100%",
+                padding: "10px",
+                borderRadius: "6px",
+                border: "1px solid #aaa",
+                background: "#fff",
+                fontFamily: "'Cormorant Garamond', serif",
+                color: "#000",
+                fontSize: "0.95rem",
+              }}
+            />
+          </div>
+
+          {/* Attendance */}
+          <div>
+            <label
+              style={{
+                display: "block",
+                marginBottom: "6px",
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: "1rem",
+                color: "#000",
+              }}
+            >
+              Will you attend the wedding?
+            </label>
+            <div style={{ display: "flex", gap: "10px" }}>
+              <button
+                type="button"
+                onClick={() => setAttending("yes")}
                 style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "12px",
-                  marginBottom: isMobile ? "20px" : "30px",
+                  flex: 1,
+                  padding: "10px",
+                  borderRadius: "6px",
+                  backgroundColor:
+                    attending === "yes" ? "#a9a9a9" : "transparent",
+                  color: "#000",
+                  border: "1px solid #999",
+                  cursor: "pointer",
+                  fontFamily: "'Cormorant Garamond', serif",
+                  transition: "all 0.3s ease",
                 }}
               >
-                {submitError && (
-                  <motion.div
-                    variants={slideUp}
-                    style={{
-                      background: "rgba(255, 0, 0, 0.1)",
-                      color: "#ff9999",
-                      padding: "10px",
-                      borderRadius: "8px",
-                      border: "1px solid rgba(255, 0, 0, 0.3)"
-                    }}
-                  >
-                    {submitError}
-                  </motion.div>
-                )}
+                Gladly Attend
+              </button>
 
-                <motion.textarea
-                  variants={slideUp}
-                  placeholder="Tulis ucapan dan doa Anda disini"
-                  value={wish}
-                  onChange={(e) => setWish(e.target.value)}
-                  rows={3}
-                  disabled={alreadySubmitted}
-                  style={{
-                    padding: isMobile ? "12px" : "15px",
-                    borderRadius: "8px",
-                    fontFamily: '"Cormorant Garamond", serif',
-                    border: "1px solid rgba(255,255,255,0.3)",
-                    background: "rgba(0,0,0,0.5)",
-                    color: "#ffffff",
-                    fontSize: isMobile ? "0.9rem" : "0.95rem",
-                    resize: "none",
-                    '&::placeholder': {
-                      color: 'rgba(255,255,255,0.5)'
-                    }
-                  }}
-                />
-
-                <motion.button
-                  variants={slideUp}
-                  type="submit"
-                  disabled={isSubmitting || alreadySubmitted}
-                  style={{
-                    backgroundColor: alreadySubmitted ? "#555555" : "#BFA980",
-                    color: "white",
-                    border: "none",
-                    padding: isMobile ? "10px 20px" : "12px 25px",
-                    fontSize: isMobile ? "0.9rem" : "0.95rem",
-                    borderRadius: "30px",
-                    cursor: alreadySubmitted ? "not-allowed" : "pointer",
-                    transition: "all 0.3s ease",
-                    fontFamily: '"Cormorant Garamond", serif',
-                    letterSpacing: "1px",
-                    margin: "0 auto",
-                    width: isMobile ? "90%" : "80%",
-                  }}
-                  whileHover={!alreadySubmitted && !isSubmitting ? { scale: 1.02 } : {}}
-                >
-                  {alreadySubmitted
-                    ? "Sudah Mengisi"
-                    : isSubmitting
-                    ? "Mengirim..."
-                    : "Kirim Ucapan"}
-                </motion.button>
-
-                {alreadySubmitted && (
-                  <motion.div
-                    variants={slideUp}
-                    style={{
-                      textAlign: "center",
-                      color: "rgba(255,255,255,0.7)",
-                      marginTop: "10px",
-                      fontSize: isMobile ? "0.85rem" : "0.9rem"
-                    }}
-                  >
-                    Terima kasih atas ucapan dan doanya
-                  </motion.div>
-                )}
-              </motion.form>
-
-              <motion.div 
-                variants={slideUp}
+              <button
+                type="button"
+                onClick={() => setAttending("no")}
                 style={{
-                  minHeight: wishes.length === 0 ? "0" : "auto",
-                  paddingBottom: wishes.length === 0 ? "0" : "10px"
+                  flex: 1,
+                  padding: "10px",
+                  borderRadius: "6px",
+                  backgroundColor:
+                    attending === "no" ? "#a9a9a9" : "transparent",
+                  color: "#000",
+                  border: "1px solid #999",
+                  cursor: "pointer",
+                  fontFamily: "'Cormorant Garamond', serif",
+                  transition: "all 0.3s ease",
                 }}
               >
-                {wishes.length === 0 ? (
-                  <p style={{ 
-                    textAlign: "center", 
-                    color: "rgba(255,255,255,0.7)",
-                    fontStyle: "italic",
-                    margin: 0,
-                    fontSize: isMobile ? "0.85rem" : "0.9rem"
-                  }}>
-                    Belum ada ucapan yang ditulis.
-                  </p>
-                ) : (
-                  wishes.map((item) => (
-                    <div
-                      key={item.id}
-                      style={{
-                        background: "rgba(0,0,0,0.5)",
-                        borderRadius: "8px",
-                        padding: isMobile ? "12px" : "16px",
-                        marginBottom: "12px",
-                        border: "1px solid rgba(255,255,255,0.1)",
-                        color: "#ffffff",
-                      }}
-                    >
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          marginBottom: "6px",
-                        }}
-                      >
-                        <div
-                          style={{
-                            backgroundColor: "#BFA980",
-                            color: "#fff",
-                            fontWeight: "bold",
-                            width: isMobile ? "32px" : "36px",
-                            height: isMobile ? "32px" : "36px",
-                            borderRadius: "50%",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            marginRight: "10px",
-                            fontFamily: '"Cormorant Garamond", serif',
-                            fontSize: isMobile ? "0.8rem" : "0.9rem"
-                          }}
-                        >
-                          {item.name.slice(0, 2).toUpperCase()}
-                        </div>
-                        <div style={{ flex: 1 }}>
-                          <div
-                            style={{
-                              fontWeight: "bold",
-                              marginBottom: "4px",
-                              color: "#ffffff",
-                              fontSize: isMobile ? "0.95rem" : "1rem"
-                            }}
-                          >
-                            {item.name}
-                          </div>
-                          <div style={{ 
-                            fontSize: isMobile ? "0.85rem" : "0.9rem", 
-                            color: "rgba(255,255,255,0.8)",
-                            lineHeight: "1.5",
-                            marginBottom: "6px"
-                          }}>
-                            {item.wish}
-                          </div>
-                          <div
-                            style={{
-                              fontSize: isMobile ? "0.7rem" : "0.75rem",
-                              color: "rgba(255,255,255,0.5)",
-                            }}
-                          >
-                            {formatDate(item.createdAt)}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))
-                )}
-              </motion.div>
-            </>
+                Unable to Attend
+              </button>
+            </div>
+          </div>
+
+          {/* Pax */}
+          {attending === "yes" && (
+            <div>
+              <label
+                style={{
+                  display: "block",
+                  marginBottom: "6px",
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontSize: "1rem",
+                  color: "#000",
+                }}
+              >
+                Number of Guests
+              </label>
+              <select
+                value={pax}
+                onChange={(e) => setPax(e.target.value)}
+                style={{
+                  width: "100%",
+                  padding: "10px",
+                  borderRadius: "6px",
+                  border: "1px solid #aaa",
+                  background: "#fff",
+                  color: "#000",
+                  fontSize: "0.95rem",
+                  fontFamily: "'Cormorant Garamond', serif",
+                  appearance: "none",
+                  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`,
+                  backgroundRepeat: "no-repeat",
+                  backgroundPosition: "right 10px center",
+                  backgroundSize: "16px",
+                }}
+              >
+                <option value="">Select number of guests</option>
+                {[1, 2, 3, 4, 5].map((val) => (
+                  <option key={val} value={val}>
+                    {val} {val > 1 ? "guests" : "guest"}
+                  </option>
+                ))}
+              </select>
+            </div>
           )}
-        </motion.div>
+
+          {/* Submit */}
+          <button
+            type="submit"
+            style={{
+              backgroundColor: "#000",
+              color: "#fff",
+              fontWeight: "bold",
+              padding: "12px",
+              borderRadius: "6px",
+              border: "none",
+              cursor: "pointer",
+              width: "100%",
+              fontSize: "1rem",
+              fontFamily: "'Cormorant Garamond', serif",
+            }}
+          >
+            Submit
+          </button>
+        </motion.form>
       </div>
     </section>
   );
 };
 
-export default RsvpWishSection;
+export default RsvpWishViaWhatsApp;
