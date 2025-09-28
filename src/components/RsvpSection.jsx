@@ -7,11 +7,11 @@ const RsvpWishViaWhatsApp = () => {
   const [params] = useSearchParams();
   const defaultName = params.get("to") || "";
   const [name, setName] = useState(defaultName);
-  const [attending, setAttending] = useState("yes"); // default HADIR
-  const [pax, setPax] = useState("");
+  const [attending, setAttending] = useState("yes");
+  const [pax, setPax] = useState("1");
   const [error, setError] = useState(null);
 
-  const whatsappNumber = "62895333205532"; // ganti nomor WA
+  const whatsappNumber = "62895333205532";
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -35,6 +35,16 @@ const RsvpWishViaWhatsApp = () => {
       message
     )}`;
     window.location.href = url;
+  };
+
+  const handleAttendingChange = (value) => {
+    setAttending(value);
+    if (value === "no") {
+      setPax("");
+    } else {
+      setPax("1");
+    }
+    setError(null);
   };
 
   return (
@@ -98,7 +108,10 @@ const RsvpWishViaWhatsApp = () => {
             type="text"
             value={name}
             placeholder="Nama lengkap"
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => {
+              setName(e.target.value);
+              setError(null);
+            }}
             style={{
               width: "90%",
               padding: "12px 14px",
@@ -147,10 +160,7 @@ const RsvpWishViaWhatsApp = () => {
                   name="attending"
                   value={opt}
                   checked={attending === opt}
-                  onChange={(e) => {
-                    setAttending(e.target.value);
-                    if (e.target.value === "no") setPax("");
-                  }}
+                  onChange={(e) => handleAttendingChange(e.target.value)}
                   style={{ display: "none" }}
                 />
                 {opt === "yes" ? "Hadir" : "Tidak Hadir"}
@@ -158,11 +168,14 @@ const RsvpWishViaWhatsApp = () => {
             ))}
           </motion.div>
 
+          {/* DROPDOWN TANPA ANIMASI - PAKAI CONDITIONAL RENDERING BIASA */}
           {attending === "yes" && (
-            <motion.select
-              variants={slideUp}
+            <select
               value={pax}
-              onChange={(e) => setPax(e.target.value)}
+              onChange={(e) => {
+                setPax(e.target.value);
+                setError(null);
+              }}
               style={{
                 width: "100%",
                 padding: "12px 14px",
@@ -181,7 +194,7 @@ const RsvpWishViaWhatsApp = () => {
                   {n} orang
                 </option>
               ))}
-            </motion.select>
+            </select>
           )}
 
           {error && (
