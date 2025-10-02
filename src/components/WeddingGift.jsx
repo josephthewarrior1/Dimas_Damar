@@ -1,15 +1,23 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import invitationData from '../data/invitationData';
 
 const WeddingGift = () => {
   const [showModal, setShowModal] = useState(false);
   const [copied, setCopied] = useState({ bride: false, groom: false });
 
+  // 🔹 Ganti sesuai data rekening kamu
   const bankAccounts = {
-    bride: { name: "Damar Wulan Sari", bank: "BCA",     number: "1234567890" },
-    groom: { name: "Dimas Adi Pratama", bank: "Mandiri", number: "0987654321" },
+    bride: { 
+      name: "Damar Christmastuti", 
+      bank: "BCA",     
+      number: "6275247701" 
+    },
+    groom: { 
+      name: "Dimas Bayu Nugroho", 
+      bank: "BCA", 
+      number: "1772137359" 
+    },
   };
 
   const handleCopy = (account) => {

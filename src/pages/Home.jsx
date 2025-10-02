@@ -68,9 +68,10 @@ export default function HomePage() {
           <SeperationSection />
           <BrideSection />
           <WeddingEventSection />
+          <LoveStorySection />
           <RsvpSection />
           <GalleryBigSection />
-          <LoveStorySection />
+          
           <WeddingGift />
           <RsvpWishViaWhatsApp />
           <ThankYouSection />

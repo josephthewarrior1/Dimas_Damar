@@ -25,29 +25,30 @@ const WeddingEventSection = () => {
 
   return (
     <motion.section
-      ref={sectionRef}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-100px" }}
-      style={{
-        position: "relative",
-        minHeight: "100vh",
-        minHeight: "-webkit-fill-available",
-        padding: "60px 20px 0",
-        fontFamily: "'Cormorant Garamond', serif",
-        color: "#000000",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "flex-start",
-        textAlign: "center",
-        overflow: "hidden",
-        backgroundColor: "#ffffff",
-        opacity: isLoaded ? 1 : 0.99,
-        transition: "opacity 1s ease-in-out",
-        willChange: "opacity",
-      }}
-    >
+  ref={sectionRef}
+  initial="hidden"
+  whileInView="visible"
+  viewport={{ once: true, margin: "-100px" }}
+  style={{
+    position: "relative",
+    minHeight: "100vh",
+    minHeight: "-webkit-fill-available",
+    padding: "60px 20px 40px", // ⬅️ tambahin padding bawah
+    fontFamily: "'Cormorant Garamond', serif",
+    color: "#000000",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    textAlign: "center",
+    overflow: "hidden",
+    backgroundColor: "#ffffff",
+    opacity: isLoaded ? 1 : 0.99,
+    transition: "opacity 1s ease-in-out",
+    willChange: "opacity",
+  }}
+>
+
       {/* Top Left Ornament */}
       <div
         style={{
