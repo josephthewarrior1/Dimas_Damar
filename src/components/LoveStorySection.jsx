@@ -37,7 +37,7 @@ const LoveStorySection = () => {
       backgroundSize: "cover"
     },
     {
-      image: invitationData.loveImages[3],
+      image: invitationData.loveImages[5],
       title: "Terpisah kembali",
       date: "2023",
       description: "Waktu 2 tahun yang telah berlalu begitu cepat tidak mudah bagi kami menjalani kisah ini. Kami bersyukur bahwa sampai pada akhir di tahun ini Tuhan tetap memberikan kasih dan kesetiaan-Nya serta tetap menjaga kami. Di momen inilah kami kembali membangun dan menjalin komunikasi yang intens melalui voice call dan video call yang menjadi teman setia dalam setiap tawa, cerita, dan doa. Melalui mengenal kembali satu sama lain, hati kami semakin yakin untuk melangkah maju bertemu keluarga, agar kami lebih dapat saling mengenal. Langkah sederhana ini menjadi momen penting dalam kisah kami.",
@@ -46,7 +46,7 @@ const LoveStorySection = () => {
       backgroundColor: "#f5f5f5" // Background color untuk fill area kosong
     },
     {
-      image: invitationData.loveImages[5],
+      image: invitationData.loveImages[3],
       title: "Saling mengenal",
       date: "2024",
       description: "Waktu 2 tahun yang telah berlalu begitu cepat tidak mudah bagi kami menjalani kisah ini. Kami bersyukur bahwa sampai pada akhir di tahun ini Tuhan tetap memberikan kasih dan kesetiaan-Nya serta tetap menjaga kami. Di momen inilah kami kembali membangun dan menjalin komunikasi yang intens melalui voice call dan video call yang menjadi teman setia dalam setiap tawa, cerita, dan doa. Melalui mengenal kembali satu sama lain, hati kami semakin yakin untuk melangkah maju bertemu keluarga, agar kami lebih dapat saling mengenal. Langkah sederhana ini menjadi momen penting dalam kisah kami.",
