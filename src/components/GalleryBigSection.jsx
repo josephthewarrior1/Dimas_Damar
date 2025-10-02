@@ -21,7 +21,9 @@ const GalleryWithScrollAnimation = () => {
   const navigateImages = (direction) => {
     if (selectedImageIndex === null) return;
     if (direction === "prev") {
-      setSelectedImageIndex((prev) => (prev - 1 + photos.length) % photos.length);
+      setSelectedImageIndex(
+        (prev) => (prev - 1 + photos.length) % photos.length
+      );
     } else {
       setSelectedImageIndex((prev) => (prev + 1) % photos.length);
     }
@@ -67,12 +69,13 @@ const GalleryWithScrollAnimation = () => {
         Gallery
       </motion.h2>
 
-      {/* === Grid gallery (layout tidak diubah) === */}
+      {/* === Grid gallery === */}
       <motion.div
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
           gridAutoRows: "200px",
+          gridAutoFlow: "dense", // 🔥 biar isi celah kosong otomatis
           gap: "15px",
           maxWidth: "1000px",
           margin: "0 auto",
@@ -89,7 +92,7 @@ const GalleryWithScrollAnimation = () => {
         viewport={{ once: true, amount: 0.2 }}
       >
         {photos.map((photo, index) => {
-          const isLarge = index % 5 === 0; // ukuran grid tetap
+          const isLarge = index % 5 === 0; // tetap ada variasi ukuran
           const isTall = index % 7 === 0;
 
           return (

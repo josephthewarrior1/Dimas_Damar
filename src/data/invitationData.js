@@ -57,7 +57,7 @@ const invitationData = {
     assetPath('hero1.webp'),
     assetPath('hero2.webp'),
     assetPath('savethedate.webp'),
-    assetPath('cover.jpg'),
+ 
     assetPath('intro.webp'),
     assetPath('gallery1.jpg'),
     assetPath('gallery2.jpg'),
@@ -72,6 +72,7 @@ const invitationData = {
     assetPath('love5.JPG'),
     assetPath('love1.JPG'),
     assetPath('love3.JPG'),
+    assetPath('love6.jpeg'),
   ],
   get calendarLink() {
     return generateCalendarLink({

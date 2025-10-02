@@ -14,45 +14,54 @@ const LoveStorySection = () => {
   const loveStoryData = [
     {
       image: invitationData.loveImages[0],
-      title: "2017 - Awal mula tahu dan kenal",
+      title: "Awal mula tahu dan kenal",
       date: "2017",
       description: "Pertemuan kami yang pertama kali, yaitu bermula pada saat kegiatan remaja SSOT di Semarang. Pada waktu itu, awalnya kami hanya sebagai peserta kegiatan SSOT dan hanya sebagai mahasiswi yang membantu pelayanan pada kegiatan tersebut. Namun tak pernah kami membayangkan hanya sebatas mengenal di ruang kegiatan pelayanan remaja di Semarang, Tuhan ternyata sedang mempersiapkan kisah-kisah indah yang tak pernah kami bayangkan.",
-      imagePosition: "center 30%"
+      imagePosition: "center 30%",
+      backgroundSize: "cover"
     },
     {
       image: invitationData.loveImages[1],
-      title: "2018 - Ketidaksengajaan bertemu",
+      title: "Ketidaksengajaan bertemu",
       date: "2018",
       description: "Di tahun sebelumnya masing-masing dari kami sempat bertukar kontak telepon, namun komunikasi kami hanya sekadar memberikan informasi yang umum mengenai kehidupan menjadi mahasiswa di Kampus. Karena di tahun ini kami memiliki fokus kegiatan masing-masing, yaitu Dimas memasuki perkuliahan dan Damar sedang menempuh Pelatihan Sepenuh Waktu. Namun, mendekati di penghujung tahun tersebut kami tidak sengaja bertemu di Madiun ketika salah satu dari kami sedang libur kuliah dan yang lain sedang kegiatan Fieldwork. Setelah selesai, kami kembali pada kegiatan kami yang sebelumnya, dan setelah dari situlah kami tidak pernah lagi berkomunikasi selama kurang lebih dalam kurun waktu 4 tahun.",
-      imagePosition: "center 40%"
+      imagePosition: "center 40%",
+      backgroundSize: "cover"
     },
     {
       image: invitationData.loveImages[2],
-      title: "2022 - Tuhan kembali pertemukan",
+      title: "Tuhan kembali pertemukan",
       date: "2022",
       description: "Singkat cerita, setelah lost contact dalam kurun waktu kurang lebih 4 tahun, masing-masing dari kami sudah tidak mengetahui nomor telepon karena sudah berganti nomor. Walaupun demikian Tuhan melalui kedaulatan-Nya kembali mempertemukan kami pada bulan Juni 2022 saat pernikahan rekan fulltimer di Bandung. Kami kembali berkomunikasi mengenai transportasi kedatangan untuk menghadiri pernikahan tersebut. Dari situlah kami kembali memiliki nomor telepon satu sama lain. Tak menyangka hari yang singkat itu menjadi awal bagi kami untuk kembali berkomunikasi secara intens sampai sekarang.",
-      imagePosition: "center 40%"
+      imagePosition: "center 40%",
+      backgroundSize: "cover"
     },
     {
       image: invitationData.loveImages[3],
-      title: "2023 - Terpisah kembali",
+      title: "Terpisah kembali",
       date: "2023",
-      description: "Selama beberapa bulan sebelumnya komunikasi kami secara intens telah menjadi jembatan kasih yang kembali menghubungkan dan menguatkan perasaan masing-masing. Walaupun demikian, di awal tahun ini kami diuji oleh terpisahnya tempat dan jarak karena salah satu diantara kami akan melanjutkan pelatihan sepenuh waktu selama 2 tahun. Selama waktu itu kami belajar untuk memiliki ketetapan hati di hadapan Tuhan melalui doa bersama. Kami yakin dan percaya bahwa Tuhan akan tetap setia menjaga, mempertemukan, dan mempersatukan kami di kemudian hari.",
-      imagePosition: "center 50%"
+      description: "Waktu 2 tahun yang telah berlalu begitu cepat tidak mudah bagi kami menjalani kisah ini. Kami bersyukur bahwa sampai pada akhir di tahun ini Tuhan tetap memberikan kasih dan kesetiaan-Nya serta tetap menjaga kami. Di momen inilah kami kembali membangun dan menjalin komunikasi yang intens melalui voice call dan video call yang menjadi teman setia dalam setiap tawa, cerita, dan doa. Melalui mengenal kembali satu sama lain, hati kami semakin yakin untuk melangkah maju bertemu keluarga, agar kami lebih dapat saling mengenal. Langkah sederhana ini menjadi momen penting dalam kisah kami.",
+      imagePosition: "center center", // Posisi center untuk zoom out
+      backgroundSize: "contain", // Zoom out - menampilkan seluruh gambar
+      backgroundColor: "#f5f5f5" // Background color untuk fill area kosong
     },
     {
       image: invitationData.loveImages[5],
-      title: "2024 - Saling mengenal",
+      title: "Saling mengenal",
       date: "2024",
       description: "Waktu 2 tahun yang telah berlalu begitu cepat tidak mudah bagi kami menjalani kisah ini. Kami bersyukur bahwa sampai pada akhir di tahun ini Tuhan tetap memberikan kasih dan kesetiaan-Nya serta tetap menjaga kami. Di momen inilah kami kembali membangun dan menjalin komunikasi yang intens melalui voice call dan video call yang menjadi teman setia dalam setiap tawa, cerita, dan doa. Melalui mengenal kembali satu sama lain, hati kami semakin yakin untuk melangkah maju bertemu keluarga, agar kami lebih dapat saling mengenal. Langkah sederhana ini menjadi momen penting dalam kisah kami.",
-      imagePosition: "center 60%"
+      imagePosition: "center center", // Posisi center untuk zoom out
+      backgroundSize: "contain", // Zoom out - menampilkan seluruh gambar
+      backgroundColor: "#f5f5f5" // Background color untuk fill area kosong
     },
     {
       image: invitationData.loveImages[4],
-      title: "2025 - Melangkah dengan serius",
+      title: "Melangkah dengan serius",
       date: "2025",
-      description: "Pada tanggal 12 Mei 2025, doa-doa panjang dan harapan-harapan dalam hati kami perlahan menemukan jalannya. Kedua keluarga akhirnya bertemu sebagai tanda keseriusan kami untuk melangkah ke depan. Setelah bertahun-tahun menjaga cinta kami dari kejauhan, di tahun inilah Tuhan mempersatukan kami. Kami percaya semua ini adalah kedaulatan Tuhan dan cinta kasih yang dipelihara dalam doa serta kesetiaan akan selalu menemukan jalannya. Ini bukan akhir dari cerita kami, melainkan awal dari perjalanan baru melalui ikatan janji suci pernikahan.",
-      imagePosition: "center 60%"
+      description: "Waktu 2 tahun yang telah berlalu begitu cepat tidak mudah bagi kami menjalani kisah ini. Kami bersyukur bahwa sampai pada akhir di tahun ini Tuhan tetap memberikan kasih dan kesetiaan-Nya serta tetap menjaga kami. Di momen inilah kami kembali membangun dan menjalin komunikasi yang intens melalui voice call dan video call yang menjadi teman setia dalam setiap tawa, cerita, dan doa. Melalui mengenal kembali satu sama lain, hati kami semakin yakin untuk melangkah maju bertemu keluarga, agar kami lebih dapat saling mengenal. Langkah sederhana ini menjadi momen penting dalam kisah kami.",
+      imagePosition: "center center", // Posisi center untuk zoom out
+      backgroundSize: "contain", // Zoom out - menampilkan seluruh gambar
+      backgroundColor: "#f5f5f5" // Background color untuk fill area kosong
     }
   ];
 
@@ -95,19 +104,27 @@ const LoveStorySection = () => {
     setSelectedStory(loveStoryData[newIndex]);
   };
 
+  // Handle image click for navigation
+  const handleImageClick = (e) => {
+    const imageWidth = e.currentTarget.offsetWidth;
+    const clickX = e.nativeEvent.offsetX;
+    
+    // Jika klik di bagian kiri gambar (40% kiri), navigasi ke sebelumnya
+    if (clickX < imageWidth * 0.4) {
+      navigateStories('prev');
+    } 
+    // Jika klik di bagian kanan gambar (40% kanan), navigasi ke selanjutnya
+    else if (clickX > imageWidth * 0.6) {
+      navigateStories('next');
+    }
+    // Jika klik di tengah (20% tengah), tidak melakukan apa-apa
+    else {
+      console.log('Clicked center of image');
+    }
+  };
+
   // Swipe gesture logic
   const x = useMotionValue(0);
-  const xInput = [-100, 0, 100];
-  const background = useTransform(x, xInput, [
-    "linear-gradient(90deg, #ff008c 0%, rgb(211, 9, 225) 100%)",
-    "linear-gradient(90deg, #7700ff 0%, rgb(68, 0, 255) 100%)",
-    "linear-gradient(90deg, rgb(230, 255, 0) 0%, rgb(3, 209, 0) 100%)"
-  ]);
-  const color = useTransform(x, xInput, [
-    "rgb(211, 9, 225)",
-    "rgb(68, 0, 255)",
-    "rgb(3, 209, 0)"
-  ]);
 
   return (
     <section 
@@ -230,16 +247,19 @@ const LoveStorySection = () => {
                     borderRadius: "8px",
                     overflow: "hidden",
                     cursor: "pointer",
-                    boxShadow: "0 4px 15px rgba(0,0,0,0.2)"
+                    boxShadow: "0 4px 15px rgba(0,0,0,0.2)",
+                    backgroundColor: story.backgroundColor || "transparent" // Background color untuk kartu
                   }}
                   whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.98 }}
                 >
-                  {/* Story Image with custom positioning */}
+                  {/* Story Image with custom positioning and size */}
                   <div 
                     style={{
                       backgroundImage: `url(${story.image})`,
-                      backgroundSize: "cover",
+                      backgroundSize: story.backgroundSize || "cover",
                       backgroundPosition: story.imagePosition || "center center",
+                      backgroundRepeat: "no-repeat",
                       width: "100%",
                       height: "100%",
                       position: "relative",
@@ -252,7 +272,9 @@ const LoveStorySection = () => {
                         bottom: 0,
                         left: 0,
                         right: 0,
-                        background: "linear-gradient(to top, rgba(0,0,0,0.8), transparent)",
+                        background: story.backgroundSize === "contain" 
+                          ? "linear-gradient(to top, rgba(0,0,0,0.9), transparent)" 
+                          : "linear-gradient(to top, rgba(0,0,0,0.8), transparent)",
                         padding: "20px",
                         color: "white",
                         textAlign: "center"
@@ -419,17 +441,72 @@ const LoveStorySection = () => {
                   }}
                   style={{ x }}
                 >
-                  {/* Story Image */}
+                  {/* Story Image - Now with zoom out capability */}
                   <div 
+                    onClick={handleImageClick}
                     style={{
                       backgroundImage: `url(${selectedStory.image})`,
-                      backgroundSize: "cover",
+                      backgroundSize: selectedStory.backgroundSize || "cover",
                       backgroundPosition: selectedStory.imagePosition || "center center",
+                      backgroundRepeat: "no-repeat",
+                      backgroundColor: selectedStory.backgroundColor || "transparent",
                       width: "100%",
                       height: isMobile ? "250px" : "350px",
-                      position: "relative"
+                      position: "relative",
+                      cursor: "pointer",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center"
                     }}
-                  />
+                  >
+                    {/* Navigation Hints Overlay */}
+                    <div style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      padding: "20px",
+                      opacity: 0,
+                      transition: "opacity 0.3s ease",
+                      background: selectedStory.backgroundSize === "contain" 
+                        ? "linear-gradient(90deg, rgba(0,0,0,0.3) 0%, transparent 20%, transparent 80%, rgba(0,0,0,0.3) 100%)"
+                        : "linear-gradient(90deg, rgba(0,0,0,0.2) 0%, transparent 20%, transparent 80%, rgba(0,0,0,0.2) 100%)",
+                      pointerEvents: "none"
+                    }}
+                    className="image-navigation-overlay"
+                    >
+                      <div style={{
+                        width: "40%",
+                        height: "100%",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "flex-start",
+                        color: "white",
+                        fontSize: "24px",
+                        fontWeight: "bold",
+                        textShadow: "2px 2px 4px rgba(0,0,0,0.5)"
+                      }}>
+                        ‹
+                      </div>
+                      <div style={{
+                        width: "40%",
+                        height: "100%",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "flex-end",
+                        color: "white",
+                        fontSize: "24px",
+                        fontWeight: "bold",
+                        textShadow: "2px 2px 4px rgba(0,0,0,0.5)"
+                      }}>
+                        ›
+                      </div>
+                    </div>
+                  </div>
 
                   {/* Story Details */}
                   <div style={{ padding: "30px", color: "#333" }}>
@@ -470,6 +547,18 @@ const LoveStorySection = () => {
           )}
         </AnimatePresence>
       </div>
+
+      <style jsx>{`
+        .image-navigation-overlay:hover {
+          opacity: 1 !important;
+        }
+        
+        @media (max-width: 768px) {
+          .image-navigation-overlay {
+            opacity: 0.3 !important;
+          }
+        }
+      `}</style>
     </section>
   );
 };
