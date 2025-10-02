@@ -40,7 +40,7 @@ const LoveStorySection = () => {
       image: invitationData.loveImages[5],
       title: "Terpisah kembali",
       date: "2023",
-      description: "Waktu 2 tahun yang telah berlalu begitu cepat tidak mudah bagi kami menjalani kisah ini. Kami bersyukur bahwa sampai pada akhir di tahun ini Tuhan tetap memberikan kasih dan kesetiaan-Nya serta tetap menjaga kami. Di momen inilah kami kembali membangun dan menjalin komunikasi yang intens melalui voice call dan video call yang menjadi teman setia dalam setiap tawa, cerita, dan doa. Melalui mengenal kembali satu sama lain, hati kami semakin yakin untuk melangkah maju bertemu keluarga, agar kami lebih dapat saling mengenal. Langkah sederhana ini menjadi momen penting dalam kisah kami.",
+      description: "Selama beberapa bulan sebelumnya komunikasi kami secara intens telah menjadi jembatan kasih yang kembali menghubungkan dan menguatkan perasaan masing-masing dari kami. Walaupun demikian di awal tahun ini kami diuji oleh terpisahnya tempat dan jarak karena salah satu diantara kami akan melanjutkan pelatihan sepenuh waktu selama 2 tahun. Sehingga selama 2 tahun ini kami belajar untuk memiliki ketetapan hati dihadapan Tuhan melalui doa bersama, kami yakin dan percaya bahwa Tuhan akan tetap setia menjaga, mempertemukan, dan mempersatukan  kami di kemudian hari.", 
       imagePosition: "center center", // Posisi center untuk zoom out
       backgroundSize: "contain", // Zoom out - menampilkan seluruh gambar
       backgroundColor: "#f5f5f5" // Background color untuk fill area kosong
@@ -49,7 +49,7 @@ const LoveStorySection = () => {
       image: invitationData.loveImages[3],
       title: "Saling mengenal",
       date: "2024",
-      description: "Waktu 2 tahun yang telah berlalu begitu cepat tidak mudah bagi kami menjalani kisah ini. Kami bersyukur bahwa sampai pada akhir di tahun ini Tuhan tetap memberikan kasih dan kesetiaan-Nya serta tetap menjaga kami. Di momen inilah kami kembali membangun dan menjalin komunikasi yang intens melalui voice call dan video call yang menjadi teman setia dalam setiap tawa, cerita, dan doa. Melalui mengenal kembali satu sama lain, hati kami semakin yakin untuk melangkah maju bertemu keluarga, agar kami lebih dapat saling mengenal. Langkah sederhana ini menjadi momen penting dalam kisah kami.",
+      description: "Waktu 2 tahun yang telah berlalu begitu cepat tidak mudah bagi kami menjalani kisah ini. Kami bersyukur bahwa sampai pada akhir di tahun ini Tuhan tetap memberikan kasih dan kesetiaan-Nya kepada masing-masing kami serta Tuhan tetap menjaga kami selama 2 tahun. Di momen inilah kami kembali membangun dan menjalin komunikasi yang intens kembali melalui voice call, video call yang kami anggap menjadi teman setia kami dalam setiap tawa, cerita, dan doa. Melalui mengenal kembali satu sama lain hati kami semakin yakin yang membuat kami melangkah maju untuk bertemu dengan keluarga agar kami lebih dapat saling mengenal satu dengan yang lain. Langkah sederhana inilah menjadi momen penting dalam kisah kami. ", 
       imagePosition: "center center", // Posisi center untuk zoom out
       backgroundSize: "contain", // Zoom out - menampilkan seluruh gambar
       backgroundColor: "#f5f5f5" // Background color untuk fill area kosong
@@ -58,7 +58,7 @@ const LoveStorySection = () => {
       image: invitationData.loveImages[4],
       title: "Melangkah dengan serius",
       date: "2025",
-      description: "Waktu 2 tahun yang telah berlalu begitu cepat tidak mudah bagi kami menjalani kisah ini. Kami bersyukur bahwa sampai pada akhir di tahun ini Tuhan tetap memberikan kasih dan kesetiaan-Nya serta tetap menjaga kami. Di momen inilah kami kembali membangun dan menjalin komunikasi yang intens melalui voice call dan video call yang menjadi teman setia dalam setiap tawa, cerita, dan doa. Melalui mengenal kembali satu sama lain, hati kami semakin yakin untuk melangkah maju bertemu keluarga, agar kami lebih dapat saling mengenal. Langkah sederhana ini menjadi momen penting dalam kisah kami.",
+      description: "Pada tanggal 12 Mei 2025, Doa-doa panjang, harapan-harapan dalam hati kami perlahan demi perlahan menemukan jalannya. Kedua dari keluarga  masing-masing kami akhirnya bertemu  menjadi satu langkah atau sebagai tanda keseriusan bagi kami untuk melangkah kedepannya. Setelah bertahun-tahun menjaga cinta kami dari kejauhan, di tahun inilah kini waktunya Tuhan mempersatukan kami. Karena itu kami percaya semua ini adalah adalah kedaulatan Tuhan dan kami yakin cinta kasih yang dipelihara dalam doa serta kesetiaan akan selalu menemukan jalannya. Ini bukan akhir dari cerita kami, melainkan awal dari perjalanan kisah cinta kasih yang baru melalui ikatan janji suci pernikahan.",      
       imagePosition: "center center", // Posisi center untuk zoom out
       backgroundSize: "contain", // Zoom out - menampilkan seluruh gambar
       backgroundColor: "#f5f5f5" // Background color untuk fill area kosong
