@@ -65,6 +65,14 @@ const invitationData = {
     assetPath('gallery4.jpg'),
     assetPath('gallery5.jpg'),
   ],
+
+  loveImages: [
+    assetPath('love4.JPG'),
+    assetPath('love2.jpg'),
+    assetPath('love5.JPG'),
+    assetPath('love1.JPG'),
+    assetPath('love3.JPG'),
+  ],
   get calendarLink() {
     return generateCalendarLink({
       coupleName: this.coupleName,

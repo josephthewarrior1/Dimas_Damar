@@ -10,41 +10,48 @@ const LoveStorySection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const constraintsRef = useRef(null);
 
-  // Love story data with customized image positioning
+  // Timeline Love Story Data
   const loveStoryData = [
     {
-      image: invitationData.galleryImages[0],
-      title: "First Meeting",
-      date: "June 2018",
-      description: "We met at a mutual friend's birthday party and instantly connected.",
+      image: invitationData.loveImages[0],
+      title: "2017 - Awal mula tahu dan kenal",
+      date: "2017",
+      description: "Pertemuan kami yang pertama kali, yaitu bermula pada saat kegiatan remaja SSOT di Semarang. Pada waktu itu, awalnya kami hanya sebagai peserta kegiatan SSOT dan hanya sebagai mahasiswi yang membantu pelayanan pada kegiatan tersebut. Namun tak pernah kami membayangkan hanya sebatas mengenal di ruang kegiatan pelayanan remaja di Semarang, Tuhan ternyata sedang mempersiapkan kisah-kisah indah yang tak pernah kami bayangkan.",
       imagePosition: "center 30%"
     },
     {
-      image: invitationData.galleryImages[1],
-      title: "First Date",
-      date: "July 2018",
-      description: "Our first date at the beach watching the sunset together.",
+      image: invitationData.loveImages[1],
+      title: "2018 - Ketidaksengajaan bertemu",
+      date: "2018",
+      description: "Di tahun sebelumnya masing-masing dari kami sempat bertukar kontak telepon, namun komunikasi kami hanya sekadar memberikan informasi yang umum mengenai kehidupan menjadi mahasiswa di Kampus. Karena di tahun ini kami memiliki fokus kegiatan masing-masing, yaitu Dimas memasuki perkuliahan dan Damar sedang menempuh Pelatihan Sepenuh Waktu. Namun, mendekati di penghujung tahun tersebut kami tidak sengaja bertemu di Madiun ketika salah satu dari kami sedang libur kuliah dan yang lain sedang kegiatan Fieldwork. Setelah selesai, kami kembali pada kegiatan kami yang sebelumnya, dan setelah dari situlah kami tidak pernah lagi berkomunikasi selama kurang lebih dalam kurun waktu 4 tahun.",
       imagePosition: "center 40%"
     },
     {
-      image: invitationData.galleryImages[2],
-      title: "Official Couple",
-      date: "August 2018",
-      description: "We made it official after a month of getting to know each other.",
+      image: invitationData.loveImages[2],
+      title: "2022 - Tuhan kembali pertemukan",
+      date: "2022",
+      description: "Singkat cerita, setelah lost contact dalam kurun waktu kurang lebih 4 tahun, masing-masing dari kami sudah tidak mengetahui nomor telepon karena sudah berganti nomor. Walaupun demikian Tuhan melalui kedaulatan-Nya kembali mempertemukan kami pada bulan Juni 2022 saat pernikahan rekan fulltimer di Bandung. Kami kembali berkomunikasi mengenai transportasi kedatangan untuk menghadiri pernikahan tersebut. Dari situlah kami kembali memiliki nomor telepon satu sama lain. Tak menyangka hari yang singkat itu menjadi awal bagi kami untuk kembali berkomunikasi secara intens sampai sekarang.",
       imagePosition: "center 40%"
     },
     {
-      image: invitationData.galleryImages[3],
-      title: "Vacation Together",
-      date: "December 2019",
-      description: "Our first overseas trip to Bali, creating beautiful memories.",
+      image: invitationData.loveImages[3],
+      title: "2023 - Terpisah kembali",
+      date: "2023",
+      description: "Selama beberapa bulan sebelumnya komunikasi kami secara intens telah menjadi jembatan kasih yang kembali menghubungkan dan menguatkan perasaan masing-masing. Walaupun demikian, di awal tahun ini kami diuji oleh terpisahnya tempat dan jarak karena salah satu diantara kami akan melanjutkan pelatihan sepenuh waktu selama 2 tahun. Selama waktu itu kami belajar untuk memiliki ketetapan hati di hadapan Tuhan melalui doa bersama. Kami yakin dan percaya bahwa Tuhan akan tetap setia menjaga, mempertemukan, dan mempersatukan kami di kemudian hari.",
       imagePosition: "center 50%"
     },
     {
-      image: invitationData.galleryImages[4],
-      title: "The Proposal",
-      date: "February 2024",
-      description: "Nathan proposed during a romantic dinner by the lake.",
+      image: invitationData.loveImages[5],
+      title: "2024 - Saling mengenal",
+      date: "2024",
+      description: "Waktu 2 tahun yang telah berlalu begitu cepat tidak mudah bagi kami menjalani kisah ini. Kami bersyukur bahwa sampai pada akhir di tahun ini Tuhan tetap memberikan kasih dan kesetiaan-Nya serta tetap menjaga kami. Di momen inilah kami kembali membangun dan menjalin komunikasi yang intens melalui voice call dan video call yang menjadi teman setia dalam setiap tawa, cerita, dan doa. Melalui mengenal kembali satu sama lain, hati kami semakin yakin untuk melangkah maju bertemu keluarga, agar kami lebih dapat saling mengenal. Langkah sederhana ini menjadi momen penting dalam kisah kami.",
+      imagePosition: "center 60%"
+    },
+    {
+      image: invitationData.loveImages[4],
+      title: "2025 - Melangkah dengan serius",
+      date: "2025",
+      description: "Pada tanggal 12 Mei 2025, doa-doa panjang dan harapan-harapan dalam hati kami perlahan menemukan jalannya. Kedua keluarga akhirnya bertemu sebagai tanda keseriusan kami untuk melangkah ke depan. Setelah bertahun-tahun menjaga cinta kami dari kejauhan, di tahun inilah Tuhan mempersatukan kami. Kami percaya semua ini adalah kedaulatan Tuhan dan cinta kasih yang dipelihara dalam doa serta kesetiaan akan selalu menemukan jalannya. Ini bukan akhir dari cerita kami, melainkan awal dari perjalanan baru melalui ikatan janji suci pernikahan.",
       imagePosition: "center 60%"
     }
   ];
@@ -54,10 +61,8 @@ const LoveStorySection = () => {
     const checkIfMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
-    
     checkIfMobile();
     window.addEventListener('resize', checkIfMobile);
-
     return () => {
       window.removeEventListener('resize', checkIfMobile);
     };
@@ -90,7 +95,7 @@ const LoveStorySection = () => {
     setSelectedStory(loveStoryData[newIndex]);
   };
 
-  // For swipe gestures
+  // Swipe gesture logic
   const x = useMotionValue(0);
   const xInput = [-100, 0, 100];
   const background = useTransform(x, xInput, [
@@ -103,9 +108,6 @@ const LoveStorySection = () => {
     "rgb(68, 0, 255)",
     "rgb(3, 209, 0)"
   ]);
-  const tickPath = useTransform(x, [10, 100], [0, 1]);
-  const crossPathA = useTransform(x, [-10, -55], [0, 1]);
-  const crossPathB = useTransform(x, [-50, -100], [0, 1]);
 
   return (
     <section 
@@ -145,7 +147,6 @@ const LoveStorySection = () => {
             textAlign: "center",
             fontSize: "clamp(38px, 4vw, 50px)",
             fontWeight: 600,
-   
             marginBottom: "40px",
             letterSpacing: "1px",
             position: "relative",
@@ -191,11 +192,8 @@ const LoveStorySection = () => {
               fontFamily: "'Cormorant Garamond', serif",
               letterSpacing: "1px",
               transition: "all 0.3s ease",
-              ':hover': {
-                background: "rgba(255,255,255,0.1)"
-              }
             }}
-            whileHover={{ scale: 1.05 }}
+            whileHover={{ scale: 1.05, background: "rgba(255,255,255,0.1)" }}
             whileTap={{ scale: 0.95 }}
           >
             {showStories ? "Hide Our Story" : "Show Our Story"}
@@ -245,7 +243,6 @@ const LoveStorySection = () => {
                       width: "100%",
                       height: "100%",
                       position: "relative",
-                      transition: "transform 0.3s ease"
                     }}
                   >
                     {/* Story Content Overlay */}
@@ -409,7 +406,7 @@ const LoveStorySection = () => {
                   &gt;
                 </button>
 
-                {/* Modal Content with swipeable container */}
+                {/* Modal Content */}
                 <motion.div
                   drag="x"
                   dragConstraints={constraintsRef}
@@ -422,7 +419,7 @@ const LoveStorySection = () => {
                   }}
                   style={{ x }}
                 >
-                  {/* Story Image with the same positioning as in card */}
+                  {/* Story Image */}
                   <div 
                     style={{
                       backgroundImage: `url(${selectedStory.image})`,
