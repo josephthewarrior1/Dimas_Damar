@@ -87,7 +87,7 @@ export default function IntroScreen({ onOpenInvitation, guestName: guestNameProp
         height: '100vh',
         backgroundImage: `url(${invitationData.cover})`,
         backgroundSize: 'cover',
-        backgroundPosition: '-2% center',
+        backgroundPosition: '0% center',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',

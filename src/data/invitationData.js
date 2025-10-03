@@ -37,7 +37,7 @@ const invitationData = {
   ornamenImage1: assetPath('ornamen2.png'),
   imagetime : assetPath ('test6.png'),
   audioUrl: assetPath('music.mp3'),
-  eventDate: "2025-11-09",
+  eventDate: "2025-11-29",
   date: "9 November 2025",
   cincin : assetPath('cincin.png'),
   gelas : assetPath('gelas.png'),
